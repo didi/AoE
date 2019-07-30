@@ -8,7 +8,7 @@
 Pod::Spec.new do |s|
   s.name             = 'AoE'
   s.version          = '1.0.0'
-  s.summary          = 'AoE is AI on Edage'
+  s.summary          = 'AoE'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -32,32 +32,32 @@ Pod::Spec.new do |s|
     ss.source_files = "iOS/#{s.name}/library/Core/Classes/**/*"
     ss.public_header_files = "iOS/#{s.name}/library/Core/Classes/**/*.h"
     ss.frameworks = 'Foundation','UIKit'
-    ss.resource_bundles = {
-      'iOS-Core' => ["iOS/#{s.name}/library/Core/Assets/**/*"]
-    }
+    # ss.resource_bundles = {
+    #   'iOS-Core' => ["iOS/#{s.name}/library/Core/Assets/**/*"]
+    # }
   end
   
   # extension for core
   s.subspec 'Loader' do |ss|
     ss.ios.deployment_target = '8.0'
     ss.source_files = "iOS/#{s.name}/library/Loader/Classes/**/*"
-    ss.public_header_files = "iOS/#{s.name}/ibrary/Loader/Classes/**/*.h"
+    ss.public_header_files = "iOS/#{s.name}/library/Loader/Classes/**/*.h"
     ss.frameworks = 'CoreGraphics','CoreVideo'
     ss.dependency "#{s.name}/Core"
     ss.dependency 'JSONModel'
-    ss.resource_bundles = {
-      'iOS-Loader' => ["iOS/#{s.name}/library/Loader/Assets/**/*"]
-    }
+    # ss.resource_bundles = {
+    #   'iOS-Loader' => ["iOS/#{s.name}/library/Loader/Assets/**/*"]
+    # }
   end
 
   s.subspec 'Logger' do |ss|
     ss.ios.deployment_target = '8.0'
     ss.source_files = "iOS/#{s.name}/library/Logger/Classes/**/*"
-    ss.public_header_files = "iOS/#{s.name}/ibrary/Logger/Classes/**/*.h"
+    ss.public_header_files = "iOS/#{s.name}/library/Logger/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    ss.resource_bundles = {
-      'iOS-Logger' => ["iOS/#{s.name}/library/Logger/Assets/**/*"]
-    }
+    # ss.resource_bundles = {
+    #   'iOS-Logger' => ["iOS/#{s.name}/library/Logger/Assets/**/*"]
+    # }
   end
 
 end
