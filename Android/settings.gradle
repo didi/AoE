@@ -1,0 +1,40 @@
+gradle.ext.aoeRoot = settingsDir
+
+def rootDir = gradle.ext.aoeRoot
+
+// Examples
+include ':examples-demo'
+
+// Features
+include ':features-mnist'
+include ':features-squeeze'
+
+// Library
+include ':library-core'
+include ':library-api'
+include ':library-logging'
+include ':library-model-option-loader'
+
+// Extensions
+include ':extensions-parcel-kryo'
+include ':extensions-squeeze-model-option-loader'
+
+// Runtime
+include ':runtime-tensorflow-lite'
+
+project(':examples-demo').projectDir = new File(rootDir, 'samples/demo/demo')
+
+project(':features-mnist').projectDir = new File(rootDir, 'samples/demo/features/mnist')
+project(':features-squeeze').projectDir = new File(rootDir, 'samples/demo/features/squeeze')
+
+project(':library-core').projectDir = new File(rootDir, 'aoe/library/core')
+project(':library-api').projectDir = new File(rootDir, 'aoe/library/api')
+project(':library-logging').projectDir = new File(rootDir, 'aoe/library/logging')
+project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/library/model-option-loader')
+
+
+project(':extensions-parcel-kryo').projectDir = new File(rootDir, 'aoe/extensions/parcel-kryo')
+project(':extensions-squeeze-model-option-loader').projectDir = new File(rootDir, 'samples/demo/extensions/squeeze-model-option-loader')
+
+project(':runtime-tensorflow-lite').projectDir = new File(rootDir, 'third_party/tensorflow-lite')
+

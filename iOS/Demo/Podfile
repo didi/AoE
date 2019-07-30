@@ -1,0 +1,23 @@
+platform :ios, '11.0'
+target 'AoEOpenSDKDemo' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for AoE-iOSSDKDemo
+  pod 'AoE', :path => "../../AoE-iOS.podspec",:subspecs => [
+    'Core',
+    'Logger',
+    'Loader',
+  ], :inhibit_warnings => false
+  pod 'AoEBiz', :path => "../AoEBiz/AoEBiz.podspec",:subspecs => [
+  'mnist',
+  'Core',
+  'squeeze'
+  ], :inhibit_warnings => false
+  pod 'TensorFlowLiteObjC', :inhibit_warnings => false
+  pod 'DoraemonKit/Core','~> 1.2.0', :inhibit_warnings => false
+    target 'AoEOpenSDKDemoTests' do
+
+    end
+end
+

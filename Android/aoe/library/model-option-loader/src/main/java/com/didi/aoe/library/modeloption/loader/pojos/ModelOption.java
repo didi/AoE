@@ -1,0 +1,55 @@
+package com.didi.aoe.library.modeloption.loader.pojos;
+
+import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
+import com.didi.aoe.library.api.AoeModelOption;
+
+/**
+ * AoE默认的模型配置定义
+ *
+ * @author noctis
+ */
+@Keep
+public class ModelOption implements AoeModelOption {
+    private String version;
+
+    /**
+     * 模型文件目录路径，目前只支持local模型
+     */
+    private String modelDir;
+    /**
+     * 模型文件名，便于拓展多种模型
+     */
+    private String modelName;
+
+    @NonNull
+    @Override
+    public String getModelDir() {
+        return modelDir;
+    }
+
+    @NonNull
+    @Override
+    public String getModelName() {
+        return modelName;
+    }
+
+    @Override
+    public boolean isValid() {
+        return !TextUtils.isEmpty(modelDir) &&
+                !TextUtils.isEmpty(modelName);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "ModelOption{" +
+                "version='" + version + '\'' +
+                ", modelDir='" + modelDir + '\'' +
+                ", modelName='" + modelName + '\'' +
+                '}';
+    }
+
+}

@@ -1,0 +1,736 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12E8079A2239114D0037CB00 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E807992239114D0037CB00 /* AppDelegate.m */; };
+		12E8079D2239114D0037CB00 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E8079C2239114D0037CB00 /* ViewController.m */; };
+		12E807A02239114D0037CB00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12E8079E2239114D0037CB00 /* Main.storyboard */; };
+		12E807A22239114E0037CB00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12E807A12239114E0037CB00 /* Assets.xcassets */; };
+		12E807A52239114E0037CB00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12E807A32239114E0037CB00 /* LaunchScreen.storyboard */; };
+		12E807A82239114E0037CB00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E807A72239114E0037CB00 /* main.m */; };
+		4031C205E674410858F9E7F0 /* libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D48CB313364E413E90562F88 /* libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a */; };
+		6B4AA8E622CCD8C800ACEC5D /* MnistDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4AA8E522CCD8C800ACEC5D /* MnistDemoViewController.m */; };
+		6B85A8C822D48E830032ABBE /* SqueezeDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */; };
+		6B85A8E622D71ACA0032ABBE /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B85A8E522D71AC90032ABBE /* CoreServices.framework */; };
+		6BCB23FA22E5B4FF00E52536 /* squeeze.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23F922E5B4FE00E52536 /* squeeze.jpg */; };
+		6BCB23FC22E5B51A00E52536 /* mnist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23FB22E5B51A00E52536 /* mnist.jpg */; };
+		6BDF2A4922BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF2A4822BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m */; };
+		6BEFC10C224B663B00402E94 /* AoEDemoMenuViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEFC10B224B663B00402E94 /* AoEDemoMenuViewCell.m */; };
+		6BF5067222D32F9C003F0198 /* MnistDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5067122D32F9C003F0198 /* MnistDrawView.m */; };
+		C099AA2731D7A7BB58C39EA5 /* libPods-AoEOpenSDKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE664C774B396D9987A37973 /* libPods-AoEOpenSDKDemo.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6BDF2A4B22BB92D100A21FC3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 12E8078D2239114D0037CB00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12E807942239114D0037CB00;
+			remoteInfo = "AoE-iOSSDKDemo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		12E807952239114D0037CB00 /* AoEOpenSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AoEOpenSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		12E807982239114D0037CB00 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		12E807992239114D0037CB00 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		12E8079B2239114D0037CB00 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		12E8079C2239114D0037CB00 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		12E8079F2239114D0037CB00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		12E807A12239114E0037CB00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		12E807A42239114E0037CB00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		12E807A62239114E0037CB00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		12E807A72239114E0037CB00 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		616B5C2CE2D3D133E86BD3C4 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6B4AA8E422CCD8C800ACEC5D /* MnistDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MnistDemoViewController.h; sourceTree = "<group>"; };
+		6B4AA8E522CCD8C800ACEC5D /* MnistDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MnistDemoViewController.m; sourceTree = "<group>"; };
+		6B859B91224909A000664195 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		6B85A8C622D48E830032ABBE /* SqueezeDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqueezeDemoViewController.h; sourceTree = "<group>"; };
+		6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqueezeDemoViewController.m; sourceTree = "<group>"; };
+		6B85A8E522D71AC90032ABBE /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		6BCB23F922E5B4FE00E52536 /* squeeze.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = squeeze.jpg; sourceTree = "<group>"; };
+		6BCB23FB22E5B51A00E52536 /* mnist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mnist.jpg; sourceTree = "<group>"; };
+		6BDF2A4622BB92D000A21FC3 /* AoEOpenSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AoEOpenSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BDF2A4822BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AoE_iOSSDKDemoTests.m; sourceTree = "<group>"; };
+		6BDF2A4A22BB92D100A21FC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BEFC10A224B663B00402E94 /* AoEDemoMenuViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AoEDemoMenuViewCell.h; sourceTree = "<group>"; };
+		6BEFC10B224B663B00402E94 /* AoEDemoMenuViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AoEDemoMenuViewCell.m; sourceTree = "<group>"; };
+		6BF5067022D32F9C003F0198 /* MnistDrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MnistDrawView.h; sourceTree = "<group>"; };
+		6BF5067122D32F9C003F0198 /* MnistDrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MnistDrawView.m; sourceTree = "<group>"; };
+		A4D5E96F089378C59189D355 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		D48CB313364E413E90562F88 /* libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE664C774B396D9987A37973 /* libPods-AoEOpenSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AoEOpenSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB90D739CD4DE861B88407D /* Pods-AoEOpenSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AoEOpenSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		F3DDA3ABFF252C075E604971 /* Pods-AoEOpenSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AoEOpenSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		12E807922239114D0037CB00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B85A8E622D71ACA0032ABBE /* CoreServices.framework in Frameworks */,
+				C099AA2731D7A7BB58C39EA5 /* libPods-AoEOpenSDKDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BDF2A4322BB92D000A21FC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4031C205E674410858F9E7F0 /* libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		12E8078C2239114D0037CB00 = {
+			isa = PBXGroup;
+			children = (
+				12E807972239114D0037CB00 /* AoE */,
+				6BDF2A4722BB92D100A21FC3 /* AoE-iOSSDKDemoTests */,
+				12E807962239114D0037CB00 /* Products */,
+				FF2624DD50C72F5FF8A3AE02 /* Pods */,
+				FF3D06D57C1F991291658EFF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		12E807962239114D0037CB00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				12E807952239114D0037CB00 /* AoEOpenSDKDemo.app */,
+				6BDF2A4622BB92D000A21FC3 /* AoEOpenSDKDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		12E807972239114D0037CB00 /* AoE */ = {
+			isa = PBXGroup;
+			children = (
+				6B85A8C522D48E550032ABBE /* Squeeze */,
+				6BF5066F22D32F6F003F0198 /* MNIST */,
+				12F61826224BAE11009D926F /* Resource */,
+				6BEFC109224B661200402E94 /* View */,
+				12E807982239114D0037CB00 /* AppDelegate.h */,
+				12E807992239114D0037CB00 /* AppDelegate.m */,
+				12E8079B2239114D0037CB00 /* ViewController.h */,
+				12E8079C2239114D0037CB00 /* ViewController.m */,
+				12E8079E2239114D0037CB00 /* Main.storyboard */,
+				12E807A12239114E0037CB00 /* Assets.xcassets */,
+				12E807A32239114E0037CB00 /* LaunchScreen.storyboard */,
+				12E807A62239114E0037CB00 /* Info.plist */,
+				12E807A72239114E0037CB00 /* main.m */,
+			);
+			name = AoE;
+			path = "AoE-iOSSDKDemo";
+			sourceTree = "<group>";
+		};
+		12F61826224BAE11009D926F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				6BCB23FB22E5B51A00E52536 /* mnist.jpg */,
+				6BCB23F922E5B4FE00E52536 /* squeeze.jpg */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		6B85A8C522D48E550032ABBE /* Squeeze */ = {
+			isa = PBXGroup;
+			children = (
+				6B85A8C622D48E830032ABBE /* SqueezeDemoViewController.h */,
+				6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */,
+			);
+			path = Squeeze;
+			sourceTree = "<group>";
+		};
+		6BDF2A4722BB92D100A21FC3 /* AoE-iOSSDKDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				6BDF2A4822BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m */,
+				6BDF2A4A22BB92D100A21FC3 /* Info.plist */,
+			);
+			path = "AoE-iOSSDKDemoTests";
+			sourceTree = "<group>";
+		};
+		6BEFC109224B661200402E94 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6BEFC10A224B663B00402E94 /* AoEDemoMenuViewCell.h */,
+				6BEFC10B224B663B00402E94 /* AoEDemoMenuViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6BF5066F22D32F6F003F0198 /* MNIST */ = {
+			isa = PBXGroup;
+			children = (
+				6BF5067022D32F9C003F0198 /* MnistDrawView.h */,
+				6BF5067122D32F9C003F0198 /* MnistDrawView.m */,
+				6B4AA8E422CCD8C800ACEC5D /* MnistDemoViewController.h */,
+				6B4AA8E522CCD8C800ACEC5D /* MnistDemoViewController.m */,
+			);
+			path = MNIST;
+			sourceTree = "<group>";
+		};
+		FF2624DD50C72F5FF8A3AE02 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EBB90D739CD4DE861B88407D /* Pods-AoEOpenSDKDemo.debug.xcconfig */,
+				F3DDA3ABFF252C075E604971 /* Pods-AoEOpenSDKDemo.release.xcconfig */,
+				616B5C2CE2D3D133E86BD3C4 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.debug.xcconfig */,
+				A4D5E96F089378C59189D355 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FF3D06D57C1F991291658EFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B85A8E522D71AC90032ABBE /* CoreServices.framework */,
+				6B859B91224909A000664195 /* libc++.tbd */,
+				DE664C774B396D9987A37973 /* libPods-AoEOpenSDKDemo.a */,
+				D48CB313364E413E90562F88 /* libPods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		12E807942239114D0037CB00 /* AoEOpenSDKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12E807AB2239114E0037CB00 /* Build configuration list for PBXNativeTarget "AoEOpenSDKDemo" */;
+			buildPhases = (
+				C62F96AEACF955FD7C7F4DFD /* [CP] Check Pods Manifest.lock */,
+				12E807912239114D0037CB00 /* Sources */,
+				12E807922239114D0037CB00 /* Frameworks */,
+				12E807932239114D0037CB00 /* Resources */,
+				5C21B4C2D352306A244F74D9 /* [CP] Copy Pods Resources */,
+				2F53698B3EAE1A4FB6A9A694 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AoEOpenSDKDemo;
+			productName = AoE;
+			productReference = 12E807952239114D0037CB00 /* AoEOpenSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6BDF2A4522BB92D000A21FC3 /* AoEOpenSDKDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6BDF2A4F22BB92D100A21FC3 /* Build configuration list for PBXNativeTarget "AoEOpenSDKDemoTests" */;
+			buildPhases = (
+				4EC31AABF4E06202BAA667D0 /* [CP] Check Pods Manifest.lock */,
+				6BDF2A4222BB92D000A21FC3 /* Sources */,
+				6BDF2A4322BB92D000A21FC3 /* Frameworks */,
+				6BDF2A4422BB92D000A21FC3 /* Resources */,
+				E5F0D5134E10E48DF1C0F47D /* [CP] Embed Pods Frameworks */,
+				2B0559BCBE8E1265AFA999C4 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6BDF2A4C22BB92D100A21FC3 /* PBXTargetDependency */,
+			);
+			name = AoEOpenSDKDemoTests;
+			productName = "AoE-iOSSDKDemoTests";
+			productReference = 6BDF2A4622BB92D000A21FC3 /* AoEOpenSDKDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		12E8078D2239114D0037CB00 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = didichuxing.com;
+				TargetAttributes = {
+					12E807942239114D0037CB00 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					6BDF2A4522BB92D000A21FC3 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 12E807942239114D0037CB00;
+					};
+				};
+			};
+			buildConfigurationList = 12E807902239114D0037CB00 /* Build configuration list for PBXProject "AoEOpenSDKDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 12E8078C2239114D0037CB00;
+			productRefGroup = 12E807962239114D0037CB00 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				12E807942239114D0037CB00 /* AoEOpenSDKDemo */,
+				6BDF2A4522BB92D000A21FC3 /* AoEOpenSDKDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		12E807932239114D0037CB00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12E807A52239114E0037CB00 /* LaunchScreen.storyboard in Resources */,
+				6BCB23FA22E5B4FF00E52536 /* squeeze.jpg in Resources */,
+				12E807A22239114E0037CB00 /* Assets.xcassets in Resources */,
+				6BCB23FC22E5B51A00E52536 /* mnist.jpg in Resources */,
+				12E807A02239114D0037CB00 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BDF2A4422BB92D000A21FC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B0559BCBE8E1265AFA999C4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Loader.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Logger.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F53698B3EAE1A4FB6A9A694 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4EC31AABF4E06202BAA667D0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C21B4C2D352306A244F74D9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Loader.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Logger.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C62F96AEACF955FD7C7F4DFD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AoEOpenSDKDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5F0D5134E10E48DF1C0F47D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		12E807912239114D0037CB00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BF5067222D32F9C003F0198 /* MnistDrawView.m in Sources */,
+				12E8079D2239114D0037CB00 /* ViewController.m in Sources */,
+				6B85A8C822D48E830032ABBE /* SqueezeDemoViewController.m in Sources */,
+				12E807A82239114E0037CB00 /* main.m in Sources */,
+				6BEFC10C224B663B00402E94 /* AoEDemoMenuViewCell.m in Sources */,
+				12E8079A2239114D0037CB00 /* AppDelegate.m in Sources */,
+				6B4AA8E622CCD8C800ACEC5D /* MnistDemoViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BDF2A4222BB92D000A21FC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BDF2A4922BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6BDF2A4C22BB92D100A21FC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 12E807942239114D0037CB00 /* AoEOpenSDKDemo */;
+			targetProxy = 6BDF2A4B22BB92D100A21FC3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		12E8079E2239114D0037CB00 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				12E8079F2239114D0037CB00 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		12E807A32239114E0037CB00 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				12E807A42239114E0037CB00 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		12E807A92239114E0037CB00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		12E807AA2239114E0037CB00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		12E807AC2239114E0037CB00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBB90D739CD4DE861B88407D /* Pods-AoEOpenSDKDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/AoE-iOSSDKDemo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.opensource.AoEDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		12E807AD2239114E0037CB00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3DDA3ABFF252C075E604971 /* Pods-AoEOpenSDKDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/AoE-iOSSDKDemo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.opensource.AoEDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6BDF2A4D22BB92D100A21FC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 616B5C2CE2D3D133E86BD3C4 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "AoE-iOSSDKDemoTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.didichuxing.AoE-iOSSDKDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AoEOpenSDKDemo.app/AoEOpenSDKDemo";
+			};
+			name = Debug;
+		};
+		6BDF2A4E22BB92D100A21FC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4D5E96F089378C59189D355 /* Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "AoE-iOSSDKDemoTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.didichuxing.AoE-iOSSDKDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AoEOpenSDKDemo.app/AoEOpenSDKDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		12E807902239114D0037CB00 /* Build configuration list for PBXProject "AoEOpenSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12E807A92239114E0037CB00 /* Debug */,
+				12E807AA2239114E0037CB00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		12E807AB2239114E0037CB00 /* Build configuration list for PBXNativeTarget "AoEOpenSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12E807AC2239114E0037CB00 /* Debug */,
+				12E807AD2239114E0037CB00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6BDF2A4F22BB92D100A21FC3 /* Build configuration list for PBXNativeTarget "AoEOpenSDKDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6BDF2A4D22BB92D100A21FC3 /* Debug */,
+				6BDF2A4E22BB92D100A21FC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 12E8078D2239114D0037CB00 /* Project object */;
+}

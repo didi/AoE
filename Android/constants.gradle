@@ -1,0 +1,12 @@
+project.ext {
+    // AoE version and version code.
+    releaseVersion = '1.0.0'
+    releaseVersionCode = 2019001
+
+    minAppSdkVersion = 21
+
+    minSdkVersion = 15
+    targetSdkVersion = 28
+    compileSdkVersion = 28
+
+}
