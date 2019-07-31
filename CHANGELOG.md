@@ -1,16 +1,12 @@
-# Changelog
-All notable changes to this project will be documented in this file.
+# 更新日志
+归档记录工程 Release 更新内容
 
-## [Unreleased]
+## [1.0.0] - 2019-07-30
 
-### Added
-- AoE IRE core implementation
-- MNIST demo
+### 新增
+- AoE IRE 核心实现
+- MNIST / Squeeze 示例
+- TensorFlow Lite 组件
 
-### iOS
-
-- AoE IRE core implementation
-- MNIST demo
-- squeezenet demo
 
 

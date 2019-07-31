@@ -1,9 +1,19 @@
 ![AoE](./images/aoe_192.png)
 
-**AoE** 取名自AI on Edge，是一个终端侧AI集成运行时环境(IRE)。AoE 以“稳定性、易用性、安全性”为设计原则，帮助开发者将不同框架的深度学习算法轻松部署到终端高效执行。
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[ ![Download](https://api.bintray.com/packages/aoe/maven/library-core/images/download.svg) ](https://bintray.com/aoe/maven/library-core/_latestVersion)
+
+**AoE** (AI on Edge) 是一个终端侧AI集成运行时环境(IRE)。以“稳定性、易用性、安全性”为设计原则，帮助开发者将不同框架的深度学习算法轻松部署到终端高效执行。
+
+>[文档](https://didi.github.io/AoE/) |
+ [发布记录](./CHANGELOG.md) |
+ [路线图](./ROADMAP.md)
 
 ## 功能概述
-- 针对Android平台，支持推理框架和数据预处理、后处理运行在独立进程，保障主程序稳定性
+AoE 是推理框架的集成 SDK （目前支持 Android / iOS），她屏蔽推理框架的技术细节，提供统一、易用的接入方式，且支持自定义组件拓展，方便开发者像集成业务组件一样在终端侧集成 AI 模型。
+
+主要功能：
+- 针对Android平台，提供推理框架和数据预处理、后处理运行在独立进程的稳定性保障机制
 - 支持模块拓展注入
 - 推理框架执行配置化
 - 可支持主流终端推理框架
@@ -18,7 +28,7 @@
 
 ## QQ交流群
 
-<img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="256">
+<img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196">
 
 
 ## 项目成员
@@ -30,8 +40,3 @@
 [yangke1120](https://github.com/yangke1120) 、
 [tangjiaxu](https://github.com/shupiankuaile) 
 
-## 协议
-
-<img alt="Apache-2.0 license" src="https://lucene.apache.org/images/mantle-power.png" width="128">
-
-AoE 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
