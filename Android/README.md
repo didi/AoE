@@ -1,4 +1,8 @@
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/didi/aoe/blob/master/LICENSE)
+[![Android](https://api.bintray.com/packages/aoe/maven/library-core/images/download.svg) ](https://bintray.com/aoe/maven/library-core/_latestVersion)
+[ ![API](https://img.shields.io/badge/API-15+-brightgreen.svg)](https://img.shields.io/badge/API-14+-brightgreen.svg)
+
 # AoE Android 用户指南
 
 ## 简介
