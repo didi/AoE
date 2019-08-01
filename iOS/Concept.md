@@ -2,7 +2,15 @@
 
 # 核心概念
 
-## AoeClient
+## 目录 ##
+
+1. [AoeClient——用户交互入口](#AoeClient)
+2. [client配置模型](#AoEClientOption)
+3. [模型配置协议——定义配置内容](#AoEModelOptionProtocol)
+4. [拦截器组件协议——实现模型数据处理](#AoEInterpreterComponentProtocol)
+5. [模型加载器组件协议——实现模型加载逻辑](#AoEModelLoaderComponentProtocol)
+
+## AoeClient ##
 AoeClient 是AoE推理操作的唯一交互窗口，您需要在自己业务实现中创建并使用。 
 
 ```
@@ -83,7 +91,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 ```
 
-## AoEClientOption
+## AoEClientOption ##
 
 `AoEClient`初始化的配置类
 
@@ -114,13 +122,13 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 ```
 
-## AoEModelOptionProtocol
+## AoEModelOptionProtocol ##
 
 模型配置的标准化协议接口，AoE iOS SDK 标准模型配置规范是在模型目录下定义模型配置文件，说明模型加载方式和路径：
 
 ```
 // demo 中使用的路径是通过AoEBiz的podspec配置好的
-{resourcePath}//model.config
+{resourcePath}/{bizBundle}/{bizName}/model.config
 
 ```
 
@@ -187,7 +195,7 @@ AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption`
 
 ```
 
-允许自定义模型定义文件格式，只需遵守 *AoEModelOptionProtocol* 协议即可，并需要配套实现[AoEModelLoaderComponentProtocol](#ModelOptionLoaderComponent)协议的组件，自行解析模型描述。具体用法可参见[demo](./AoEBiz/squeeze/)
+允许自定义模型定义文件格式，只需遵守 `AoEModelOptionProtocol` 协议即可，并需要配套实现[AoEModelLoaderComponentProtocol](#ModelOptionLoaderComponent)协议的组件，自行解析模型描述。具体用法可参见[demo](./AoEBiz/squeeze/)
 
 
 ## AoEInterpreterComponentProtocol
@@ -228,7 +236,7 @@ AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption`
 ```
 
 
-## AoEModelLoaderComponentProtocol
+## AoEModelLoaderComponentProtocol ##
 对应[AoEModelOptionProtocol](#AoEModelOptionProtocol)实现的加载器组件接口，用于拓展数据模型加载协议。
 
 ```

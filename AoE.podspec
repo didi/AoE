@@ -28,6 +28,7 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Loader'
   s.platform = :ios
   s.ios.deployment_target = '8.0'
+  
   s.subspec 'Core' do |ss|
     ss.source_files = "iOS/#{s.name}/library/Core/Classes/**/*"
     ss.public_header_files = "iOS/#{s.name}/library/Core/Classes/**/*.h"
