@@ -13,7 +13,7 @@
 ## AoeClient ##
 AoeClient 是AoE推理操作的唯一交互窗口，您需要在自己业务实现中创建并使用。 
 
-```
+```objc
 
 /**
  AoEClient 初始化方法
@@ -34,7 +34,7 @@ AoeClient 是AoE推理操作的唯一交互窗口，您需要在自己业务实�
 
 调用`setupModel:`方法进行组件和模型初始化
 
-```
+```objc
 /**
  设置推理模型
  setupModelImmediately:success:方法immediately参数为YES
@@ -54,7 +54,7 @@ AoeClient 是AoE推理操作的唯一交互窗口，您需要在自己业务实�
 ```
 模型配置状态码定义如下：
 
-```
+```objc
 /**
  AoEClient 状态码
 
@@ -80,7 +80,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 ### 执行推理 process
 执行推理只需要调用`process`，喂入输入数据，数据将由自定义[InterpreterComponent](#InterpreterComponent)实现代理处理。
 
-```
+```objc
 /**
  执行推理模型
  
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 可以配置的信息如下：
 
-```
+```objc
 @interface AoEClientOption : NSObject
 
 /**
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 模型配置的标准化协议接口，AoE iOS SDK 标准模型配置规范是在模型目录下定义模型配置文件，说明模型加载方式和路径：
 
-```
+```objc
 // demo 中使用的路径是通过AoEBiz的podspec配置好的
 {resourcePath}/{bizBundle}/{bizName}/model.config
 
@@ -134,7 +134,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 协议定义如下：
 
-```
+```objc
 /**
  * 模型配置参数协议
  */
@@ -150,7 +150,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption` 的时候没有指定`AoEModelLoaderComponent`类时，SDK会默认加载`Loader`子组件中的`AoEModelManager`类。如果没有添加`loader`组件，SDK无法工作。
 
-```
+```objc
 @interface AoEModelOption : NSObject <AoEModelOptionProtocol, NSCopying>
 
 /**
@@ -201,7 +201,7 @@ AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption`
 ## AoEInterpreterComponentProtocol
 推理框架执行包装组件接口，负责完成模型文件的加载，推理操作执行，数据预处理、后处理转换，为推理操作的直接代理实现。需实现该接口，并显式注入到AoeClient。
 
-```
+```objc
 /**
  拦截器配置模型
 
@@ -239,7 +239,7 @@ AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption`
 ## AoEModelLoaderComponentProtocol ##
 对应[AoEModelOptionProtocol](#AoEModelOptionProtocol)实现的加载器组件接口，用于拓展数据模型加载协议。
 
-```
+```objc
 /**
  模型加载器组件接口协议
  */
