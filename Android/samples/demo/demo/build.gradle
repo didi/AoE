@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply from: '../../../constants.gradle'
 
+apply from: "../tools/download-models.gradle"
+
 android {
     compileSdkVersion project.ext.compileSdkVersion
     defaultConfig {
