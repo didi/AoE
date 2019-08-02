@@ -6,11 +6,11 @@ project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
 // 下载模型的 target路径：下载地址
 def models = [
         // mnist
-        '/features/mnist/src/main/assets'  : [
+        '../features/mnist/src/main/assets'  : [
                 'http://pt-starfile.didistatic.com/static/starfile/node20190709/895f1e95e30aba5dd56d6f2ccf768b57/CYTGfTuFoz1562662838842.zip', // mnist
         ],
         // squeeze
-        '/features/squeeze/src/main/assets': [
+        '../features/squeeze/src/main/assets': [
                 'http://pt-starfile.didistatic.com/static/starfile/node20190709/895f1e95e30aba5dd56d6f2ccf768b57/upQswleuuX1562662900691.zip' // squeeze
         ]
 
