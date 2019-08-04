@@ -4,7 +4,7 @@ target 'AoEOpenSDKDemo' do
   # use_frameworks!
 
   # Pods for AoE-iOSSDKDemo
-  pod 'AoE', :path => "../../AoE-iOS.podspec",:subspecs => [
+  pod 'AoE', :path => "../../AoE.podspec",:subspecs => [
     'Core',
     'Logger',
     'Loader',
