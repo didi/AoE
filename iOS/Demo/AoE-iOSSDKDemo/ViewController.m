@@ -24,7 +24,7 @@ static NSString *const kAoEMenuCellIdentify = @"kAoEMenuCellIdentify";
 - (NSArray *)mainTableArray {
     return @[@{@"text":@"MNIST",
                @"image":@"mnist.jpg",
-               @"subtext":@"手写数字识别，可通过分析手写路径分析数字",
+               @"subtext":@"基于TensorFlow Lite实现手写数字识别，其中数字的范围从 0 到 9 。",
                @"action":^{
                    MnistDemoViewController *viewController = [[MnistDemoViewController alloc] init];
                    viewController.title = @"Mnist手写识别";
@@ -32,7 +32,7 @@ static NSString *const kAoEMenuCellIdentify = @"kAoEMenuCellIdentify";
                }},
              @{@"text":@"SQUEEZE",
                @"image":@"squeeze.jpg",
-               @"subtext":@"手写数字识别，可通过分析手写路径分析数字",
+               @"subtext":@"NCNN 官方提供的 SqueezeNet 物体图像识别示例。",
                @"action":^{
                    SqueezeDemoViewController *viewController = [[SqueezeDemoViewController alloc] init];
                    viewController.title = @"Squeeze分类";
