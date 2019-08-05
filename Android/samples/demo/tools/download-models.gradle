@@ -7,11 +7,11 @@ project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
 def models = [
         // mnist
         '../features/mnist/src/main/assets'  : [
-                'http://pt-starfile.didistatic.com/static/starfile/node20190709/895f1e95e30aba5dd56d6f2ccf768b57/CYTGfTuFoz1562662838842.zip', // mnist
+                'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/dXvj4yfARd1565012051436.zip', // mnist
         ],
         // squeeze
         '../features/squeeze/src/main/assets': [
-                'http://pt-starfile.didistatic.com/static/starfile/node20190709/895f1e95e30aba5dd56d6f2ccf768b57/upQswleuuX1562662900691.zip' // squeeze
+                'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip' // squeeze
         ]
 
 ]
