@@ -1,4 +1,4 @@
-![AoE](./images/aoe_192.png)
+![AoE](./images/aoe_logo_01.png)
 
 [![Build Status](https://travis-ci.org/didi/AoE.svg?branch=master)](https://travis-ci.org/didi/AoE)
 [![Android](https://api.bintray.com/packages/aoe/maven/library-core/images/download.svg) ](https://bintray.com/aoe/maven/library-core/_latestVersion)
@@ -21,15 +21,13 @@ AoE 是推理框架的集成 SDK （目前支持 Android / iOS），她屏蔽推
 - 推理框架执行配置化
 - 可支持主流终端推理框架
 
-## 使用文档
+## 使用文档&示例
 - [Android用户指南](./Android/README.md)
 - [iOS用户指南](./iOS/README.md)
-
-## 示例
 - [Android Demo](./Android/samples/demo)
 - [iOS Demo](./iOS/Demo)
 
-## QQ交流群
+## Q&A
 
 <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196">
 
