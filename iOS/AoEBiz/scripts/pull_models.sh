@@ -1,13 +1,15 @@
 #!/bin/sh
 # 本脚本主要用于在安装时下载模型。
-MNIST_MODEL_FILE=CYTGfTuFoz1562662838842.zip
+MNIST_MODEL_FILE=dXvj4yfARd1565012051436.zip
 FILE_MNIST=mnist
-SQUEEZE_MODEL_FILE=upQswleuuX1562662900691.zip
+
+SQUEEZE_MODEL_FILE=fm2gKZ37I11565012061785.zip
 FILE_SQUEEZE=squeeze
-STATIC_DIDI_URL=http://pt-starfile.didistatic.com/static/starfile/node20190709/895f1e95e30aba5dd56d6f2ccf768b57
+
+STATIC_DIDI_URL=https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/
 
 function pull_models() {
-    rm -rf $FILE_MNIST
+    rm -rf ${2}
     MODEL_URL=${1}
 
     echo "Download ${2} from: ${MODEL_URL}"
