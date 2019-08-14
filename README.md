@@ -297,3 +297,6 @@ if (mClient != null) {
 [yangke1120](https://github.com/yangke1120) 、
 [tangjiaxu](https://github.com/shupiankuaile) 
 
+## 七、友情链接
+我们部门的另外一款开源作品 [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
+
