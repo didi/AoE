@@ -148,7 +148,7 @@ typedef NS_ENUM(NSUInteger, AoEClientStatusCode) {
 
 ```
 
-AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption` 的时候没有指定`AoEModelLoaderComponent`类时，SDK会默认加载`Loader`子组件中的`AoEModelManager`类。如果没有添加`loader`组件，SDK无法工作。
+AoE默认实现了一套模型配置标准，如果在初始化`AoEClientOption` 的时候没有指定`AoEModelLoaderComponent`类时，SDK会默认加载`Loader`子组件中的`AoEModelManager`类。**如果没有添加`loader`组件，SDK无法工作。**
 
 ```objc
 @interface AoEModelOption : NSObject <AoEModelOptionProtocol, NSCopying>
