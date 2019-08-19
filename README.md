@@ -112,9 +112,9 @@
 
 ## 二、工作原理
 ### 1. 抽象推理框架的处理过程
-前面已经介绍了，其实每个推理框架都必然包含推理过程所必须的 5 个过程，它们分别是初使化、前处理、执行推理、后处理、释放资源。对 AoE 集成运行环境来说，最基本的便是抽象推理框架的这 5 个处理过程，通过依赖倒置的设计，使得业务只依赖AoE的上层抽象，而不用关心具体推理框架的接入实现。这种设计带来的最大的好处是开发者随时可以添加新的推理框架，而不用修改以前业务接入的代码，做到了业务开发和AoE SDK开发完全解耦。
+前面已经介绍了，其实每个推理框架都必然包含推理过程所必须的 5 个过程，它们分别是初始化、前处理、执行推理、后处理、释放资源。对 AoE 集成运行环境来说，最基本的便是抽象推理框架的这 5 个处理过程，通过依赖倒置的设计，使得业务只依赖AoE的上层抽象，而不用关心具体推理框架的接入实现。这种设计带来的最大的好处是开发者随时可以添加新的推理框架，而不用修改以前业务接入的代码，做到了业务开发和AoE SDK开发完全解耦。
 
-在 AoE SDK 中这一个抽象是 InterpreterComponent（用来处理模型的初使化、执行推理和释放资源）和 Convertor（用来处理模型输入的前处理和模型输出的后处理），InterpreterComponent具体接口如下：
+在 AoE SDK 中这一个抽象是 InterpreterComponent（用来处理模型的初始化、执行推理和释放资源）和 Convertor（用来处理模型输入的前处理和模型输出的后处理），InterpreterComponent具体接口如下：
 ```
 /**
  * 模型翻译组件
@@ -217,7 +217,7 @@ public Object run(@NonNull Object input) {
 ## 三、MNIST集成示例
 *1. 对TensorFlowLiteInterpreter的继承*
 
-当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的InterpreterComponent实现，完成具体的业务流程。MNIST是运行在TF Lite框架上的模型，因此，我们继承AoE的TFLite的Interpreter实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据，初使化、推理执行和资源回收沿用TensorFlowLiteInterpreter的默认实现。
+当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的InterpreterComponent实现，完成具体的业务流程。MNIST是运行在TF Lite框架上的模型，因此，我们继承AoE的TFLite的Interpreter实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据，初始化、推理执行和资源回收沿用TensorFlowLiteInterpreter的默认实现。
 ```
 public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer, float[], float[][]> {
  
@@ -255,18 +255,18 @@ mClient = new AoeClient(requireContext(), "mnist",
 
 *3. 推理执行*
 
-以下是MINST初使化推理框架、推理执行和资源回收的实现：
+以下是MINST初始化推理框架、推理执行和资源回收的实现：
 ```
-//初使化推理框架
+// 初始化推理框架
 int resultCode = mClient.init();
-//推理执行
+// 推理执行
 Object result = mClient.process(mSketchModel.getPixelData());
 if (result instanceof Integer) {
     int num = (int) result;
     Log.d(TAG, "num: " + num);
     mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num));
 }
-//资源回收
+// 资源回收
 if (mClient != null) {
     mClient.release();
 }
