@@ -9,7 +9,4 @@
 
 @interface AoEFoundationUtil : NSObject
 
-+ (NSString *)aoe_MD5Data:(NSData *)data;
-+ (NSString *)aoe_Base64Data:(NSData *)data;
-
 @end

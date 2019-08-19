@@ -43,6 +43,14 @@
  模型文件签名
  */
 @property (strong, nonatomic) NSString *sign;
+/**
+ 模型是否加密
+ */
+@property (assign, nonatomic) BOOL encrypted;
+/**
+ 模型加密类型
+ */
+@property (assign, nonatomic) NSInteger encryptType;
 
 + (instancetype)modelWithPath:(NSString *)path;
 - (instancetype)initWithPath:(NSString *)path;
