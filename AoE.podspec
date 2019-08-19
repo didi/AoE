@@ -61,4 +61,11 @@ Pod::Spec.new do |s|
     # }
   end
 
+  s.subspec 'Crypto' do |ss|
+    ss.ios.deployment_target = '8.0'
+    ss.source_files = "iOS/#{s.name}/library/Crypto/Classes/**/*"
+    ss.public_header_files = "iOS/#{s.name}/library/Crypto/Classes/**/*.h"
+    ss.dependency "#{s.name}/Loader"
+  end
+  
 end

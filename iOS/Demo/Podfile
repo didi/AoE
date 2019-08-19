@@ -8,6 +8,7 @@ target 'AoEOpenSDKDemo' do
     'Core',
     'Logger',
     'Loader',
+    'Crypto',
   ], :inhibit_warnings => false
   pod 'AoEBiz', :path => "../AoEBiz/AoEBiz.podspec",:subspecs => [
   'mnist',

@@ -95,6 +95,9 @@
 
 @end
 
+/**
+ 日志组件接口协议
+ */
 @protocol AoELoggerComponentProtocol <AoEComponentProtocol>
 
 - (void)setLogTag:(NSString *)tag;
@@ -102,4 +105,12 @@
 - (void)errorLog:(NSString *)content;
 - (void)warningLog:(NSString *)content;
 - (void)infoLog:(NSString *)content;
+@end
+
+/**
+ 加密组件接口协议
+ */
+@protocol AoECryptoComponentProtocol <AoEComponentProtocol>
+
+- (NSData *)decryptModel:(NSData *)modelsData option:(id<AoEModelOptionProtocol>)option;
 @end
