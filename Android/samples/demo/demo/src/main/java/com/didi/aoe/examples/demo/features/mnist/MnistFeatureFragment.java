@@ -64,7 +64,12 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
                 if (result instanceof Integer) {
                     int num = (int) result;
                     Log.d(TAG, "num: " + num);
-                    mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num));
+                    mResultTextView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num));
+                        }
+                    });
                 }
 
             }
