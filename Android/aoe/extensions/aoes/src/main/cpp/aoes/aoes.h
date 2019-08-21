@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <jni.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,22 +39,8 @@ int encryptAoeDataToFile_Version1(const char *srcData, const int srcLength, cons
  */
 int encryptAoeDataToData_Version1(const char *srcData, const int srcLength, const char **dstData);
 
-
-JNIEXPORT jbyteArray JNICALL
-Java_com_didi_aoe_extensions_aoes_AoeSecurity_encrypt(JNIEnv *env, jclass type, jbyteArray src, jint srcLength);
-
-JNIEXPORT jint JNICALL
-Java_com_didi_aoe_extensions_aoes_AoeSecurity_encryptToFile(JNIEnv *env, jclass type, jbyteArray src, jint srcLength, jstring destFilePath);
-
-JNIEXPORT jbyteArray JNICALL
-Java_com_didi_aoe_extensions_aoes_AoeSecurity_decrypt(JNIEnv *env, jclass type, jbyteArray src);
-
-
-
 #ifdef __cplusplus
 }
 #endif
-
-
 
 #endif //PROJECT_AOES_H

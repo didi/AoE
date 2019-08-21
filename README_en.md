@@ -306,6 +306,6 @@ if (mClient != null) {
 [tangjiaxu](https://github.com/shupiankuaile) 
 
 ## Friendly link
-Another open source project in our department [Dokit] (https://github.com/didi/DoraemonKit), a full-featured client (iOS, Android) development assistant, you deserve :)
+Another open source project in our department [Dokit](https://github.com/didi/DoraemonKit), a full-featured client (iOS, Android) development assistant, you deserve :)
 
 
