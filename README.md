@@ -9,7 +9,8 @@
 
  [文档](https://didi.github.io/AoE/) |
  [发布记录](./CHANGELOG.md) |
- [路线图](./ROADMAP.md)
+ [路线图](./ROADMAP.md) |
+ [English](./README_en.md)
 
 ## 一、背景
 ### 1. AoE 是什么?
