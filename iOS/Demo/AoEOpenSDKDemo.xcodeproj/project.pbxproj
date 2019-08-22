@@ -314,9 +314,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Core.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Loader.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Logger.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
@@ -381,9 +378,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Core.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Loader.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/AoE/iOS-Logger.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
