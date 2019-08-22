@@ -45,7 +45,6 @@ int dencryptAoeData(const char *srcData, const int srcLength, const char **dstDa
  */
 int getAoECryptHeader(const char *srcData, const int srcLength, const int verion, const char **header);
 
-
 #ifdef __cplusplus
 }
 #endif

@@ -61,6 +61,8 @@
         self.modelName = opt[@"modelName"];
         self.updateUrl = opt[@"updateUrl"];
         self.sign = opt[@"sign"];
+        self.encrypted = ((NSNumber *)opt[@"encrypted"]).boolValue;
+        self.encryptType = ((NSNumber *)opt[@"encryptType"]).integerValue;
     }
     return self;
 }

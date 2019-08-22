@@ -24,7 +24,7 @@ int getAoECryptHeader(const char *srcData, const int srcLength,const int version
         return -1;
     }
     const int headLength = getAoEHeaderSize(version);
-    char *response = malloc(headLength);
+    char *response = (char *)malloc(headLength);
     if (NULL == response) {
         return -1;
     }
@@ -66,7 +66,7 @@ int getAoECryptHeader(const char *srcData, const int srcLength,const int version
     
     memcpy(response, tempHeader, headLength);
     *header = response;
-    return srcLength;
+    return headLength;
 }
 
 int getAoECryptedHeader(const char *srcData, int srcLength, const char **header, const int *fileSize) {
@@ -81,7 +81,7 @@ int getAoECryptedHeader(const char *srcData, int srcLength, const char **header,
         return -1;
     }
     
-    char *response = malloc(headLength);
+    char *response = (char *)malloc(headLength);
     if (NULL == response) {
         return -1;
     }
@@ -90,10 +90,10 @@ int getAoECryptedHeader(const char *srcData, int srcLength, const char **header,
     memset(tempHeader, 0, headLength);
     memcpy(tempHeader, srcData, headLength);
     
-    const int fileOrgSize = ((tempHeader[0] << 24) & 0xFF000000) |
-                            ((tempHeader[1] << 16) & 0xFF0000) |
-                            ((tempHeader[2] << 8) & 0xFF00) |
-                            ((tempHeader[3]) & 0xFF);
+    const int fileOrgSize = ((tempHeader[1] << 24) & 0xFF000000) |
+                            ((tempHeader[2] << 16) & 0xFF0000) |
+                            ((tempHeader[3] << 8) & 0xFF00) |
+                            ((tempHeader[4]) & 0xFF);
     if (fileOrgSize <= 0) {
         return -1;
     }
@@ -108,7 +108,7 @@ int encryptAoeData(const char *srcData, const int srcLength, const char *header,
     if (NULL == srcData || NULL == dstData || srcLength <= 0) {
         return -1;
     }
-    const int version = srcData[0];
+    const int version = header[0];
     const int headLength = getAoEHeaderSize(version);
     if (headLength <= 0) {
         return -1;
@@ -119,7 +119,7 @@ int encryptAoeData(const char *srcData, const int srcLength, const char *header,
         dstDataLength += (AES_BLOCKLEN - srcLength % AES_BLOCKLEN);
     }
     
-    char *response = malloc(dstDataLength);
+    char *response = (char *)malloc(dstDataLength);
     if (NULL == response) {
         return -1;
     }
@@ -156,6 +156,7 @@ int encryptAoeData(const char *srcData, const int srcLength, const char *header,
             memcpy(writePos, header, headLength - MD5_SIZE);
             writePos += headLength - MD5_SIZE;
             memcpy(writePos, fileMd5, MD5_SIZE);
+            writePos += MD5_SIZE;
             needMix = false;
         }
         
@@ -183,7 +184,7 @@ int dencryptAoeData(const char *srcData, const int srcLength, const char **dstDa
     memcpy(header, head, headLength);
     
     int dstDataLength = srcLength - headLength;
-    char *response = malloc(dstDataLength);
+    char *response = (char *)malloc(dstDataLength);
     if (NULL == response) {
         return -1;
     }
@@ -192,8 +193,8 @@ int dencryptAoeData(const char *srcData, const int srcLength, const char **dstDa
     
     uint8_t buffer[BUFFERSIZE];
     int nLen = headLength;
-    int left = srcLength;
-    const char *dataPos = &srcData[headLength];
+    int left = srcLength - nLen;
+    const char *dataPos = srcData + headLength;
     bool needMix = true;
     
     while (left > 0) {
@@ -210,8 +211,9 @@ int dencryptAoeData(const char *srcData, const int srcLength, const char **dstDa
             const int mixCount = dataLen / 1024;
             for (int i = 0; i < mixCount; i++) {
                 uint8_t temp = buffer[i * 1024];
-                buffer[i * 1024] = header[headLength - MD5_SIZE - 1 + i];
-                header[headLength - MD5_SIZE - 1 + i] = temp;
+                const int headerIndex = headLength - MD5_SIZE + i;
+                buffer[i * 1024] = header[headerIndex];
+                header[headerIndex] = temp;
             }
             needMix = false;
         }

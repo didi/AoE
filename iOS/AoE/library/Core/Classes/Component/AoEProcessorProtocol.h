@@ -113,4 +113,7 @@
 @protocol AoECryptoComponentProtocol <AoEComponentProtocol>
 
 - (NSData *)decryptModel:(NSData *)modelsData option:(id<AoEModelOptionProtocol>)option;
+
+@optional
+- (NSData *)encryptModel:(NSData *)modelsData option:(id<AoEModelOptionProtocol>)option;
 @end
