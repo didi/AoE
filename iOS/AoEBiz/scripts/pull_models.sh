@@ -6,7 +6,7 @@ FILE_MNIST=mnist
 SQUEEZE_MODEL_FILE=fm2gKZ37I11565012061785.zip
 FILE_SQUEEZE=squeeze
 
-STATIC_DIDI_URL=https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/
+STATIC_DIDI_URL=https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57
 
 function pull_models() {
     rm -rf ${2}
