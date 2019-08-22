@@ -28,8 +28,6 @@ public class AoeSecurity {
      */
     public static native int encryptToFile(byte[] src, int srcLength, String destFilePath);
 
-    public static native byte[] decrypt(byte[] src);
-
     static {
         try {
             System.loadLibrary("aoes");
