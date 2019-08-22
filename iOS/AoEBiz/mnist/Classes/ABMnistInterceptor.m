@@ -11,17 +11,23 @@
 #import "ABTensorFlowAdapter.h"
 #import <AoE/AoEModelOption.h>
 #import <AoE/AoElogger.h>
+#import <AoE/AoECrypto.h>
+#import <AoE/AoEValidJudge.h>
 
 @interface ABMnistInterceptor ()
 @property(nonatomic ,strong) ABTensorFlowAdapter *adapter;
 @property(nonatomic ,strong) AoElogger *logger;
-
+@property(nonatomic ,strong) NSString *decodeModelPath;
 @end
 
 @implementation ABMnistInterceptor
 
 - (void)close {
     self.adapter = nil;
+    if (self.decodeModelPath &&
+        [[NSFileManager defaultManager] fileExistsAtPath:self.decodeModelPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:self.decodeModelPath error:nil];
+    }
 }
 
 - (BOOL)isReady {
@@ -113,11 +119,38 @@
     AoEModelOption *option = options.firstObject;
     NSString *fileName = [option.modelName stringByAppendingPathExtension:[ABMnistModelLoaderConfig ModelFileExtension]];
     NSString *modelPath = [option.modelDirPath stringByAppendingPathComponent:fileName];
+    modelPath = [self decodeModelWithPath:modelPath option:option];
     self.adapter = [[ABTensorFlowAdapter alloc] initWithPath:modelPath];
     if (!self.adapter) {
         return NO;
     }
     return YES;
+}
+
+- (NSString *)decodeModelWithPath:(NSString *)modelPath option:(AoEModelOption *)option {
+    NSString *decodeModelPath = modelPath;
+    if (option.encrypted) {
+        if ([AoEValidJudge isValidString:self.decodeModelPath]) {
+            return self.decodeModelPath;
+        }
+        AoECryptoManager *cryptoManager = [AoECryptoManager new];
+        NSData *source = [[NSData alloc] initWithContentsOfFile:modelPath];
+        NSData *decodeData = [cryptoManager decryptModel:source option:option];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *homePath = [[paths firstObject] stringByAppendingPathComponent:[AoECryptoUtil aoe_encryptMD5Data:[@"decode" dataUsingEncoding:NSUTF8StringEncoding]]];
+        BOOL isDirectory = NO;
+        if (![[NSFileManager defaultManager] fileExistsAtPath:homePath isDirectory:&isDirectory] ||
+            !isDirectory) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:homePath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        NSString *decodeModelName = [AoECryptoUtil aoe_encryptMD5Data:[modelPath.lastPathComponent dataUsingEncoding:NSUTF8StringEncoding]];
+        decodeModelPath = [homePath stringByAppendingPathComponent:[decodeModelName stringByAppendingPathExtension:[ABMnistModelLoaderConfig ModelFileExtension]]];
+        [[NSFileManager defaultManager] createFileAtPath:decodeModelPath contents:nil attributes:nil];
+        [decodeData writeToFile:decodeModelPath atomically:YES];
+        self.decodeModelPath = decodeModelPath;
+    }
+    return decodeModelPath;
 }
 
 #pragma getter and setter
