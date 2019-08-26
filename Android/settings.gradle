@@ -23,6 +23,7 @@ include ':extensions-vision'
 
 // Runtime
 include ':runtime-tensorflow-lite'
+include ':runtime-ncnn'
 
 project(':examples-demo').projectDir = new File(rootDir, 'samples/demo/demo')
 
@@ -41,4 +42,5 @@ project(':extensions-vision').projectDir = new File(rootDir, 'aoe/extensions/vis
 project(':extensions-squeeze-model-option-loader').projectDir = new File(rootDir, 'samples/demo/extensions/squeeze-model-option-loader')
 
 project(':runtime-tensorflow-lite').projectDir = new File(rootDir, 'third_party/tensorflow-lite')
+project(':runtime-ncnn').projectDir = new File(rootDir, 'third_party/ncnn')
 
