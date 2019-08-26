@@ -8,7 +8,7 @@
     * C File Header
         ```
         #set( $ORGANIZATION_NAME = "AoE")
-        #set( $VERSION = "1.0.0")
+        #set( $VERSION = "1.1.0")
         // Copyright $YEAR The $ORGANIZATION_NAME Authors
         //
         // Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@
         ```
     * File Header
         ```
-        #set( $VERSION = "1.0.0")
+        #set( $VERSION = "1.1.0")
         /**
         * 
         *
