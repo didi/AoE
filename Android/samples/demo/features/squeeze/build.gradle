@@ -10,22 +10,6 @@ android {
         versionName project.ext.releaseVersion
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"
-                cFlags "-fopenmp -O2 -fvisibility=hidden -fomit-frame-pointer -fstrict-aliasing -ffunction-sections -fdata-sections -ffast-math "
-                cppFlags "-fopenmp -O2 -fvisibility=hidden -fvisibility-inlines-hidden -fomit-frame-pointer -fstrict-aliasing -ffunction-sections -fdata-sections -ffast-math "
-                cppFlags ""
-                cppFlags "-std=c++11"
-                cppFlags "-frtti"
-                cppFlags "-fexceptions"
-            }
-        }
-
-        ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-        }
     }
 
     buildTypes {
@@ -34,13 +18,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
-
 }
 
 dependencies {
@@ -59,6 +36,7 @@ dependencies {
     } else {
         implementation project(':library-logging')
         implementation project(':library-api')
+        implementation project(':runtime-ncnn')
         api project(':extensions-squeeze-model-option-loader')
         api project(':extensions-parcel-kryo')
     }

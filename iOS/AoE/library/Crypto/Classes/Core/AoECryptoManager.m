@@ -17,4 +17,11 @@
                                        offset:self.iv
                                      saltType:AoECryptoTypeForAES128];
 }
+
+- (NSData *)encryptModel:(NSData *)modelsData option:(id<AoEModelOptionProtocol>)option {
+    return [AoECryptoUtil aoe_encryptAoEModel:modelsData
+                                   encryptKey:self.encodeKey
+                                       offset:self.iv
+                                     saltType:AoECryptoTypeForAES128];
+}
 @end

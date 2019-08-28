@@ -41,6 +41,10 @@
     if ([AoEValidJudge isValidString:alias]) {
         modelStoragePath = [modelStoragePath stringByAppendingPathComponent:alias];
     }
+    BOOL isDirectory = NO;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:modelStoragePath isDirectory:&isDirectory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:modelStoragePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
     return modelStoragePath;
 }
 

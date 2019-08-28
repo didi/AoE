@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.SingleInterpreterComponent;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -21,7 +22,6 @@ import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,18 +34,14 @@ import java.util.Map;
  * @author noctis
  */
 public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, TModelInput, TModelOutput>
-        implements AoeProcessor.InterpreterComponent<TInput, TOutput>, AoeProcessor.MultiConvertor<TInput, TOutput, Object, TModelOutput> {
+        extends SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.MultiConvertor<TInput, TOutput, Object, TModelOutput> {
     private final Logger mLogger = LoggerFactory.getLogger("TensorFlowLite.Interpreter");
     private Interpreter mInterpreter;
     private Map<Integer, Object> outputPlaceholder;
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions) {
-        if (modelOptions.size() != 1) {
-            return false;
-        }
-        AoeModelOption option = modelOptions.get(0);
-        String modelFilePath = option.getModelDir() + File.separator + option.getModelName() + ".tflite";
+    public boolean init(@NonNull Context context, @NonNull AoeModelOption modelOptions) {
+        String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName() + ".tflite";
         ByteBuffer bb = loadFromAssets(context, modelFilePath);
         if (bb != null) {
             mInterpreter = new Interpreter(bb);

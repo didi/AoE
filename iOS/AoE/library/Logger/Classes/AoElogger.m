@@ -27,6 +27,8 @@ void AoElogMessageFunc(NSInteger level, const char *file,int lineNumber, const c
     if (format) {
         va_start(args, format);
         NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+        NSString *fileMessage = [NSString stringWithFormat:@"file: [%s], line : [%@]",file,@(lineNumber)];
+        message = [fileMessage stringByAppendingFormat:@" %@",message];
         [[AoElogger new] consolelogMsg:message level:level];
         va_end(args);
     }

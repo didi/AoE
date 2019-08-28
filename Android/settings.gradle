@@ -19,6 +19,7 @@ include ':library-model-option-loader'
 include ':extensions-parcel-kryo'
 include ':extensions-squeeze-model-option-loader'
 include ':extensions-aoes'
+include ':extensions-vision'
 
 // Runtime
 include ':runtime-tensorflow-lite'
@@ -37,6 +38,7 @@ project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/libr
 
 project(':extensions-parcel-kryo').projectDir = new File(rootDir, 'aoe/extensions/parcel-kryo')
 project(':extensions-aoes').projectDir = new File(rootDir, 'aoe/extensions/aoes')
+project(':extensions-vision').projectDir = new File(rootDir, 'aoe/extensions/vision')
 project(':extensions-squeeze-model-option-loader').projectDir = new File(rootDir, 'samples/demo/extensions/squeeze-model-option-loader')
 
 project(':runtime-tensorflow-lite').projectDir = new File(rootDir, 'third_party/tensorflow-lite')

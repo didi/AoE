@@ -73,7 +73,7 @@
 
 
 }
-+ (NSData *)aoe_dencryptAES128Data:(NSData *)data key:(NSString *)key iv:(NSData *)iv
++ (NSData *)aoe_decryptAES128Data:(NSData *)data key:(NSString *)key iv:(NSData *)iv
 {
     // 'key' should be 32 bytes for AES256, will be null-padded otherwise
     const int keySize = 16;
@@ -120,14 +120,14 @@
     NSData *distData = nil;
     if (AoECryptoTypeForAES128 == type) {
         const char *dencryptDataBytes = NULL;
-        int len = dencryptAoeData(soure.bytes, soure.length, &dencryptDataBytes);
+        int len = dencryptAoeData(soure.bytes, (int)soure.length, &dencryptDataBytes);
         if (len > 0 && len < soure.length) {
-            NSData *dencryptData = [NSData dataWithBytes:dencryptDataBytes length:len];
-            NSString *decodeKey = ([AoEValidJudge isValidString:key] ? key : AOE_DEFAULT_KEY);
+            NSData *decryptData = [NSData dataWithBytes:dencryptDataBytes length:len];
+            NSString *decryptKey = ([AoEValidJudge isValidString:key] ? key : AOE_DEFAULT_KEY);
             NSData *ivData = iv.length > 0 ? iv : [AOE_DEFAULT_IV dataUsingEncoding:NSUTF8StringEncoding];
-            distData = [self aoe_dencryptAES128Data:dencryptData
-                                                key:decodeKey
-                                                 iv:ivData];
+            distData = [self aoe_decryptAES128Data:decryptData
+                                               key:decryptKey
+                                                iv:ivData];
         }
     }
     return distData;
@@ -144,12 +144,12 @@
     if (AoECryptoTypeForAES128 == type) {
         const char *distDataBytes = NULL;
         const char *headerDataBytes = NULL;
-        NSString *decodeKey = ([AoEValidJudge isValidString:key] ? key : AOE_DEFAULT_KEY);
+        NSString *encodeKey = ([AoEValidJudge isValidString:key] ? key : AOE_DEFAULT_KEY);
         NSData *ivData = iv.length > 0 ? iv : [AOE_DEFAULT_IV dataUsingEncoding:NSUTF8StringEncoding];
-        NSData *dencodeData = [self aoe_encryptAES128Data:soure key:decodeKey iv:ivData];
+        NSData *encodeData = [self aoe_encryptAES128Data:soure key:encodeKey iv:ivData];
         int headerLen = getAoECryptHeader(soure.bytes, (int)soure.length, VERSION, &headerDataBytes);
-        int len = encryptAoeData(dencodeData.bytes, soure.length, headerDataBytes, &distDataBytes);
-        if (len == soure.length + headerLen) {
+        int len = encryptAoeData(encodeData.bytes, (int)encodeData.length, headerDataBytes, &distDataBytes);
+        if (len == encodeData.length + headerLen) {
             distData = [NSData dataWithBytes:distDataBytes length:len];
         }
     }

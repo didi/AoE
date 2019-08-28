@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, AoECryptoType) {
  @return 加解密后的结果
  */
 + (NSData *)aoe_encryptAES128Data:(NSData *)data key:(NSString *)key iv:(NSData *)iv;
-+ (NSData *)aoe_dencryptAES128Data:(NSData *)data key:(NSString *)key iv:(NSData *)iv;
++ (NSData *)aoe_decryptAES128Data:(NSData *)data key:(NSString *)key iv:(NSData *)iv;
 
 
 /**

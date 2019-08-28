@@ -43,8 +43,6 @@ Java_com_didi_aoe_extensions_aoes_AoeSecurity_encryptToFile(JNIEnv *env, jclass 
     return ret;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_com_didi_aoe_extensions_aoes_AoeSecurity_decrypt(JNIEnv *env, jclass type, jbyteArray src);
 
 #ifdef __cplusplus
 }
