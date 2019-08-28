@@ -226,7 +226,7 @@ class PosenetActivity :
   override fun onStart() {
     super.onStart()
     openCamera()
-    posenet = Posenet(this.context!!)
+    posenet = Posenet(this.context!!.applicationContext)
   }
 
   override fun onPause() {
@@ -501,39 +501,41 @@ class PosenetActivity :
     val widthRatio = screenWidth.toFloat() / MODEL_WIDTH
     val heightRatio = screenHeight.toFloat() / MODEL_HEIGHT
 
-    // Draw key points over the image.
-    for (keyPoint in person.keyPoints) {
-      if (keyPoint.score > minConfidence) {
-        val position = keyPoint.position
-        val adjustedX: Float = position.x.toFloat() * widthRatio
-        val adjustedY: Float = position.y.toFloat() * heightRatio
-        canvas.drawCircle(adjustedX, adjustedY, circleRadius, paint)
+    if (!person.keyPoints.isEmpty()) {
+      // Draw key points over the image.
+      for (keyPoint in person.keyPoints) {
+        if (keyPoint.score > minConfidence) {
+          val position = keyPoint.position
+          val adjustedX: Float = position.x.toFloat() * widthRatio
+          val adjustedY: Float = position.y.toFloat() * heightRatio
+          canvas.drawCircle(adjustedX, adjustedY, circleRadius, paint)
+        }
       }
-    }
 
-    for (line in bodyJoints) {
-      if (
-        (person.keyPoints[line.first.ordinal].score > minConfidence) and
-        (person.keyPoints[line.second.ordinal].score > minConfidence)
-      ) {
-        canvas.drawLine(
-          person.keyPoints[line.first.ordinal].position.x.toFloat() * widthRatio,
-          person.keyPoints[line.first.ordinal].position.y.toFloat() * heightRatio,
-          person.keyPoints[line.second.ordinal].position.x.toFloat() * widthRatio,
-          person.keyPoints[line.second.ordinal].position.y.toFloat() * heightRatio,
-          paint
-        )
+      for (line in bodyJoints) {
+        if (
+          (person.keyPoints[line.first.ordinal].score > minConfidence) and
+          (person.keyPoints[line.second.ordinal].score > minConfidence)
+        ) {
+          canvas.drawLine(
+            person.keyPoints[line.first.ordinal].position.x.toFloat() * widthRatio,
+            person.keyPoints[line.first.ordinal].position.y.toFloat() * heightRatio,
+            person.keyPoints[line.second.ordinal].position.x.toFloat() * widthRatio,
+            person.keyPoints[line.second.ordinal].position.y.toFloat() * heightRatio,
+            paint
+          )
+        }
       }
-    }
 
-    // Draw confidence score of a person.
-    val scoreMessage = "SCORE: " + "%.2f".format(person.score)
-    canvas.drawText(
-      scoreMessage,
-      (15.0f * widthRatio),
-      (243.0f * heightRatio),
-      paint
-    )
+      // Draw confidence score of a person.
+      val scoreMessage = "SCORE: " + "%.2f".format(person.score)
+      canvas.drawText(
+        scoreMessage,
+        (15.0f * widthRatio),
+        (243.0f * heightRatio),
+        paint
+      )
+    }
 
     // Draw!
     surfaceHolder!!.unlockCanvasAndPost(canvas)
@@ -551,6 +553,7 @@ class PosenetActivity :
     val person = posenet.estimateSinglePose(scaledBitmap)
     val canvas: Canvas = surfaceHolder!!.lockCanvas()
     draw(canvas, person, bitmap)
+
   }
 
   /**

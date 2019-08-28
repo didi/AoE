@@ -19,13 +19,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.SystemClock
 import android.util.Log
+import com.didi.aoe.extensions.parcel.kryo.KryoParcelImpl
+import com.didi.aoe.library.core.AoeClient
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import kotlin.math.exp
-import org.tensorflow.lite.Interpreter
 
 enum class BodyPart {
   NOSE,
@@ -64,11 +65,20 @@ class Person {
 }
 
 class Posenet(context: Context) {
-  /** An Interpreter for the TFLite model.   */
-  private var interpreter: Interpreter? = null
+  private var aoeClient: AoeClient? = null
+  private var useRemoteService : Boolean = false
 
   init {
-    interpreter = Interpreter(loadModelFile("posenet_model.tflite", context))
+    aoeClient = AoeClient(
+      context,
+      "posenet",
+      AoeClient.Options()
+        .setInterpreter(PosenetInterpreter::class.java)
+        .setParceler(KryoParcelImpl::class.java)
+        .useRemoteService(useRemoteService),
+      "posenet"
+    )
+    aoeClient!!.init()
   }
 
   /** Returns value within [0,1].   */
@@ -83,9 +93,13 @@ class Posenet(context: Context) {
     val bytesPerChannel = 4
     val inputChannels = 3
     val batchSize = 1
-    val inputBuffer = ByteBuffer.allocateDirect(
-      batchSize * bytesPerChannel * bitmap.height * bitmap.width * inputChannels
-    )
+
+    val inputBuffer =
+      if (useRemoteService)
+        ByteBuffer.allocate(batchSize * bytesPerChannel * bitmap.height * bitmap.width * inputChannels)
+      else
+        ByteBuffer.allocateDirect(batchSize * bytesPerChannel * bitmap.height * bitmap.width * inputChannels)
+
     inputBuffer.order(ByteOrder.nativeOrder())
     inputBuffer.rewind()
 
@@ -112,45 +126,6 @@ class Posenet(context: Context) {
   }
 
   /**
-   * Initializes an outputMap of 1 * x * y * z FloatArrays for the model processing to populate.
-   */
-  private fun initOutputMap(interpreter: Interpreter): HashMap<Int, Any> {
-    val outputMap = HashMap<Int, Any>()
-
-    // 1 * 17 * 17 * 17 contains heatmaps
-    val heatmapsShape = interpreter.getOutputTensor(0).shape()
-    outputMap[0] = Array(heatmapsShape[0]) {
-      Array(heatmapsShape[1]) {
-        Array(heatmapsShape[2]) { FloatArray(heatmapsShape[3]) }
-      }
-    }
-
-    // 1 * 17 * 17 * 34 contains offsets
-    val offsetsShape = interpreter.getOutputTensor(1).shape()
-    outputMap[1] = Array(offsetsShape[0]) {
-      Array(offsetsShape[1]) { Array(offsetsShape[2]) { FloatArray(offsetsShape[3]) } }
-    }
-
-    // 1 * 17 * 17 * 32 contains forward displacements
-    val displacementsFwdShape = interpreter.getOutputTensor(2).shape()
-    outputMap[2] = Array(offsetsShape[0]) {
-      Array(displacementsFwdShape[1]) {
-        Array(displacementsFwdShape[2]) { FloatArray(displacementsFwdShape[3]) }
-      }
-    }
-
-    // 1 * 17 * 17 * 32 contains backward displacements
-    val displacementsBwdShape = interpreter.getOutputTensor(3).shape()
-    outputMap[3] = Array(displacementsBwdShape[0]) {
-      Array(displacementsBwdShape[1]) {
-        Array(displacementsBwdShape[2]) { FloatArray(displacementsBwdShape[3]) }
-      }
-    }
-
-    return outputMap
-  }
-
-  /**
    * Estimates the pose for a single person.
    * args:
    *      bitmap: image bitmap of frame that should be processed
@@ -163,10 +138,16 @@ class Posenet(context: Context) {
     var t2: Long = SystemClock.elapsedRealtimeNanos()
     Log.i("posenet", String.format("Scaling to [-1,1] took %.2f ms", 1.0f * (t2 - t1) / 1_000_000))
 
-    val outputMap = initOutputMap(interpreter!!)
-
     t1 = SystemClock.elapsedRealtimeNanos()
-    interpreter!!.runForMultipleInputsOutputs(inputArray, outputMap)
+
+    var outputMap = aoeClient?.process(inputArray)
+
+    if (outputMap == null) {
+      return Person()
+    }
+
+    outputMap as Map<Int, Any>
+
     t2 = SystemClock.elapsedRealtimeNanos()
     Log.i("posenet", String.format("Interpreter took %.2f ms", 1.0f * (t2 - t1) / 1_000_000))
 

@@ -25,10 +25,6 @@ android {
         }
     }
 
-    aaptOptions {
-    noCompress "tflite"
-  }
-
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -48,8 +44,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "com.didi.aoe:library-core:1.0.0"
+    implementation "com.didi.aoe:runtime-tensorflow-lite:1.0.0"
+    implementation "com.didi.aoe:extensions-parcel-kryo:1.0.0"
 }
 repositories {
     mavenCentral()
