@@ -83,7 +83,7 @@ public class RecognizeMnnInterpreter extends MNNInterpreter<Bitmap, String> {
         for (Map.Entry<Integer, Float> entry : maybes) {
             sb.append("物体:");
             sb.append(mMobileTaiWords.get(entry.getKey()));
-            sb.append(" 自信度:");
+            sb.append(" 置信度:");
             sb.append(entry.getValue());
             sb.append("\n");
         }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class RecognizeFeartureFragment extends BaseFeartureFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         infoResult = view.findViewById(R.id.tv_result);
+        infoResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         imageView = view.findViewById(R.id.iv_sketch);
 
         Button buttonImage = view.findViewById(R.id.btn_image_pick);

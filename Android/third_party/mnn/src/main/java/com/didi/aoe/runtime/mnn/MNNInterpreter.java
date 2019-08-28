@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.SingleInterpreterComponent;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -25,7 +26,7 @@ import java.util.List;
  * @param <TOutput> 范型，业务输出数据
  * @author coleman
  */
-public abstract class MNNInterpreter<TInput, TOutput> implements AoeProcessor.InterpreterComponent<TInput, TOutput>, AoeProcessor.Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
+public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
 
     private final Logger mLogger = LoggerFactory.getLogger("MNNInterpreter");
     private MNNNetInstance mNetInstance;
@@ -33,30 +34,20 @@ public abstract class MNNInterpreter<TInput, TOutput> implements AoeProcessor.In
     protected MNNNetInstance.Session.Tensor mInputTensor;
     protected Context mAppContext;
 
-    //TODO 需要修改参数，只传入一个model option
     @Override
-    public boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions) {
+    public boolean init(@NonNull Context context, @NonNull AoeModelOption option) {
         this.mAppContext = context.getApplicationContext();
-        if (modelOptions.size() != 1) {
-            return false;
-        }
-        mLogger.debug("===11111111111111");
-        AoeModelOption option = modelOptions.get(0);
         String modelFilePath = option.getModelDir() + File.separator + option.getModelName() + ".mnn";
-        mLogger.debug("===11111111111111+modelFilePath:" + modelFilePath);
         try {
             // create net instance
             byte[] datas = read(context.getAssets().open(modelFilePath));
-            mLogger.debug("===11111111111111+buffer.remaining():" + datas.length);
             mNetInstance = MNNNetInstance.createFromBuffer(datas, datas.length);
-            mLogger.debug("===2222222222");
             // create session with config
             MNNNetInstance.Config config = new MNNNetInstance.Config();
             config.numThread = 4;// set threads
             config.forwardType = MNNForwardType.FORWARD_CPU.type;// set CPU/GPU
             mSession = mNetInstance.createSession(config);
             mInputTensor = mSession.getInput(null);
-            mLogger.debug("===333333333333333333");
             return true;
         } catch (Exception e) {
             mLogger.error(e.getMessage());
