@@ -26,6 +26,11 @@ public class FeatureContents {
                 getContext().getString(R.string.title_squeeze),
                 getContext().getString(R.string.description_squeeze),
                 R.drawable.bg_squeeze));
+        FEATURES.add(new Feature(
+                R.id.action_featuresFragment_to_recognizeFeartureFragment,
+                getContext().getString(R.string.title_recognize),
+                getContext().getString(R.string.description_recognize),
+                R.drawable.bg_squeeze));
 
     }
 

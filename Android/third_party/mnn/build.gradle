@@ -1,17 +1,24 @@
 apply plugin: 'com.android.library'
-
+apply from: '../../constants.gradle'
 android {
     compileSdkVersion 28
 
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.releaseVersionCode
+        versionName project.ext.releaseVersion
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_PLATFORM=android-21", "-DANDROID_STL=c++_shared"
+            }
+        }
+        ndk {
+            abiFilters 'armeabi-v7a','arm64-v8a'
+        }
     }
 
     buildTypes {
@@ -20,7 +27,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+        main {
+            main {
+                jniLibs.srcDirs = ['libs']
+            }
+        }
+    }
 }
 
 dependencies {
@@ -30,4 +48,17 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
+        implementation "com.didi.aoe:library-logging:$project.ext.releaseVersion"
+        implementation "com.didi.aoe:library-api:$project.ext.releaseVersion"
+    } else {
+        implementation project(':library-logging')
+        implementation project(':library-api')
+    }
 }
+ext {
+    releaseArtifact = 'runtime-mnn'
+    releaseDescription = 'The AoE MNN runtime library'
+}
+apply from: '../../publish.gradle'

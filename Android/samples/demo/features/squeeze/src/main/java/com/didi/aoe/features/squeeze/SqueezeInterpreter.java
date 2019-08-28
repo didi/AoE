@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import com.didi.aoe.features.squeeze.extension.SqueezeModelOption;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
-import com.didi.aoe.library.modeloption.loader.pojos.SqueezeModelOption;
 import com.didi.aoe.runtime.ncnn.Interpreter;
 
 import java.io.BufferedReader;
@@ -99,6 +99,7 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
         }
     }
 
+    //TODO why return false
     @Override
     public boolean isReady() {
         return false;

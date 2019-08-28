@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_featuresFragment_to_squeezeFeartureFragment"
             app:destination="@+id/squeezeFeartureFragment" />
+        <action
+            android:id="@+id/action_featuresFragment_to_recognizeFeartureFragment"
+            app:destination="@+id/recognizeFeartureFragment" />
     </fragment>
     <fragment
         android:id="@+id/mnistFeatureFragment"
@@ -29,5 +32,11 @@
         android:name="com.didi.aoe.examples.demo.features.squeeze.SqueezeFeartureFragment"
         android:label="@string/title_squeeze"
         tools:layout="@layout/fragment_squeeze" />
+
+    <fragment
+        android:id="@+id/recognizeFeartureFragment"
+        android:name="com.didi.aoe.examples.demo.features.recognize.RecognizeFeartureFragment"
+        android:label="@string/title_recognize"
+        tools:layout="@layout/fragment_recognize" />
 
 </navigation>

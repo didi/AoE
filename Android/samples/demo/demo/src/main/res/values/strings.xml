@@ -12,4 +12,6 @@
     <string name="action_image_pick">选图</string>
 
     <string name="hint_result">结果</string>
+    <string name="title_recognize">recognize</string>
+    <string name="description_recognize">MNN官方提供的图像识别示例。</string>
 </resources>

@@ -54,6 +54,7 @@ public class AoeProcessService extends Service {
         }
 
         @Override
+        //TODO 切割合并功能没有了？？？？
         public Message process(String clientId, Message input) throws RemoteException {
             ProcessorDelegate processor = mProcessorMap.get(clientId);
             if (processor != null) {

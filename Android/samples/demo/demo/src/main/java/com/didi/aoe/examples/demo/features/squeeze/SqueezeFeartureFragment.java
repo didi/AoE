@@ -20,8 +20,8 @@ import com.didi.aoe.examples.demo.R;
 import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
 import com.didi.aoe.extensions.parcel.kryo.KryoParcelImpl;
 import com.didi.aoe.features.squeeze.SqueezeInterpreter;
+import com.didi.aoe.features.squeeze.extension.SqueezeModelLoaderImpl;
 import com.didi.aoe.library.core.AoeClient;
-import com.didi.aoe.library.modeloption.loader.impl.SqueezeModelLoaderImpl;
 
 import java.io.FileNotFoundException;
 

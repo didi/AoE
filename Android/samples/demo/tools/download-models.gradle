@@ -12,6 +12,10 @@ def models = [
         // squeeze
         '../features/squeeze/src/main/assets': [
                 'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip' // squeeze
+        ],
+        // recognize
+        '../features/recognize/src/main/assets': [
+                'https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip' // recognize
         ]
 
 ]

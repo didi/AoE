@@ -8,7 +8,8 @@ import com.didi.aoe.library.api.AoeProcessor;
 import java.util.Map;
 
 /**
- * 基于TensorFlow Lite的运行时Interpreter封装，用于单输入，单输出的常见场景。
+ * 基于TensorFlow Lite的运行时Interpreter封装，用于单输入，单输出的常见场景。多路输入的场景不要继承这个类，继承
+ * 它的父类TensorFlowLiteMultipleInputsOutputsInterpreter，实现preProcessMulti和postProcessMulti即可。
  *
  * @param <TInput>       范型，业务输入数据
  * @param <TOutput>      范型，业务输出数据
@@ -20,7 +21,7 @@ public abstract class TensorFlowLiteInterpreter<TInput, TOutput, TModelInput, TM
 
     @Nullable
     @Override
-    public Object[] preProcessMulti(@NonNull TInput tInput) {
+    public final Object[] preProcessMulti(@NonNull TInput tInput) {
         Object[] inputs = new Object[1];
         inputs[0] = preProcess(tInput);
         return inputs;
@@ -28,7 +29,7 @@ public abstract class TensorFlowLiteInterpreter<TInput, TOutput, TModelInput, TM
 
     @Nullable
     @Override
-    public TOutput postProcessMulti(@Nullable Map<Integer, TModelOutput> modelOutput) {
+    public final TOutput postProcessMulti(@Nullable Map<Integer, TModelOutput> modelOutput) {
         if (modelOutput != null && !modelOutput.isEmpty()) {
             return postProcess(modelOutput.get(0));
         }

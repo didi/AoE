@@ -31,13 +31,13 @@ dependencies {
     if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
         implementation "com.didi.aoe:library-logging:$project.ext.releaseVersion"
         implementation "com.didi.aoe:library-api:$project.ext.releaseVersion"
-        api "com.didi.aoe:extensions-squeeze-model-option-loader:$project.ext.releaseVersion"
+        implementation "com.didi.aoe:library-model-option-loader:$project.ext.releaseVersion"
         api "com.didi.aoe:extensions-parcel-kryo:$project.ext.releaseVersion"
     } else {
         implementation project(':library-logging')
         implementation project(':library-api')
         implementation project(':runtime-ncnn')
-        api project(':extensions-squeeze-model-option-loader')
+        implementation project(':library-model-option-loader')
         api project(':extensions-parcel-kryo')
     }
 

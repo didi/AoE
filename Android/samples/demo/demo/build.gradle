@@ -35,6 +35,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        pickFirst 'lib/*/libc++_shared.so'
+    }
 
 }
 
@@ -57,10 +60,12 @@ dependencies {
         implementation "com.didi.aoe:library-core:$project.ext.releaseVersion"
         implementation "com.didi.aoe:features-mnist:$project.ext.releaseVersion"
         implementation "com.didi.aoe:features-squeeze:$project.ext.releaseVersion"
+        implementation "com.didi.aoe:features-recognize:$project.ext.releaseVersion"
     } else {
         implementation project(':library-core')
         implementation project(':features-mnist')
         implementation project(':features-squeeze')
+        implementation project(':features-recognize')
     }
 
 }

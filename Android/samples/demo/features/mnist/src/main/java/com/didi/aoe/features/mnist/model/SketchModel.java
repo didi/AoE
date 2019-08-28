@@ -2,6 +2,7 @@ package com.didi.aoe.features.mnist.model;
 
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,6 +84,21 @@ public class SketchModel implements Serializable {
         return retPixels;
     }
 
+    public int[] getPixelIntData() {
+        if (mSketchBitmap == null) {
+            return null;
+        }
+
+        int width = mSketchBitmap.getWidth();
+        int height = mSketchBitmap.getHeight();
+
+        // Get 28x28 pixel data from bitmap
+        int[] pixels = new int[width * height];
+        mSketchBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        return pixels;
+    }
+
     public Bitmap createBitmap() {
         if (mSketchBitmap != null) {
             mSketchBitmap.recycle();
@@ -99,6 +115,7 @@ public class SketchModel implements Serializable {
     }
 
     public Bitmap getBitmap() {
+        Log.d("SketchModel","===mSketchBitmap:"+mSketchBitmap);
         return mSketchBitmap;
     }
 

@@ -80,3 +80,8 @@ captures/
 *.tflite
 *.config
 *.param
+
+#assets
+
+Android/samples/demo/features/recognize/src/main/assets/
+Android/samples/demo/features/mnist/src/main/assets/

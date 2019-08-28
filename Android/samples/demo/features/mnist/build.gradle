@@ -34,10 +34,12 @@ dependencies {
         implementation "com.didi.aoe:library-logging:$project.ext.releaseVersion"
         implementation "com.didi.aoe:library-api:$project.ext.releaseVersion"
         api "com.didi.aoe:runtime-tensorflow-lite:$project.ext.releaseVersion"
+        //TODO runtime-mnn need add publish ability
     } else {
         implementation project(':library-logging')
         implementation project(':library-api')
         api project(':runtime-tensorflow-lite')
+        api project(':runtime-mnn')
     }
 }
 
