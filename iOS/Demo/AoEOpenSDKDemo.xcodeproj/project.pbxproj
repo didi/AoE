@@ -317,7 +317,10 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
-				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
@@ -381,7 +384,10 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
-				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

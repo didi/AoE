@@ -48,7 +48,7 @@ Pod::Spec.new do |s|
     ss.source_files = "squeeze/Classes/**/*"
     ss.public_header_files = "squeeze/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    ss.vendored_frameworks = "squeeze/Frameworks/ncnn.framework","squeeze/Frameworks/openmp.framework"
+    # ss.vendored_frameworks = "squeeze/Frameworks/ncnn.framework","squeeze/Frameworks/openmp.framework"
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {
