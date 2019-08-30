@@ -10,12 +10,17 @@ target 'AoEOpenSDKDemo' do
     'Loader',
     'Crypto',
   ], :inhibit_warnings => false
+  
+  pod 'AoERuntime', :path => "../AoERuntime/AoERuntime.podspec",:subspecs => [
+  'NCNN',
+  'TensorFlowLite',
+  ], :inhibit_warnings => false
+  
   pod 'AoEBiz', :path => "../AoEBiz/AoEBiz.podspec",:subspecs => [
   'mnist',
   'Core',
-  'squeeze'
+  #'squeeze'
   ], :inhibit_warnings => false
-  pod 'TensorFlowLiteObjC', :inhibit_warnings => false
   pod 'DoraemonKit/Core','~> 1.2.0', :inhibit_warnings => false
     target 'AoEOpenSDKDemoTests' do
 

@@ -102,8 +102,8 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@" %@ data is valid",configPath]];
         return nil;
     }
-    
-    NSDictionary *config = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    NSError *error = nil;
+    NSDictionary *config = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     NSString *modelName = config[@"modelName"];
     if (!modelName) {
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@" %@ data not have model name",configPath]];
