@@ -21,21 +21,7 @@ Why do you want to make a terminal AI integrated runtime framework? There are tw
 * **Frame diversity**, with the rapid development of artificial intelligence technology, in the past two years, there have been many inference frameworks running on the terminal, which on the one hand gives developers more choices, on the other hand, it also increases the AI. The cost of deploying to the terminal.
 * **The process is cumbersome**. The process of directly accessing AI through the reasoning framework is cumbersome, involving dynamic library access, resource loading, pre-processing, post-processing, resource release, model upgrade, and how to ensure stability.
 
-### 2. Overview of terminal reasoning framework
-
-| Sequence Number | Name | Developer | Open Source Time (Year) | Description |
-|:-:|:-:|:-:|:-:|:-|
-|1|TensorFlow Lite|Google|2017|TensorFlow Lite uses the Android Neural Networks API, which calls the CPU by default. The latest version already supports GPU. |
-|2|Core ML|Apple|2017|Core ML is a mobile machine learning framework released by Apple in WWDC and iOS11 in 2017. The underlying uses Accelerate and Metal to call CPU and GPU respectively. Core ML needs to convert your trained model into Core ML model|
-|3|Caffe2|Facebook|2017|Caffe2 is a cross-platform framework that Facebook released in 2017. It not only supports Windows, Linux, Macos, but also supports mobile iOS, Android, and can be said to be training and Reasoning in one. |
-|4|NCNN|Tencent|2017|NCNN is the open source mobile framework of Tencent U-Map Lab in 2017. It is implemented in C++ and supports both Android and iOS platforms. |
-|5|Paddle-Mobile|Baidu|2017|Paddle-Mobile is a mobile-derived deep learning open source framework under the Baidu PaddlePaddle organization in 2017, called mobile-deep-learning (MDL). Support for Android and iOS platforms, CPU and GPU usage, providing quantitative tools. |
-|6|QNNPACK|Facebook|2018|QNNPACK is the int8 quantization low-precision high-performance open source framework released by Facebook in 2018. The full name of Quantized Neural Network PACKage, which is used for the acceleration of mobile-side neural network computing, has been integrated into PyTorch 1.0. It can be used directly in Caffe2. |
-|7|MACE|Xiaomi|2018|MACE is 2018 Xiaomi announced in the open source China Open Source World Summit Forum open source mobile framework, with OpenCL and assembly as the underlying operator, providing heterogeneous acceleration can be convenient on different hardware Run the model while supporting model transformations for various frameworks. |
-|8|MNN|Alibaba|2019|MNN is the open-end mobile framework of Ali in 2019. It does not rely on third-party computing libraries, uses assembly to implement core operations, supports mainstream model file formats such as Tensorflow, Caffe, ONNX, and supports CNN and RNN. , GAN and other common networks. |
-
-
-### 3. How AoE supports various reasoning frameworks
+### 2. How AoE supports various reasoning frameworks
 In essence, no matter what reasoning framework, it is indispensable to include the following five processes. Abstracting these reasoning processes is the basis for AoE to support various inference frameworks. At present, AoE implements the support of two inference frameworks, NCNN and TensorFlow Lite. The following two reasoning frameworks are used as examples to illustrate the form of the five inference processes in their respective reasoning frameworks.
 
 
@@ -290,6 +276,10 @@ if (mClient != null) {
 - [Android Demo](./Android/samples/demo)
 - [iOS Demo](./iOS/Demo)
 - [More examples](./Catalog.md)
+
+| MNIST | SqueezeNet |
+|---|---|
+|  ![MNIST](./images/mnist_android.jpeg) |![Squeeze](./images/squeeze_android.jpeg)|
 
 ## V. Q&A
 

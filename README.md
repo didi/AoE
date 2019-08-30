@@ -1,5 +1,5 @@
 <div align="middle">
-    <img alt="AoE Logo" src="./images/aoe_logo_01.png" width="320" align="middle">
+    <img alt="AoE Logo" src="./images/aoe_logo_01.png" width="300" align="middle">
 </div>
 
 [![Build Status](https://travis-ci.org/didi/AoE.svg?branch=master)](https://travis-ci.org/didi/AoE)
@@ -21,22 +21,8 @@
 * **框架多样性**，随着人工智能技术快速发展，这两年涌现出了许多运行在终端的推理框架，一方面给开发者带来更多选择，另外一方面也增加了将 AI 布署到终端的成本。
 * **流程繁琐**，通过推理框架直接接入 AI 的流程比较繁琐，涉及到动态库接入、资源加载、前处理、后处理、资源释放、模型升级，以及如何保障稳定性等问题。
 
-### 2. 终端推理框架一览
-
-|序号|名称|开发者|开源时间(年)|描述|
-|:-:|:-:|:-:|:-:|:-|
-|1|TensorFlow Lite|Google|2017|TensorFlow Lite使用Android Neural Networks API，默认调用CPU，目前最新的版本已经支持GPU。|
-|2|Core ML|Apple|2017|Core ML是2017年Apple公司在WWDC上与iOS11同时发布的移动端机器学习框架，底层使用Accelerate和Metal分别调用CPU和GPU。Core ML需要将你训练好的模型转化为Core ML model|
-|3|Caffe2|Facebook|2017|Caffe2是facebook在2017年发布的一个跨平台的框架，不仅仅支持Windows，Linux，Macos三大桌面系统，也支持移动端iOS，Android，可以说是集训练和推理于一身。|
-|4|NCNN|腾讯|2017|NCNN是2017年腾讯优图实验室开源的移动端框架，使用C++ 实现，支持Android和iOS两大平台。|
-|5|Paddle-Mobile|百度|2017|Paddle-Mobile是2017年百度PaddlePaddle组织下的移动端深度学习开源框架，当时叫做mobile-deep-learning(MDL)。支持安卓和iOS平台，CPU和GPU使用，提供量化工具。|
-|6|QNNPACK|Facebook|2018|QNNPACK是Facebook在2018年发布的int8量化低精度高性能开源框架，全称Quantized Neural Network PACKage，用于手机端神经网络计算的加速，已经被整合到PyTorch 1.0中，在Caffe2里就能直接使用。|
-|7|MACE|小米|2018|MACE是2018年小米在开源中国开源世界高峰论坛中宣布开源的移动端框架，以OpenCL和汇编作为底层算子，提供了异构加速可以方便在不同的硬件上运行模型，同时支持各种框架的模型转换。|
-|8|MNN|阿里巴巴|2019|MNN是2019年阿里开源的移动端框架，不依赖第三方计算库，使用汇编实现核心运算，支持Tensorflow、Caffe、ONNX等主流模型文件格式，支持CNN、RNN、GAN等常用网络。|
-
-
-### 3. AoE如何支持各种推理框架
-从本质上来说，无论是什么推理框架，它都不可少的包含下面 5 个处理过程，对这些推理过程进行抽象，是 AoE 支持各种推理框架的基础。目前，AoE 实现了两种推理框架 NCNN 和 TensorFlow Lite 的支持，如下以这两种推理框架为例，说明一下 5 个推理过程在各自推理框架里的形式。
+### 2. AoE如何支持各种推理框架
+从本质上来说，无论是什么推理框架，都包含下面 5 个处理过程，对这些推理过程进行抽象，是 AoE 支持各种推理框架的基础。如下以 NCNN 和 TensorFlow Lite 这两种推理框架为例，说明一下 5 个推理过程在各自推理框架里的形式。
 
 <table border="1">
   <tr>
@@ -179,11 +165,11 @@ interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
 
 
 ## 2. 稳定性保障
-众所周知，android平台开发一个重要的问题是机型适配，尤其是包含大量native操作的场景，机型适配的问题尤其重要，一旦应用在某款机型上面崩溃，造成的体验损害是巨大的。有数据表明，因为性能问题，移动App每天流失的活跃用户占比5%，这些流失的用户，6成的用户选择了沉默，不再使用应用，3成用户改投竞品，剩下的用户会直接卸载应用。因此，对于一个用户群庞大的移动应用来说，保证任何时候App主流程的可用性是一件最基本、最重要的事件。结合 AI 推理过程来看，不可避免地，会有大量的操作发生在Native过程中，不仅仅是推理操作，还有一些前处理和资源回收的操作也比较容易出现兼容问题。为此，AoE 运行时环境 SDK 为 Android 平台上开发了独立进程的机制，让native操作运行在独立进程中，同时保证了推理的稳定性和主进程的稳定性，即偶然性的崩溃不会影响后续的推理操作，且主进程任何时候不会崩溃。具体实现过程主要有三个部分：
+众所周知，Android平台开发一个重要的问题是机型适配，尤其是包含大量 Native 操作的场景，机型适配的问题尤其重要，一旦应用在某款机型上面崩溃，造成的体验损害是巨大的。有数据表明，因为性能问题，移动App每天流失的活跃用户占比5%，这些流失的用户，6 成的用户选择了沉默，不再使用应用，3 成用户改投竞品，剩下的用户会直接卸载应用。因此，对于一个用户群庞大的移动应用来说，保证任何时候 App 主流程的可用性是一件最基本、最重要的事件。结合 AI 推理过程来看，不可避免地，会有大量的操作发生在Native过程中，不仅仅是推理操作，还有一些前处理和资源回收的操作也比较容易出现兼容问题。为此，AoE 运行时环境 SDK 为 Android 平台上开发了独立进程的机制，让 Native 操作运行在独立进程中，同时保证了推理的稳定性和主进程的稳定性，即偶然性的崩溃不会影响后续的推理操作，且主进程任何时候不会崩溃。具体实现过程主要有三个部分：
 
 *2.1 注册独立进程*
 
-这个比较简单，在manifest中增加一个remote service组件，代码如下：
+这个比较简单，在 Manifest 中增加一个 RemoteService 组件，代码如下：
 ```
 <application>
     <service
@@ -196,7 +182,7 @@ interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
 
 *2.2 异常重新绑定独立进程*
 
-在推理时，如果发现RemoteService终止了，执行“bindService()”方法，重新启动RemoteService。
+在推理时，如果发现 RemoteService 终止了，执行 “bindService()” 方法，重新启动 RemoteService 。
 ```
 @Override
 public Object run(@NonNull Object input) {
@@ -211,14 +197,12 @@ public Object run(@NonNull Object input) {
 
 *2.3 跨进程通信优化*
 
-因为独立进程，必然涉及到跨进程通信，在跨进程通信里最大的问题是耗时损失，这里，有两个因素造成了耗时损失，一是传输耗时，二是序列化/反序列化耗时。相比较使用Binder机制的传输耗时，序列化/反序列化占了整个通信耗时的90%以上。由此可见，对序列化/反序列化的优化是跨进程通信优化的重点。对比了当下主流的序列化/反序列化工具，最终AoE集成运行环境使用了Kryo库进行序列化/反序列，以下是对比结果（数据来源：https://www.oschina.net/question/2306979_238282）。
-
-![kryo performance](https://static.oschina.net/uploads/space/2015/0602/113016_gK3v_2306979.png)
+因为独立进程，必然涉及到跨进程通信，在跨进程通信里最大的问题是耗时损失，这里，有两个因素造成了耗时损失，一是传输耗时，二是序列化/反序列化耗时。相比较使用Binder机制的传输耗时，序列化/反序列化占了整个通信耗时的 90% 以上。由此可见，对序列化/反序列化的优化是跨进程通信优化的重点。对比了当下主流的序列化/反序列化工具，最终AoE集成运行环境使用了 Kryo 库进行序列化/反序列，性能对比结果可参考：https://www.oschina.net/question/2306979_238282 。
 
 ## 三、MNIST集成示例
 *1. 对TensorFlowLiteInterpreter的继承*
 
-当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的InterpreterComponent实现，完成具体的业务流程。MNIST是运行在TF Lite框架上的模型，因此，我们继承AoE的TFLite的Interpreter实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据，初始化、推理执行和资源回收沿用TensorFlowLiteInterpreter的默认实现。
+当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的 InterpreterComponent 实现，完成具体的业务流程。MNIST 是运行在 TF Lite 框架上的模型，因此，我们继承 AoE 的 TFLite Interpreter 实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据，初始化、推理执行和资源回收沿用 TensorFlowLiteInterpreter 的默认实现。
 ```
 public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer, float[], float[][]> {
  
@@ -281,11 +265,15 @@ if (mClient != null) {
 - [iOS Demo](./iOS/Demo)
 - [更多应用案例](./Catalog.md)
 
+| MNIST 手写数字识别 | SqueezeNet 物体识别 |
+|---|---|
+|  ![MNIST](./images/mnist_android.jpeg) |![Squeeze](./images/squeeze_android.jpeg)|
+
 ## 五、Q&A
 
 * `欢迎直接提交 issues 和 PRs`
 
-* QQ群号：815254379
+* QQ群号： 815254379
 
     <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196">
 
