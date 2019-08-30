@@ -1,12 +1,15 @@
 #!/bin/sh
 # 本脚本主要用于在安装时下载模型。
-MNIST_MODEL_FILE=dXvj4yfARd1565012051436.zip
+MNIST_MODEL_FILE=TYLYFTvdPS1567158442012.zip
 FILE_MNIST=mnist
 
-SQUEEZE_MODEL_FILE=fm2gKZ37I11565012061785.zip
+SQUEEZE_MODEL_FILE=4rlTEAQDGG1567159711122.zip
 FILE_SQUEEZE=squeeze
 
-STATIC_DIDI_URL=https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57
+SQUEEZE_MNN_MODEL_FILE=BOv5VTAXSD1567158441052.zip
+FILE_SQUEEZE_MNN=squeeze_mnn
+
+STATIC_DIDI_URL=https://img0.didiglobal.com/static/starfile/node20190830/895f1e95e30aba5dd56d6f2ccf768b57
 
 function pull_models() {
     rm -rf ${2}
@@ -19,15 +22,15 @@ function pull_models() {
     	exit 1
     fi
 
-    unzip -o ${3}
+    unzip -o ${3} -d ${2}
     rm -f ${3}
 }
 
-mkdir -p mnist/Models/
-mkdir -p squeeze/Models/
+mkdir -p ${FILE_MNIST}/Models/
+mkdir -p ${FILE_SQUEEZE}/Models/
 
-cd mnist/Models/
+cd ${FILE_MNIST}/Models/
 pull_models ${STATIC_DIDI_URL}/$MNIST_MODEL_FILE ${FILE_MNIST} ${MNIST_MODEL_FILE}
 
-cd ../../squeeze/Models/
+cd ../../${FILE_SQUEEZE}/Models/
 pull_models ${STATIC_DIDI_URL}/${SQUEEZE_MODEL_FILE} ${FILE_SQUEEZE} ${SQUEEZE_MODEL_FILE}
