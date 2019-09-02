@@ -12,8 +12,17 @@
 
 - (BOOL)isReady;
 
-- (id)run:(id)input;
+- (NSArray <id> *)run:(NSArray <id> *)input;
 
 @optional
 -(id<AoELoggerComponentProtocol>)loggerComponent;
 @end
+
+@protocol AEFrameworkAdapterTensorProtocol <NSObject>
+
+@property (nonatomic , assign) NSInteger index;
+@property (nonatomic ,strong) NSValue *tensorData;
+
+//@property (nonatomic ,strong) NSArray *sharps;
+@end
+
