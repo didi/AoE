@@ -46,19 +46,20 @@
     if ([self isReady]) {
         NSError *error = nil;
         NSData *inputData = [self preProccessInput:input];
-        NSData *outData = nil;
+        NSArray *outDatas = nil;
         if (self.adapter &&
             [self.adapter respondsToSelector:@selector(run:)]) {
-            outData = [self.adapter run:inputData];
+            outDatas = [self.adapter run:inputData];
         }
         
-        if (!outData) {
+        if (!outDatas ||
+            outDatas.count < 1) {
             [[self loggerComponent] errorLog:[NSString stringWithFormat:@"get outData \
                                               error message  %@",
                                               error.localizedDescription]];
             return nil;
         }
-        return [self preProccessOutput:outData];
+        return [self preProccessOutput:outDatas.firstObject];
     }
     [[self loggerComponent] errorLog:[NSString stringWithFormat:@"TFLInterpreter instance is not ready"]];
     return nil;
