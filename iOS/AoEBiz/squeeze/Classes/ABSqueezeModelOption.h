@@ -10,5 +10,5 @@
 @interface ABSqueezeModelOption : AoEModelOption
 
 @property (nonatomic ,strong) NSString *modelFileName;
-
+@property (nonatomic ,strong) NSString *modelParamFileName;
 @end

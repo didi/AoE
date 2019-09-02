@@ -13,6 +13,7 @@
     self = [super initWithDictionary:opt];
     if (self) {
         self.modelFileName = opt[@"modelFileName"];
+        self.modelParamFileName = opt[@"modelParamFileName"];
     }
     return self;
 }
