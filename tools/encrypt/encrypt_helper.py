@@ -4,8 +4,6 @@ import os
 
 from Crypto.Cipher import AES
 
-from util.binary_stream import BinaryStream
-
 AES_SECRET_KEY = '0000000000000000'  # 此处16|24|32个字符
 IV = "0101010101010101"
 
@@ -25,13 +23,12 @@ class AesEncrypt(object):
         cryptor = AES.new(self.key.encode("utf8"), self.mode, IV.encode("utf8"))
         fo = open(source_file, "rb")
         file_size = os.path.getsize(source_file)
-        read_stream = BinaryStream(fo)
         fw = open(encrypt_file, "wb")
 
         # aes encode
         file_size = os.path.getsize(source_file)
         print("source file size:", file_size)
-        source_file_bytes = pad_bytes(read_stream.readBytes(file_size))
+        source_file_bytes = pad_bytes(fo.read(file_size))
         source_cipher_text = cryptor.encrypt(source_file_bytes)
 
         # md5 source file
@@ -63,26 +60,25 @@ class AesEncrypt(object):
         fo = open(source_file, "rb")
         file_size = os.path.getsize(source_file)
         left_size = file_size
-        stream = BinaryStream(fo)
 
-        b1 = stream.readByte()
+        b1 = fo.read(1)
         version = int.from_bytes(b1, byteorder='big', signed=False)
 
         left_size -= 1
         if version > 1:
             raise Exception("model version is too high: ", version)
 
-        fsize_bytes = stream.readBytes(4)
+        fsize_bytes = fo.read(4)
         orgFileSize = int.from_bytes(fsize_bytes, byteorder="big", signed=False)
         left_size -= 4
 
         fw = open(decrypt_file, "wb")
 
-        md5 = stream.readBytes(16)
+        md5 = fo.read(16)
         left_size -= 16
 
         len = left_size if left_size < 1024 * 16 else 1024 * 16
-        b = stream.readBytes(len)
+        b = fo.read(len)
         left_size -= len
         mixCount = int(len / 1024)
         listb = bytearray(b)
@@ -92,7 +88,7 @@ class AesEncrypt(object):
             listb[idx * 1024] = listmd5[idx]
             listmd5[idx] = tmp
 
-        rest = stream.readBytes(left_size)
+        rest = fo.read(left_size)
         allbytes = listb + rest
         plain_text = cryptor.decrypt(bytes(allbytes))
         unpad_text = plain_text[0:orgFileSize]
