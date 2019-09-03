@@ -85,3 +85,7 @@ captures/
 
 Android/samples/demo/features/recognize/src/main/assets/
 Android/samples/demo/features/mnist/src/main/assets/
+
+# for tools
+tools/encrypt/logo.png.aoe
+tools/encrypt/logo.png.aoe.decrypt.png
