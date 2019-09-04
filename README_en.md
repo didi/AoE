@@ -279,7 +279,7 @@ if (mClient != null) {
 
 | MNIST | SqueezeNet |
 |---|---|
-|  ![MNIST](./images/mnist_android.jpeg) |![Squeeze](./images/squeeze_android.jpeg)|
+|  <img alt="MNIST" src="./images/mnist_android.jpeg" width="196"> |<img alt="Squeeze" src="./images/squeeze_android.jpeg" width="196">|
 
 ## V. Q&A
 
