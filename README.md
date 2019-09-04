@@ -94,7 +94,7 @@
 </table>
 
 
-### 4. AoE支持哪些平台
+### 3. AoE支持哪些平台
 目前，AoE 提供了 Android 和 iOS 的实现，Linux 平台运行时环境 SDK 正在紧锣密鼓地开发中，预计在 9 月底发布，方便智能终端设备上落地 AI 业务。
 
 ## 二、工作原理
@@ -267,15 +267,17 @@ if (mClient != null) {
 
 | MNIST 手写数字识别 | SqueezeNet 物体识别 |
 |---|---|
-|  ![MNIST](./images/mnist_android.jpeg) |![Squeeze](./images/squeeze_android.jpeg)|
+|  <img alt="MNIST" src="./images/mnist_android.jpeg" width="196"> |<img alt="Squeeze" src="./images/squeeze_android.jpeg" width="196">|
 
 ## 五、Q&A
 
-* `欢迎直接提交 issues 和 PRs`
+* `欢迎直接提交 issues 和 PRs`  [>>>🔥PR激励活动进行中～](https://github.com/didi/AoE/issues/14)
 
-* QQ群号： 815254379
 
-    <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196">
+| QQ群号： 815254379 | 微信群：9月11号前有效  |
+|---|---|
+|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="AoE 微信交流群" src="https://img0.didiglobal.com/static/gstar/img/6ZXCACEkaj1567569250951.png" width="196">|
+    
 
 
 ## 六、项目成员

@@ -14,7 +14,7 @@
 #define CC_MD5_DIGEST_LENGTH    16          /* digest length in bytes */
 #define VERSION 1
 #define AOE_DEFAULT_KEY @"0000000000000000"
-#define AOE_DEFAULT_IV @"0000000000000000"
+#define AOE_DEFAULT_IV @"0101010101010101"
 
 @implementation AoECryptoUtil
 

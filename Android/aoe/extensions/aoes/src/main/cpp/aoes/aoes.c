@@ -10,7 +10,7 @@ const int AOE_HEAD_SIZE = 21;
 
 #define VERSION 1
 #define AOE_KEY_VERSION1 "0000000000000000"
-#define AOE_IV "0000000000000000"
+#define AOE_IV "0101010101010101"
 
 int decryptAoeFile_cbc(const char *srcFile, const char *dstFile, const char *key, const char *iv) {
     if (NULL == srcFile || NULL == dstFile || NULL == key || NULL == iv) {
