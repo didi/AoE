@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
+import getopt
 import hashlib
 import os
+import sys
 
 from Crypto.Cipher import AES
 
@@ -27,7 +31,7 @@ class AesEncrypt(object):
 
         # aes encode
         file_size = os.path.getsize(source_file)
-        print("source file size:", file_size)
+        # print("source file size:", file_size)
         source_file_bytes = pad_bytes(fo.read(file_size))
         source_cipher_text = cryptor.encrypt(source_file_bytes)
 
@@ -35,7 +39,7 @@ class AesEncrypt(object):
         md5_tool = hashlib.md5()
         md5_tool.update(source_file_bytes)
         source_file_md5 = md5_tool.hexdigest()[8:-8]
-        print("source file md5 16:", source_file_md5)
+        # print("source file md5 16:", source_file_md5)
 
         # exchange 16 bytes
         len_source_cipher_bytes = len(source_cipher_text)
@@ -97,10 +101,78 @@ class AesEncrypt(object):
         fo.close()
 
 
+def usage():
+    print("Help document!")
+    print("Samples:")
+    print("1. encrypt logo.png to logo.png.aoe")
+    print("  ./encrypt_helper.py -e -f logo.png -t logo.png.aoe")
+    print("2. decrypt logo.png.aoe to logo.png.aoe.png")
+    print("  ./encrypt_helper.py -d -f logo.png.aoe -t logo.png.aoe.png")
+    print("Options:")
+    print("  -h, --help,", "show help document.")
+    print("  -e, --encrypt,", "encrypt file mode.")
+    print("  -d, --decrypt,", "decrypt file mode.")
+    print("  -f <path>, --from <path>,", "specify the file path to encrypt/decrypt.")
+    print("  -t <path>, --to <path>,", "specify the file path after encrypt/decrypt.")
+    pass
+
+
+def args_analysis():
+    from_file = ""
+    to_file = ""
+    encrypt_mode = False
+    decrypt_mode = False
+    try:
+        options, args = getopt.getopt(sys.argv[1:], "edhf:t:",
+                                      ["help", "mode=", "from=", "to=", "encrypt=", "decrypt="])
+    except getopt.GetoptError:
+        print("Error: Input arguments is not support, please see the help document by \"./encrypt_helper.py -h\"")
+        sys.exit()
+    if options.__len__() == 0:
+        print("Error: No arguments found, please see the help document by \"./encrypt_helper.py -h\"")
+        sys.exit()
+    for name, value in options:
+        if name in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif name in ("-f", "--from"):
+            if from_file:
+                print("Error: from file is not empty: ", from_file)
+                sys.exit()
+            from_file = value
+        elif name in ("-t", "--to"):
+            if to_file:
+                print("Error: to file is not empty:", to_file)
+                sys.exit()
+            to_file = value
+        elif name in ("-e", "--encrypt"):
+            encrypt_mode = True
+        elif name in ("-d", "--decrypt"):
+            decrypt_mode = True
+        else:
+            print("Error: Input arguments is not support, please see the help document by \"./encrypt_helper.py -h\"")
+            sys.exit()
+    if encrypt_mode and decrypt_mode:
+        print("Error: encrypt and decrypt can not be set the same time.")
+        sys.exit()
+    if not encrypt_mode and not decrypt_mode:
+        print("Error: no encrypt/decrypt mode to be set.")
+        sys.exit()
+    if not from_file or not to_file:
+        print("Error: from file and to file must to be set the same time")
+        sys.exit()
+    if encrypt_mode:
+        aes_encrypt.encrypt_file(from_file, to_file)
+    elif decrypt_mode:
+        aes_encrypt.decrypt_file(from_file, to_file)
+    print("Success:", "encrypt" if encrypt_mode else "decrypt", "file", from_file, "to file", to_file)
+
+
 if __name__ == '__main__':
     aes_encrypt = AesEncrypt()
-    aes_encrypt.encrypt_file("logo.png",
-                             "logo.png.aoe")
-
-    aes_encrypt.decrypt_file("logo.png.aoe",
-                             "logo.png.aoe.decrypt.png")
+    # aes_encrypt.encrypt_file("logo.png",
+    #                          "logo.png.aoe")
+    #
+    # aes_encrypt.decrypt_file("logo.png.aoe",
+    #                          "logo.png.aoe.decrypt.png")
+    args_analysis()
