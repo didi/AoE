@@ -18,10 +18,13 @@ extern "C" {
 
 JNIEXPORT jbyteArray JNICALL
 Java_com_didi_aoe_extensions_vision_AoeVision_NV21ToARGB(JNIEnv *env, jclass clazz,
-                                                         jbyteArray nv21_src, jint src_width,
-                                                         jint src_height, jint degree, jint crop_x,
-                                                         jint crop_y, jint out_width,
-                                                         jint out_height);
+                                                         jbyteArray nv21_src,
+                                                         jint src_width, jint src_height,
+                                                         jint degree,
+                                                         jint crop_x, jint crop_y,
+                                                         jint crop_width, jint crop_height,
+                                                         jint out_width, jint out_height);
+
 
 #ifdef __cplusplus
 }
