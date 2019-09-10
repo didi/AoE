@@ -21,6 +21,7 @@
 * **框架多样性**，随着人工智能技术快速发展，这两年涌现出了许多运行在终端的推理框架，一方面给开发者带来更多选择，另外一方面也增加了将 AI 布署到终端的成本。
 * **流程繁琐**，通过推理框架直接接入 AI 的流程比较繁琐，涉及到动态库接入、资源加载、前处理、后处理、资源释放、模型升级，以及如何保障稳定性等问题。
 
+<<<<<<< Updated upstream
 ### 2. AoE如何支持各种推理框架
 无论是什么推理框架，都包含下面 5 个处理过程，对这些推理过程进行抽象，是 AoE 支持各种推理框架的基础。如下以 NCNN 和 TensorFlow Lite 这两种推理框架为例，说明一下 5 个推理过程在各自推理框架里的形式。
 
@@ -167,6 +168,12 @@ if (mClient != null) {
 ```
 
 ## 四、使用文档&示例
+=======
+### 2. AoE支持哪些平台
+目前，AoE 提供了 Android 和 iOS 的实现，Linux 平台运行时环境 SDK 正在紧锣密鼓地开发中，预计在 9 月底发布，方便智能终端设备上落地 AI 业务。
+
+## 二、使用文档&示例
+>>>>>>> Stashed changes
 - [Android用户指南](./Android/README.md)
 - [iOS用户指南](./iOS/README.md)
 - [Android Demo](./Android/samples/demo)
@@ -177,7 +184,7 @@ if (mClient != null) {
 |---|---|
 |  <img alt="MNIST" src="./images/mnist_android.jpeg" width="196"> |<img alt="Squeeze" src="./images/squeeze_android.jpeg" width="196">|
 
-## 五、Q&A
+## 三、Q&A
 
 * `欢迎直接提交 issues 和 PRs`  [>>>🔥PR激励活动进行中～](https://github.com/didi/AoE/issues/14)
 
@@ -188,7 +195,7 @@ if (mClient != null) {
     
 
 
-## 六、项目成员
+## 四、项目成员
 ### 核心成员
 
 [kuloud](https://github.com/Kuloud)、
@@ -197,6 +204,6 @@ if (mClient != null) {
 [yangke1120](https://github.com/yangke1120) 、
 [tangjiaxu](https://github.com/shupiankuaile) 
 
-## 七、友情链接
+## 五、友情链接
 我们部门的另外一款开源作品 [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
 
