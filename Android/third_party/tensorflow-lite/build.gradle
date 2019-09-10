@@ -38,8 +38,7 @@ dependencies {
         implementation project(':library-api')
     }
 
-    implementation 'org.tensorflow:tensorflow-lite:1.13.1'
-
+    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
 
 }
 

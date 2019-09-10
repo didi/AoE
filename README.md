@@ -16,13 +16,13 @@
 ### 1. AoE 是什么?
 **AoE** (AI on Edge，终端智能，边缘计算) 是一个滴滴开源的 **终端侧 AI 集成运行时环境 ( IRE )**。以 **“稳定性、易用性、安全性”** 为设计原则，帮助开发者将不同框架的深度学习算法轻松部署到终端高效执行。
 
-为什么要做一个终端 AI 集成运行时框架？原因有两个：
+为什么要做一个终端 AI 集成运行时框架：
 
 * **框架多样性**，随着人工智能技术快速发展，这两年涌现出了许多运行在终端的推理框架，一方面给开发者带来更多选择，另外一方面也增加了将 AI 布署到终端的成本。
 * **流程繁琐**，通过推理框架直接接入 AI 的流程比较繁琐，涉及到动态库接入、资源加载、前处理、后处理、资源释放、模型升级，以及如何保障稳定性等问题。
 
 ### 2. AoE如何支持各种推理框架
-从本质上来说，无论是什么推理框架，都包含下面 5 个处理过程，对这些推理过程进行抽象，是 AoE 支持各种推理框架的基础。如下以 NCNN 和 TensorFlow Lite 这两种推理框架为例，说明一下 5 个推理过程在各自推理框架里的形式。
+无论是什么推理框架，都包含下面 5 个处理过程，对这些推理过程进行抽象，是 AoE 支持各种推理框架的基础。如下以 NCNN 和 TensorFlow Lite 这两种推理框架为例，说明一下 5 个推理过程在各自推理框架里的形式。
 
 <table border="1">
   <tr>
@@ -99,110 +99,18 @@
 
 ## 二、工作原理
 ### 1. 抽象推理框架的处理过程
-前面已经介绍了，其实每个推理框架都必然包含推理过程所必须的 5 个过程，它们分别是初始化、前处理、执行推理、后处理、释放资源。对 AoE 集成运行环境来说，最基本的便是抽象推理框架的这 5 个处理过程，通过依赖倒置的设计，使得业务只依赖AoE的上层抽象，而不用关心具体推理框架的接入实现。这种设计带来的最大的好处是开发者随时可以添加新的推理框架，而不用修改以前业务接入的代码，做到了业务开发和AoE SDK开发完全解耦。
-
-在 AoE SDK 中这一个抽象是 InterpreterComponent（用来处理模型的初始化、执行推理和释放资源）和 Convertor（用来处理模型输入的前处理和模型输出的后处理），InterpreterComponent具体接口如下：
-```
-/**
- * 模型翻译组件
- */
-interface InterpreterComponent<TInput, TOutput> extends Component {
-    /**
-     * 初始化，推理框架加载模型资源
-     *
-     * @param context      上下文，用与服务绑定
-     * @param modelOptions 模型配置列表
-     * @return 推理框架加载
-     */
-    boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions);
- 
-    /**
-     * 执行推理操作
-     *
-     * @param input 业务输入数据
-     * @return 业务输出数据
-     */
-    @Nullable
-    TOutput run(@NonNull TInput input);
- 
-    /**
-     * 释放资源
-     */
-    void release();
- 
-    /**
-     * 模型是否正确加载完成
-     *
-     * @return true，模型正确加载
-     */
-    boolean isReady();
-}
-```
-
-Convertor 的具体接口如下：
-
-```
-interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
-    /**
-     * 数据预处理，将输入数据转换成模型输入数据
-     *
-     * @param input 业务输入数据
-     * @return 模型输入数据
-     */
-    @Nullable
-    TModelInput preProcess(@NonNull TInput input);
- 
-    /**
-     * 数据后处理，将模型输出数据转换成业务输出数据
-     *
-     * @param modelOutput 模型输出数据
-     * @return
-     */
-    @Nullable
-    TOutput postProcess(@Nullable TModelOutput modelOutput);
-}
-```
-
+通过依赖倒置的设计，使得业务只依赖 AoE 的上层抽象，而不用关心具体推理框架的接入实现。开发者随时可以添加新的推理框架，而不用修改以前业务接入的代码，做到了业务开发和 AoE SDK 开发完全解耦。
 
 ## 2. 稳定性保障
-众所周知，Android平台开发一个重要的问题是机型适配，尤其是包含大量 Native 操作的场景，机型适配的问题尤其重要，一旦应用在某款机型上面崩溃，造成的体验损害是巨大的。有数据表明，因为性能问题，移动App每天流失的活跃用户占比5%，这些流失的用户，6 成的用户选择了沉默，不再使用应用，3 成用户改投竞品，剩下的用户会直接卸载应用。因此，对于一个用户群庞大的移动应用来说，保证任何时候 App 主流程的可用性是一件最基本、最重要的事件。结合 AI 推理过程来看，不可避免地，会有大量的操作发生在Native过程中，不仅仅是推理操作，还有一些前处理和资源回收的操作也比较容易出现兼容问题。为此，AoE 运行时环境 SDK 为 Android 平台上开发了独立进程的机制，让 Native 操作运行在独立进程中，同时保证了推理的稳定性和主进程的稳定性，即偶然性的崩溃不会影响后续的推理操作，且主进程任何时候不会崩溃。具体实现过程主要有三个部分：
-
-*2.1 注册独立进程*
-
-这个比较简单，在 Manifest 中增加一个 RemoteService 组件，代码如下：
-```
-<application>
-    <service
-        android:name=".AoeProcessService"
-        android:exported="false"
-        android:process=":aoeProcessor" />
- 
-</application>
-```
-
-*2.2 异常重新绑定独立进程*
-
-在推理时，如果发现 RemoteService 终止了，执行 “bindService()” 方法，重新启动 RemoteService 。
-```
-@Override
-public Object run(@NonNull Object input) {
-    if (isServiceRunning()) {
-        ...(代码省略)//执行推理
-    } else {
-        bindService();//重启独立进程
-    }
-    return null;
-}
-```
-
-*2.3 跨进程通信优化*
-
-因为独立进程，必然涉及到跨进程通信，在跨进程通信里最大的问题是耗时损失，这里，有两个因素造成了耗时损失，一是传输耗时，二是序列化/反序列化耗时。相比较使用Binder机制的传输耗时，序列化/反序列化占了整个通信耗时的 90% 以上。由此可见，对序列化/反序列化的优化是跨进程通信优化的重点。对比了当下主流的序列化/反序列化工具，最终AoE集成运行环境使用了 Kryo 库进行序列化/反序列，性能对比结果可参考：https://www.oschina.net/question/2306979_238282 。
+为 Android 平台上提供了独立进程运行机制，让 Native 操作运行在独立进程中，保证了主进程的稳定性，即偶然性的崩溃不会影响后续的推理操作，且主进程任何时候不会崩溃。
 
 ## 三、MNIST集成示例
 *1. 对TensorFlowLiteInterpreter的继承*
 
-当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的 InterpreterComponent 实现，完成具体的业务流程。MNIST 是运行在 TF Lite 框架上的模型，因此，我们继承 AoE 的 TFLite Interpreter 实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据，初始化、推理执行和资源回收沿用 TensorFlowLiteInterpreter 的默认实现。
+当我们要接入一个新的模型时，首先要确定的是这个模型运行在哪一个推理框架上，然后继承这个推理框架的 InterpreterComponent 实现，完成具体的业务流程。
+
+MNIST 是运行在 TF Lite 框架上的模型，因此，我们继承 AoE 的 TFLite Interpreter 实现，将输入数据转成模型的输入，再从模型的输出读取业务需要的数据。
+
 ```
 public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer, float[], float[][]> {
  
