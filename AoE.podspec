@@ -45,7 +45,9 @@ Pod::Spec.new do |s|
     ss.public_header_files = "iOS/#{s.name}/library/Loader/Classes/**/*.h"
     ss.frameworks = 'CoreGraphics','CoreVideo'
     ss.dependency "#{s.name}/Core"
+    ss.dependency "#{s.name}/Crypto"
     ss.dependency 'JSONModel'
+    ss.dependency 'SSZipArchive'
     # ss.resource_bundles = {
     #   'iOS-Loader' => ["iOS/#{s.name}/library/Loader/Assets/**/*"]
     # }
@@ -65,7 +67,7 @@ Pod::Spec.new do |s|
     ss.ios.deployment_target = '8.0'
     ss.source_files = "iOS/#{s.name}/library/Crypto/Classes/**/*"
     ss.public_header_files = "iOS/#{s.name}/library/Crypto/Classes/**/*.h"
-    ss.dependency "#{s.name}/Loader"
+    ss.dependency "#{s.name}/Core"
   end
   
 end

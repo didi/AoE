@@ -12,4 +12,6 @@
 
 @property (nonatomic , strong) NSString *modelLoaderConfigClassName;
 @property (nonatomic , strong) NSString *modelOptionClassName;
+
+- (NSString *)checkUpgradeClass;
 @end

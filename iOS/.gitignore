@@ -51,6 +51,7 @@ xcshareddata/
 *.bin
 *.tflite
 *.config
+*.mnn
 *.param
 hs_err*
 gradlew*

@@ -13,6 +13,8 @@
 #import "AoEFoundationUtil.h"
 #import "AoEFileManager.h"
 #import "AoEVersionUtil.h"
+#import "AoECryptoUtil.h"
+#import "AoEUpgradeService.h"
 #if __has_include("AoElogger.h")
 #import "AoElogger.h"
 #endif
@@ -145,6 +147,15 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     modelOption.version = lastVersion;
     modelOption.modelPath = modelPath;
     
+    if ([AoEValidJudge isValidString:modelOption.updateUrl]) {
+        // 升级管理的key修改为{tag + 目录}的形式，支持单tag多模型的形式。
+        AoEUpgradeServiceInputModel *inputModel = [AoEUpgradeServiceInputModel initWithName:[option.tag stringByAppendingFormat:@"_%@",option.modelDir]  version:option.version url:option.updateUrl storagePath:[self getRemoteModelPathForTag:option.tag alias:option.modelDir]];
+        inputModel.checkUpgradeModel = [self checkUpgradeClass];
+        inputModel.needDownloadImmediately = (![self isInternalModelReady:option] &&
+                                              ![self isValidJudgeModelExist:option]);
+        [[AoEUpgradeService shareInstance] startUpgradeService:inputModel];
+    }
+    
     if ([AoEValidJudge isValidString:option.modelPath]) {
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@"model path can't be nil %@",modelOption.modelPath]];
         NSAssert([AoEValidJudge isValidString:option.modelPath], @"model path can't be nil");
@@ -171,6 +182,22 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
         }
     }
     return isInternalModelReady;
+}
+
+- (BOOL)isValidJudgeModelExist:(AoEModelOption *)option {
+    BOOL isValidJudgeModelExist = NO;
+    if (option.modelPath) {
+        NSString *modelFilePath = [option.modelPath stringByAppendingPathComponent:[option.modelName stringByAppendingPathExtension:[self modelFileExtenstion]]];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:modelFilePath]) {
+            NSData *data = [NSData dataWithContentsOfFile:modelFilePath];
+            NSString *md5 = [AoECryptoUtil aoe_encryptMD5Data:data];
+            if ([AoEValidJudge isValidString:md5] &&
+                [md5 isEqualToString:option.sign]) {
+                isValidJudgeModelExist = YES;
+            }
+        }
+    }
+    return isValidJudgeModelExist;
 }
 
 - (NSString *)newestRemoteModelVersionPath:(NSString *)remoteModelDir alias:(NSString *)alias {
@@ -219,6 +246,10 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
 }
 
 #pragma mark - getter & setter
+
+- (NSString *)checkUpgradeClass {
+    return @"AoECheckUpgradeModel";
+}
 
 - (NSMutableDictionary *)cacheModelDic {
     if (!_cacheModelDic) {
