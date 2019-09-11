@@ -29,7 +29,7 @@
 - [iOS用户指南](./iOS/README.md)
 - [Android Demo](./Android/samples/demo)
 - [iOS Demo](./iOS/Demo)
-- [更多应用案例](./Catalog.md)
+- [更多内容请移步 aoe-open](https://github.com/aoe-open)
 
 | MNIST 手写数字识别 | SqueezeNet 物体识别 |
 |---|---|
@@ -40,9 +40,9 @@
 * `欢迎直接提交 issues 和 PRs`  [>>>🔥PR激励活动进行中～](https://github.com/didi/AoE/issues/14)
 
 
-| QQ群号： 815254379 | 微信群：9月11号前有效  |
+| QQ群号： 815254379 | 加微信入群：xKuloud（备注*AoE*） |
 |---|---|
-|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="AoE 微信交流群" src="https://img0.didiglobal.com/static/gstar/img/6ZXCACEkaj1567569250951.png" width="196">|
+|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="xKuloud" src="https://img0.didiglobal.com/static/gstar/img/eSO6tSjbsB1568173760427.jpeg" width="196">|
     
 
 
