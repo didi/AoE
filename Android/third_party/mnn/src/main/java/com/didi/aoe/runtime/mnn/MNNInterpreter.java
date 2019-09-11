@@ -1,8 +1,8 @@
 package com.didi.aoe.runtime.mnn;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.List;
 
 /**
  * 基于MNN的运行时Interpreter封装。

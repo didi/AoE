@@ -1,6 +1,6 @@
 package com.didi.aoe.extensions.parcel.kryo;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.logging.Logger;

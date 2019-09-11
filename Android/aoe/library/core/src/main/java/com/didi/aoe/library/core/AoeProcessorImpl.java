@@ -1,7 +1,7 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;

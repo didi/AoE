@@ -2,7 +2,7 @@ package com.didi.aoe.features.squeeze;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didi.aoe.features.squeeze.extension.SqueezeModelOption;
 import com.didi.aoe.library.api.AoeModelOption;

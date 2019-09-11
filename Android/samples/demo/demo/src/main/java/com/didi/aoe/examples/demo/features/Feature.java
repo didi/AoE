@@ -1,7 +1,7 @@
 package com.didi.aoe.examples.demo.features;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 
 /**
  * @author noctis

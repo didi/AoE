@@ -1,7 +1,7 @@
 package com.didi.aoe.library.core;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.AoeRuntimeException;
 import com.didi.aoe.library.api.AoeProcessor;

@@ -1,6 +1,6 @@
 package com.didi.aoe.library.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didi.aoe.library.core.pojos.Message;
 import com.didi.aoe.library.logging.Logger;

@@ -17,6 +17,7 @@ public abstract class SingleInterpreterComponent<TInput, TOutput> implements Aoe
         if (modelOptions.size() != 1) {
             return false;
         }
+
         return init(context, modelOptions.get(0));
     }
 

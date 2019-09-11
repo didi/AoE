@@ -1,6 +1,6 @@
 package com.didi.aoe.library.core.io;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.util.CloseUtil;
