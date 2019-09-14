@@ -56,4 +56,17 @@ Pod::Spec.new do |s|
     }
   end
 
+  s.subspec 'squeeze_mnn' do |ss|
+    ss.ios.deployment_target = '8.0'
+    ss.source_files = "squeeze_mnn/Classes/**/*"
+    ss.public_header_files = "squeeze_mnn/Classes/**/*.h"
+    ss.dependency "#{s.name}/Core"
+    # ss.vendored_frameworks = "squeeze/Frameworks/ncnn.framework","squeeze/Frameworks/openmp.framework"
+    ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
+    ss.libraries = ['c++']
+    ss.resource_bundles = {
+      'AoEBiz-squeeze_mnn' => ["squeeze_mnn/Assets/**/*","squeeze_mnn/Models/**/*"]
+    }
+  end
+
 end

@@ -8,14 +8,14 @@
 #import "ABMnistInterceptor.h"
 #import "AoEGraphicUtil.h"
 #import "ABMnistModelLoaderConfig.h"
-#import "ABTensorFlowAdapter.h"
+#import "ARTensorFlowAdapter.h"
 #import <AoE/AoEModelOption.h>
 #import <AoE/AoElogger.h>
 #import <AoE/AoECrypto.h>
 #import <AoE/AoEValidJudge.h>
 
 @interface ABMnistInterceptor ()
-@property(nonatomic ,strong) ABTensorFlowAdapter *adapter;
+@property(nonatomic ,strong) ARTensorFlowAdapter *adapter;
 @property(nonatomic ,strong) AoElogger *logger;
 @property(nonatomic ,strong) NSString *decodeModelPath;
 @end
@@ -49,7 +49,7 @@
         NSArray *outDatas = nil;
         if (self.adapter &&
             [self.adapter respondsToSelector:@selector(run:)]) {
-            outDatas = [self.adapter run:inputData];
+            outDatas = [self.adapter run:@[inputData]];
         }
         
         if (!outDatas ||
@@ -121,7 +121,7 @@
     NSString *fileName = [option.modelName stringByAppendingPathExtension:[ABMnistModelLoaderConfig ModelFileExtension]];
     NSString *modelPath = [option.modelDirPath stringByAppendingPathComponent:fileName];
     modelPath = [self decodeModelWithPath:modelPath option:option];
-    self.adapter = [[ABTensorFlowAdapter alloc] initWithPath:modelPath];
+    self.adapter = [[ARTensorFlowAdapter alloc] initWithPath:modelPath];
     if (!self.adapter) {
         return NO;
     }

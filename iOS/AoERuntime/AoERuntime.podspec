@@ -60,11 +60,14 @@ Pod::Spec.new do |s|
     ss.source_files = "mnn/Classes/**/*"
     ss.public_header_files = "mnn/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
+    ss.vendored_frameworks = "mnn/Frameworks/MNN.framework"
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {
       'AoERuntime-mnn' => ["mnn/Assets/**/*"]
     }
+    ss.resources = ["mnn/Frameworks/MNN.framework/mnn.metallib"]
+    # ss.script_phase = { :name => 'copy metallibs files', :shell_path => '/bin/bash', :script => 'ruby ../HTWMLModels/installMLfiles.ruby', :execution_position => :after_compile }
   end
 
 end

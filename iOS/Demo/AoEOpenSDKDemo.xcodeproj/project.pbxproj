@@ -17,6 +17,7 @@
 		6B4AA8E622CCD8C800ACEC5D /* MnistDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4AA8E522CCD8C800ACEC5D /* MnistDemoViewController.m */; };
 		6B85A8C822D48E830032ABBE /* SqueezeDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */; };
 		6B85A8E622D71ACA0032ABBE /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B85A8E522D71AC90032ABBE /* CoreServices.framework */; };
+		6B96C51D2327522000F89632 /* SqueezeMNNDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B96C51C2327522000F89632 /* SqueezeMNNDemoViewController.m */; };
 		6BCB23FA22E5B4FF00E52536 /* squeeze.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23F922E5B4FE00E52536 /* squeeze.jpg */; };
 		6BCB23FC22E5B51A00E52536 /* mnist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23FB22E5B51A00E52536 /* mnist.jpg */; };
 		6BDF2A4922BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF2A4822BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m */; };
@@ -53,6 +54,8 @@
 		6B85A8C622D48E830032ABBE /* SqueezeDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqueezeDemoViewController.h; sourceTree = "<group>"; };
 		6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqueezeDemoViewController.m; sourceTree = "<group>"; };
 		6B85A8E522D71AC90032ABBE /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		6B96C51B2327522000F89632 /* SqueezeMNNDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqueezeMNNDemoViewController.h; sourceTree = "<group>"; };
+		6B96C51C2327522000F89632 /* SqueezeMNNDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqueezeMNNDemoViewController.m; sourceTree = "<group>"; };
 		6BCB23F922E5B4FE00E52536 /* squeeze.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = squeeze.jpg; sourceTree = "<group>"; };
 		6BCB23FB22E5B51A00E52536 /* mnist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mnist.jpg; sourceTree = "<group>"; };
 		6BDF2A4622BB92D000A21FC3 /* AoEOpenSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AoEOpenSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +116,7 @@
 		12E807972239114D0037CB00 /* AoE */ = {
 			isa = PBXGroup;
 			children = (
+				6B96C51E2327763100F89632 /* SqeezeMNN */,
 				6B85A8C522D48E550032ABBE /* Squeeze */,
 				6BF5066F22D32F6F003F0198 /* MNIST */,
 				12F61826224BAE11009D926F /* Resource */,
@@ -147,6 +151,15 @@
 				6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */,
 			);
 			path = Squeeze;
+			sourceTree = "<group>";
+		};
+		6B96C51E2327763100F89632 /* SqeezeMNN */ = {
+			isa = PBXGroup;
+			children = (
+				6B96C51B2327522000F89632 /* SqueezeMNNDemoViewController.h */,
+				6B96C51C2327522000F89632 /* SqueezeMNNDemoViewController.m */,
+			);
+			path = SqeezeMNN;
 			sourceTree = "<group>";
 		};
 		6BDF2A4722BB92D100A21FC3 /* AoE-iOSSDKDemoTests */ = {
@@ -317,7 +330,10 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze_mnn.bundle",
+				"${PODS_ROOT}/../../AoERuntime/mnn/Frameworks/MNN.framework/mnn.metallib",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
@@ -384,7 +400,10 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-Core.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-mnist.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoEBiz/AoEBiz-squeeze_mnn.bundle",
+				"${PODS_ROOT}/../../AoERuntime/mnn/Frameworks/MNN.framework/mnn.metallib",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-Core.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
@@ -446,6 +465,7 @@
 				12E8079D2239114D0037CB00 /* ViewController.m in Sources */,
 				6B85A8C822D48E830032ABBE /* SqueezeDemoViewController.m in Sources */,
 				12E807A82239114E0037CB00 /* main.m in Sources */,
+				6B96C51D2327522000F89632 /* SqueezeMNNDemoViewController.m in Sources */,
 				6BEFC10C224B663B00402E94 /* AoEDemoMenuViewCell.m in Sources */,
 				12E8079A2239114D0037CB00 /* AppDelegate.m in Sources */,
 				6B4AA8E622CCD8C800ACEC5D /* MnistDemoViewController.m in Sources */,

@@ -8,6 +8,7 @@
 #import "ViewController.h"
 #import "MnistDemoViewController.h"
 #import "SqueezeDemoViewController.h"
+#import "SqueezeMNNDemoViewController.h"
 #import "AoEDemoMenuViewCell.h"
 
 @interface ViewController ()
@@ -35,6 +36,14 @@ static NSString *const kAoEMenuCellIdentify = @"kAoEMenuCellIdentify";
                @"subtext":@"NCNN 官方提供的 SqueezeNet 物体图像识别示例。",
                @"action":^{
                    SqueezeDemoViewController *viewController = [[SqueezeDemoViewController alloc] init];
+                   viewController.title = @"Squeeze分类";
+                   [self.navigationController pushViewController:viewController animated:YES];
+               }},
+             @{@"text":@"MNN",
+               @"image":@"squeeze.jpg",
+               @"subtext":@"MNN 官方提供的 SqueezeNet 物体图像识别示例。",
+               @"action":^{
+                   SqueezeMNNDemoViewController *viewController = [[SqueezeMNNDemoViewController alloc] init];
                    viewController.title = @"Squeeze分类";
                    [self.navigationController pushViewController:viewController animated:YES];
                }}

@@ -8,7 +8,7 @@
 #import "ABSqueezeInterceptor.h"
 #import "ABSqueezeModelOption.h"
 #import "AoEGraphicUtil.h"
-#import <AoERuntime/ABNCNNAdapter.h>
+#import <AoERuntime/ARNCNNAdapter.h>
 #import <AoE/AoElogger.h>
 #import "squeezenet_v1.1.id.h"
 
@@ -16,7 +16,7 @@
 static float meanVals[] = {104.f, 117.f, 123.f};
 //static float normVals[] = {0.f, 0.f, 0.f};
 @interface ABSqueezeInterceptor ()
-@property(nonatomic ,strong) ABNCNNAdapter *interpreter;
+@property(nonatomic ,strong) ARNCNNAdapter *interpreter;
 @property(nonatomic ,strong) AoElogger *logger;
 @property(nonatomic ,strong) NSArray<NSString *> *squeezenetWords;
 @end
@@ -98,7 +98,7 @@ static float meanVals[] = {104.f, 117.f, 123.f};
     }
     ABSqueezeModelOption *option = options.firstObject;
     NSError *error = nil;
-    self.interpreter = [[ABNCNNAdapter alloc] initWithPath:option.modelDirPath param:option.modelParamFileName model:option.modelFileName];
+    self.interpreter = [[ARNCNNAdapter alloc] initWithPath:option.modelDirPath param:option.modelParamFileName model:option.modelFileName];
     if (error) {
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@"init fail %@",error.localizedDescription]];
         return NO;
