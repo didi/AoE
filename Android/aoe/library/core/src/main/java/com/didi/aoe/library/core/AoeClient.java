@@ -37,6 +37,19 @@ public final class AoeClient {
     private int mStatusCode = STATUS_UNDEFINE;
 
     /**
+     * 默认单模型构造方法
+     *
+     * @param context      全局上下文
+     * @param options      Client配置，用来指定组件实例和运行模式
+     * @param mainModelDir 模型配置目录
+     */
+    public AoeClient(@NonNull Context context,
+                     @NonNull Options options,
+                     @NonNull String mainModelDir) {
+        this(context, mainModelDir, options, mainModelDir);
+    }
+
+    /**
      * @param context             全局上下文
      * @param clientId            区分业务实现的ID（自定义）
      * @param options             Client配置，用来指定组件实例和运行模式

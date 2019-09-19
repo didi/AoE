@@ -35,7 +35,7 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mClient = new AoeClient(requireContext(), "mnist",
+        mClient = new AoeClient(requireContext(),
                 new AoeClient.Options()
                         .setInterpreter(MnistInterpreter.class)/*
                         .useRemoteService(false)*/,
