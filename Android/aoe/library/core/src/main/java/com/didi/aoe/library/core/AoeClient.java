@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_TIMEOUT;
 import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
 
 /**
@@ -109,7 +108,7 @@ public final class AoeClient {
         AoeProcessor.InitResult initResult = AoeProcessor.InitResult.create(mStatusCode);
 
         if (isModelOptionReady()) {
-            if (isInitProcessInterrupted()) {
+            if (STATUS_UNDEFINE != mStatusCode) {
                 if (listener != null) {
                     listener.onInitResult(initResult);
                 }
@@ -128,15 +127,6 @@ public final class AoeClient {
         } else if (listener != null) {
             listener.onInitResult(initResult);
         }
-    }
-
-    /**
-     * 已执行过init，且流程不可逆
-     *
-     * @return
-     */
-    private boolean isInitProcessInterrupted() {
-        return STATUS_CONNECTION_TIMEOUT != mStatusCode && STATUS_UNDEFINE != mStatusCode;
     }
 
     /**

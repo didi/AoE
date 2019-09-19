@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONFIG_PARSE_ERROR;
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_TIMEOUT;
 import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_WAITING;
 import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_INNER_ERROR;
 import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_MODEL_DOWNLOAD_WAITING;
@@ -99,7 +98,7 @@ public interface AoeProcessor {
      * 状态码，用于区分模型加载过程中的各种状态
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({STATUS_UNDEFINE, STATUS_OK, STATUS_CONFIG_PARSE_ERROR, STATUS_CONNECTION_WAITING, STATUS_CONNECTION_TIMEOUT, STATUS_MODEL_DOWNLOAD_WAITING, STATUS_MODEL_LOAD_FAILED, STATUS_INNER_ERROR})
+    @IntDef({STATUS_UNDEFINE, STATUS_OK, STATUS_CONFIG_PARSE_ERROR, STATUS_CONNECTION_WAITING, STATUS_MODEL_DOWNLOAD_WAITING, STATUS_MODEL_LOAD_FAILED, STATUS_INNER_ERROR})
     @Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE, ElementType.PARAMETER, ElementType.METHOD})
     @interface StatusCode {
         /**
@@ -121,17 +120,13 @@ public interface AoeProcessor {
          */
         int STATUS_CONNECTION_WAITING = 2;
         /**
-         * 使用独立进程，服务初次启动等待连接设置500ms超时限制确定状态监听
-         */
-        int STATUS_CONNECTION_TIMEOUT = 3;
-        /**
          * 无内置模型，需要云端加载完成
          */
-        int STATUS_MODEL_DOWNLOAD_WAITING = 4;
+        int STATUS_MODEL_DOWNLOAD_WAITING = 3;
         /**
          * 模型加载失败
          */
-        int STATUS_MODEL_LOAD_FAILED = 5;
+        int STATUS_MODEL_LOAD_FAILED = 4;
 
     }
 
@@ -201,9 +196,6 @@ public interface AoeProcessor {
                     break;
                 case STATUS_CONNECTION_WAITING:
                     codeName = "STATUS_CONNECTION_WAITING";
-                    break;
-                case STATUS_CONNECTION_TIMEOUT:
-                    codeName = "STATUS_CONNECTION_TIMEOUT";
                     break;
                 case STATUS_MODEL_DOWNLOAD_WAITING:
                     codeName = "STATUS_MODEL_DOWNLOAD_WAITING";
