@@ -2,7 +2,9 @@ package com.didi.aoe.features.squeeze;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.features.squeeze.extension.SqueezeModelOption;
 import com.didi.aoe.library.api.AoeModelOption;
@@ -37,9 +39,12 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
     private List<String> lableList = new ArrayList();
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions) {
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable AoeProcessor.OnInitListener listener) {
         if (modelOptions.size() != 1) {
-            return false;
+            if (listener != null) {
+                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+            }
+            return;
         }
 
         // 这是后处理用的Label
@@ -55,10 +60,20 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
                     modelOption.getModelFileName(), modelOption.getModelParamFileName(),
                     1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX);
 
-            return squeeze.isLoadModelSuccess();
+            if (listener != null) {
+                if (squeeze.isLoadModelSuccess()) {
+                    listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+                } else {
+                    listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+                }
+            }
+            return;
         }
 
-        return false;
+        if (listener != null) {
+            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_INNER_ERROR));
+        }
+
     }
 
     @Override

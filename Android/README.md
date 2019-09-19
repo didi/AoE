@@ -19,8 +19,7 @@
 
 ## 示例Demo
 
-[Demo](./samples/demo/demo) 通过两个简单的例子，演示了如何集成 AoE SDK，使用不
-同的推理框架和组件实现进行业务应用。
+[Demo](./samples/demo/demo) 通过两个简单的例子，演示了如何集成 AoE SDK，使用不同的推理框架和组件实现进行业务应用。
 
 
 | 1. 基于 [TensorFLow Lite](https://www.tensorflow.org/lite/) 的 MNIST 手写数字识别 | 2. 基于 [NCNN](https://github.com/Tencent/ncnn) 的 SqueezeNet 物体识别 |

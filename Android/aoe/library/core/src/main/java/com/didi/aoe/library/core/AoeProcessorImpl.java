@@ -2,6 +2,7 @@ package com.didi.aoe.library.core;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
@@ -31,8 +32,8 @@ class AoeProcessorImpl implements AoeProcessor,
     }
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions) {
-        return wrapper.init(context, modelOptions);
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInitListener listener) {
+        wrapper.init(context, modelOptions,listener);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
-import androidx.annotation.IntDef;
+
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
@@ -12,18 +12,11 @@ import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
 import java.io.Serializable;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.didi.aoe.library.core.AoeClient.StatusCode.CONFIG_PARSE_ERROR;
-import static com.didi.aoe.library.core.AoeClient.StatusCode.MODEL_LOAD_ERROR;
-import static com.didi.aoe.library.core.AoeClient.StatusCode.MODEL_LOAD_OK;
-import static com.didi.aoe.library.core.AoeClient.StatusCode.MODEL_LOAD_READY;
-import static com.didi.aoe.library.core.AoeClient.StatusCode.UNDEFINE;
+import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_TIMEOUT;
+import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
 
 /**
  * AoE业务交互终端。
@@ -41,8 +34,8 @@ public final class AoeClient {
 
     private final List<AoeModelOption> mModelOptions = new ArrayList<>();
 
-    @StatusCode
-    private int mStatusCode;
+    @AoeProcessor.StatusCode
+    private int mStatusCode = STATUS_UNDEFINE;
 
     /**
      * @param context             全局上下文
@@ -60,7 +53,7 @@ public final class AoeClient {
 
         AoeProcessor.ModelOptionLoaderComponent modelLoader = ComponentProvider.getModelLoader(options.modelOptionLoaderClassName);
 
-        mStatusCode = tryLoadModelOptions(context, modelLoader, mainModelDir, subsequentModelDirs);
+        tryLoadModelOptions(context, modelLoader, mainModelDir, subsequentModelDirs);
 
         mProcessor = new AoeProcessorImpl(context, options);
         mProcessor.setId(clientId);
@@ -70,24 +63,23 @@ public final class AoeClient {
     /**
      * 初始化、加载模型文件
      *
-     * @return **独立进程模式时，初始化操作委托给RemoteService完成，模型加载直接返回{@link StatusCode#MODEL_LOAD_OK}**
+     * @param listener
      */
-    @StatusCode
-    public int init() {
+    public void init(@Nullable AoeProcessor.OnInitListener listener) {
 
-        return initInternal();
+        initInternal(listener);
 
     }
 
-    @StatusCode
-    private int tryLoadModelOptions(@NonNull Context context,
-                                    @NonNull AoeProcessor.ModelOptionLoaderComponent modelLoader,
-                                    String mainModelDir,
-                                    String... subsequentModelDirs) {
+    private void tryLoadModelOptions(@NonNull Context context,
+                                     @NonNull AoeProcessor.ModelOptionLoaderComponent modelLoader,
+                                     String mainModelDir,
+                                     String... subsequentModelDirs) {
         AoeModelOption modelOption = modelLoader.load(context, mainModelDir);
         if (modelOption == null || !modelOption.isValid()) {
             mLogger.debug("Model init error: " + modelOption);
-            return CONFIG_PARSE_ERROR;
+            mStatusCode = AoeProcessor.StatusCode.STATUS_CONFIG_PARSE_ERROR;
+            return;
         }
 
         final List<AoeModelOption> options = new ArrayList<>();
@@ -103,31 +95,48 @@ public final class AoeClient {
 
                 } else {
                     mLogger.debug("Subsequent model init error: " + modelOption);
-                    return CONFIG_PARSE_ERROR;
+                    mStatusCode = AoeProcessor.StatusCode.STATUS_CONFIG_PARSE_ERROR;
+                    return;
                 }
             }
         }
 
         mModelOptions.clear();
         mModelOptions.addAll(options);
-
-        return MODEL_LOAD_READY;
     }
 
-    @StatusCode
-    private int initInternal() {
+    private void initInternal(@Nullable final AoeProcessor.OnInitListener listener) {
+        AoeProcessor.InitResult initResult = AoeProcessor.InitResult.create(mStatusCode);
+
         if (isModelOptionReady()) {
-
-            boolean initOk = mProcessor.getInterpreterComponent().init(mContext, mModelOptions);
-            mLogger.debug("initInternal: " + initOk);
-            if (!initOk) {
-                mStatusCode = MODEL_LOAD_ERROR;
-            } else {
-                mStatusCode = MODEL_LOAD_OK;
+            if (isInitProcessInterrupted()) {
+                if (listener != null) {
+                    listener.onInitResult(initResult);
+                }
+                return;
             }
-        }
+            mProcessor.getInterpreterComponent().init(mContext, mModelOptions, new AoeProcessor.OnInitListener() {
+                @Override
+                public void onInitResult(AoeProcessor.InitResult result) {
+                    mStatusCode = result.getCode();
 
-        return mStatusCode;
+                    if (listener != null) {
+                        listener.onInitResult(result);
+                    }
+                }
+            });
+        } else if (listener != null) {
+            listener.onInitResult(initResult);
+        }
+    }
+
+    /**
+     * 已执行过init，且流程不可逆
+     *
+     * @return
+     */
+    private boolean isInitProcessInterrupted() {
+        return STATUS_CONNECTION_TIMEOUT != mStatusCode && STATUS_UNDEFINE != mStatusCode;
     }
 
     /**
@@ -142,11 +151,10 @@ public final class AoeClient {
     /**
      * 模型配置读取正常
      *
-     * @return true, 配置读取正常，有非空配置。
+     * @return true, 配置非空。
      */
     private boolean isModelOptionReady() {
-        return MODEL_LOAD_READY <= mStatusCode
-                && !mModelOptions.isEmpty();
+        return !mModelOptions.isEmpty();
     }
 
     /**
@@ -155,14 +163,13 @@ public final class AoeClient {
      * @return true，模型加载正常
      */
     private boolean isModelReady() {
-        return MODEL_LOAD_OK <= mStatusCode;
+        return AoeProcessor.StatusCode.STATUS_OK == mStatusCode;
     }
 
-    @WorkerThread
     @Nullable
     public Object process(Object input) {
         if (!isModelReady()) {
-            initInternal();
+            initInternal(null);
             return null;
         }
 
@@ -178,36 +185,6 @@ public final class AoeClient {
     }
 
     /**
-     * Client状态定义
-     */
-    @SuppressWarnings("WeakerAccess")
-    @Retention(RetentionPolicy.RUNTIME)
-    @IntDef({UNDEFINE, CONFIG_PARSE_ERROR, MODEL_LOAD_READY, MODEL_LOAD_ERROR, MODEL_LOAD_OK})
-    @Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE, ElementType.PARAMETER, ElementType.METHOD})
-    public @interface StatusCode {
-        int UNDEFINE = 0;
-        /**
-         * 模型配置读取错误
-         */
-        int CONFIG_PARSE_ERROR = 1;
-        /**
-         * 模型配置加载正常，准备加载模型
-         */
-        int MODEL_LOAD_READY = 2;
-        /**
-         * 模型文件加载错误
-         */
-        int MODEL_LOAD_ERROR = 3;
-
-        /**
-         * 模型加载完成
-         */
-        int MODEL_LOAD_OK = 4;
-
-
-    }
-
-    /**
      * Client配置项
      */
     public static class Options implements Serializable {
@@ -218,6 +195,9 @@ public final class AoeClient {
          * 使用独立进程进行模型加载和推理, 默认true
          */
         boolean useRemoteService = true;
+
+        @IntRange(from = 1)
+        int threadNum = 1;
 
         public Options setModelOptionLoader(@NonNull Class<? extends AoeProcessor.ModelOptionLoaderComponent> modelOptionLoader) {
             this.modelOptionLoaderClassName = modelOptionLoader.getName();
@@ -236,6 +216,11 @@ public final class AoeClient {
 
         public Options useRemoteService(boolean useRemoteService) {
             this.useRemoteService = useRemoteService;
+            return this;
+        }
+
+        public Options setThreadNum(@IntRange(from = 1) int threadNum) {
+            this.threadNum = threadNum;
             return this;
         }
 

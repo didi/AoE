@@ -1,6 +1,7 @@
 package com.didi.aoe.runtime.tensorflow.lite;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -40,16 +41,21 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
     private Map<Integer, Object> outputPlaceholder;
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull AoeModelOption modelOptions) {
+    public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable AoeProcessor.OnInitListener listener) {
         String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName() + ".tflite";
         ByteBuffer bb = loadFromAssets(context, modelFilePath);
         if (bb != null) {
             mInterpreter = new Interpreter(bb);
 
             outputPlaceholder = generalOutputPlaceholder(mInterpreter);
-            return true;
+            if (listener != null) {
+                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+            }
+            return;
         }
-        return false;
+        if (listener != null) {
+            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_INNER_ERROR));
+        }
     }
 
     private Map<Integer, Object> generalOutputPlaceholder(@NonNull Interpreter interpreter) {

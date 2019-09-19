@@ -12,7 +12,7 @@ interface IAoeProcessService {
      * 初始化模型翻译器
      *
      */
-    boolean init(String clientId, in Message options);
+    int init(String clientId, in Message options);
 
     /**
     * 处理模型输入的切片数据

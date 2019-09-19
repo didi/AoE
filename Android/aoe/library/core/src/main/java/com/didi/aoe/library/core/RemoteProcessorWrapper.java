@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
@@ -20,6 +22,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.content.Context.BIND_AUTO_CREATE;
+import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_WAITING;
+import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_OK;
+import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
 
 /**
  * 独立进程处理器包装实现，通过Context建立远程连接，包装推理交互。
@@ -31,10 +36,12 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     private final AoeClient.Options mClientOptions;
     private final ParcelComponent mParceler;
     private final AtomicBoolean bServiceBinded = new AtomicBoolean(false);
-    private final AtomicBoolean bInited = new AtomicBoolean(false);
     private String mId;
     private List<AoeModelOption> mModelOptions;
     private IAoeProcessService mProcessProxy;
+    private OnInitListener mOnInitListener;
+    @AoeProcessor.StatusCode
+    private int mStatusCode = STATUS_UNDEFINE;
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -42,6 +49,13 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
             mLogger.debug("onServiceConnected: " + mId);
             bServiceBinded.set(true);
             mProcessProxy = IAoeProcessService.Stub.asInterface(service);
+
+            if (STATUS_CONNECTION_WAITING == mStatusCode) {
+                InitResult initResult = tryInitIfNeeded(mId, mModelOptions);
+                if (mOnInitListener != null) {
+                    mOnInitListener.onInitResult(initResult);
+                }
+            }
         }
 
         @Override
@@ -63,16 +77,23 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     }
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions) {
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInitListener listener) {
         mModelOptions = modelOptions;
+        mOnInitListener = listener;
         if (isServiceRunning()) {
-            tryInitIfNeeded(mId, mModelOptions);
-            return bInited.get();
+            InitResult initResult = tryInitIfNeeded(mId, mModelOptions);
+            if (listener != null) {
+                listener.onInitResult(initResult);
+            }
         } else {
             bindService();
-            return true;
-        }
 
+            if (STATUS_UNDEFINE == mStatusCode) {
+                // 初始状态，尚未绑定RemoteService，标记为等待连接状态，在建立连接后自动初始化
+                mStatusCode = STATUS_CONNECTION_WAITING;
+            }
+
+        }
     }
 
     @Override
@@ -133,12 +154,12 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
         if (bServiceBinded.getAndSet(false)) {
             unbindService();
         }
-        bInited.set(false);
+        mStatusCode = STATUS_UNDEFINE;
     }
 
     @Override
     public boolean isReady() {
-        return bInited.get();
+        return STATUS_OK == mStatusCode;
     }
 
     @NonNull
@@ -153,10 +174,10 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
                 && mProcessProxy.asBinder().isBinderAlive();
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    private boolean tryInitIfNeeded(@NonNull String id, @NonNull List<AoeModelOption> modelOptions) {
-        if (bInited.get()) {
-            return true;
+    @NonNull
+    private InitResult tryInitIfNeeded(@NonNull String id, @NonNull List<AoeModelOption> modelOptions) {
+        if (isReady()) {
+            return InitResult.create(StatusCode.STATUS_OK);
         }
         if (isServiceRunning()) {
 
@@ -168,15 +189,17 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
                 AoeProcessor.ParcelComponent parceler = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
                 byte[] ins = parceler.obj2Byte(options);
                 Message msg = new Message(ins);
-                boolean initResult = mProcessProxy.init(id, msg);
-                mLogger.debug("tryInitIfNeeded: " + initResult);
-                bInited.set(initResult);
-                return initResult;
+                int initResultCode = mProcessProxy.init(id, msg);
+                mLogger.debug("tryInitIfNeeded: " + initResultCode);
+
+                mStatusCode = initResultCode;
+
+                return InitResult.create(initResultCode);
             } catch (RemoteException e) {
                 mLogger.error("tryInitIfNeeded error", e);
             }
         }
-        return false;
+        return InitResult.create(STATUS_CONNECTION_WAITING, "RemoteService not active.");
     }
 
     /**

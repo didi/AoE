@@ -24,6 +24,10 @@ public class ModelOption implements AoeModelOption {
      */
     private String modelName;
 
+    public String getVersion() {
+        return version;
+    }
+
     @NonNull
     @Override
     public String getModelDir() {

@@ -16,6 +16,9 @@ import com.didi.aoe.library.logging.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Aoe 远程执行服务
@@ -30,7 +33,7 @@ public class AoeProcessService extends Service {
     private final IAoeProcessService.Stub mBinder = new IAoeProcessService.Stub() {
 
         @Override
-        public boolean init(String clientId, Message options) throws RemoteException {
+        public int init(String clientId, Message options) throws RemoteException {
             byte[] ins = options.getData();
 
             Context context = AoeProcessService.this.getApplicationContext();
@@ -40,13 +43,31 @@ public class AoeProcessService extends Service {
             if (obj instanceof RemoteOptions) {
                 RemoteOptions aoeOptions = (RemoteOptions) obj;
                 NativeProcessorWrapper processorWrapper = new NativeProcessorWrapper(context, aoeOptions.getClientOptions());
-                boolean initResult = processorWrapper.init(context, aoeOptions.getModelOptions());
-                mLogger.debug("init: " + initResult + ", clientId: " + clientId);
-                if (initResult) {
+                final CountDownLatch latch = new CountDownLatch(1);
+
+                final AtomicInteger statusCode = new AtomicInteger(AoeProcessor.StatusCode.STATUS_INNER_ERROR);
+                processorWrapper.init(context, aoeOptions.getModelOptions(), new AoeProcessor.OnInitListener() {
+                    @Override
+                    public void onInitResult(AoeProcessor.InitResult result) {
+                        statusCode.set(result.getCode());
+                        latch.countDown();
+                    }
+                });
+                try {
+                    // 最多等待1s
+                    latch.await(1, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                mLogger.debug("init: " + statusCode.get() + ", clientId: " + clientId);
+
+                if (AoeProcessor.StatusCode.STATUS_OK == statusCode.get()) {
+                    // 加载成功，cache执行委托者
                     ProcessorDelegate processorDelegate = new ProcessorDelegate(processorWrapper);
                     mProcessorMap.put(clientId, processorDelegate);
                 }
-                return initResult;
+                return statusCode.get();
             } else {
                 mLogger.error("parse init options " + clientId + ": " + obj);
                 throw new AoeRemoteException("parse init options " + clientId + ": " + obj);
@@ -54,7 +75,6 @@ public class AoeProcessService extends Service {
         }
 
         @Override
-        //TODO 切割合并功能没有了？？？？
         public Message process(String clientId, Message input) throws RemoteException {
             ProcessorDelegate processor = mProcessorMap.get(clientId);
             if (processor != null) {

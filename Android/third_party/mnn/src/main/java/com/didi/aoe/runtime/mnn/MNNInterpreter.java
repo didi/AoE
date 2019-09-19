@@ -1,6 +1,7 @@
 package com.didi.aoe.runtime.mnn;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -34,7 +35,7 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
     protected Context mAppContext;
 
     @Override
-    public boolean init(@NonNull Context context, @NonNull AoeModelOption option) {
+    public void init(@NonNull Context context, @NonNull AoeModelOption option, @Nullable AoeProcessor.OnInitListener listener) {
         this.mAppContext = context.getApplicationContext();
         String modelFilePath = option.getModelDir() + File.separator + option.getModelName() + ".mnn";
         try {
@@ -47,12 +48,17 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
             config.forwardType = MNNForwardType.FORWARD_CPU.type;// set CPU/GPU
             mSession = mNetInstance.createSession(config);
             mInputTensor = mSession.getInput(null);
-            return true;
+            if (listener != null) {
+                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+            }
+            return;
         } catch (Exception e) {
             mLogger.error(e.getMessage());
         }
 
-        return false;
+        if (listener != null) {
+            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.didi.aoe.library.api;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -13,14 +15,15 @@ import java.util.List;
  */
 public abstract class SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.InterpreterComponent<TInput, TOutput> {
     @Override
-    final public boolean init(Context context, List<AoeModelOption> modelOptions) {
+    final public void init(Context context, List<AoeModelOption> modelOptions, @Nullable AoeProcessor.OnInitListener listener) {
         if (modelOptions.size() != 1) {
-            return false;
+            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_INNER_ERROR));
+            return;
         }
 
-        return init(context, modelOptions.get(0));
+        init(context, modelOptions.get(0), listener);
     }
 
-    public abstract boolean init(Context context, AoeModelOption modelOptions);
+    public abstract void init(Context context, AoeModelOption modelOptions, @Nullable AoeProcessor.OnInitListener listener);
 
 }

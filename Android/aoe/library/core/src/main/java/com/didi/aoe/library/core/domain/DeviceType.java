@@ -1,11 +1,11 @@
 /*
- * Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+ * Copyright 2019 The AoE Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-@file:JvmName("Constants")
+package com.didi.aoe.library.core.domain;
 
-package org.tensorflow.lite.examples.posenet
-
-/** Request camera and external storage permission.   */
-const val REQUEST_CAMERA_PERMISSION = 1
-
-/** Model input shape for images.   */
-const val MODEL_WIDTH = 257
-const val MODEL_HEIGHT = 257
+/**
+ * The runtime device type used
+ *
+ * @author noctis
+ * @since 1.1.0
+ */
+public enum DeviceType {
+    CPU,
+    GPU,
+    NNAPI // TFLite only
+}

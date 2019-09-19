@@ -22,6 +22,7 @@ import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
 import com.didi.aoe.extensions.parcel.kryo.KryoParcelImpl;
 import com.didi.aoe.features.squeeze.SqueezeInterpreter;
 import com.didi.aoe.features.squeeze.extension.SqueezeModelLoaderImpl;
+import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.AoeClient;
 
 import java.io.FileNotFoundException;
@@ -45,8 +46,12 @@ public class SqueezeFeartureFragment extends BaseFeartureFragment {
                         .setParceler(KryoParcelImpl.class)
                         .useRemoteService(false),
                 "squeeze");
-        int resultCode = mClient.init();
-        Log.d(TAG, "AoeClient init: " + resultCode);
+        mClient.init(new AoeProcessor.OnInitListener() {
+            @Override
+            public void onInitResult(@NonNull AoeProcessor.InitResult result) {
+                Log.d(TAG, "AoeClient init: " + result);
+            }
+        });
     }
 
     @Override
