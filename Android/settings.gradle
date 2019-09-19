@@ -24,16 +24,16 @@ include ':runtime-tensorflow-lite'
 include ':runtime-mnn'
 include ':runtime-ncnn'
 
-project(':examples-demo').projectDir = new File(rootDir, 'samples/demo/demo')
+project(':examples-demo').projectDir = new File(rootDir, 'demo/demo')
 
-project(':features-mnist').projectDir = new File(rootDir, 'samples/demo/features/mnist')
-project(':features-squeeze').projectDir = new File(rootDir, 'samples/demo/features/squeeze')
-project(':features-recognize').projectDir = new File(rootDir, 'samples/demo/features/recognize')
+project(':features-mnist').projectDir = new File(rootDir, 'demo/features/mnist')
+project(':features-squeeze').projectDir = new File(rootDir, 'demo/features/squeeze')
+project(':features-recognize').projectDir = new File(rootDir, 'demo/features/recognize')
 
-project(':library-core').projectDir = new File(rootDir, 'aoe/library/core')
-project(':library-api').projectDir = new File(rootDir, 'aoe/library/api')
-project(':library-logging').projectDir = new File(rootDir, 'aoe/library/logging')
-project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/library/model-option-loader')
+project(':library-core').projectDir = new File(rootDir, 'aoe/core')
+project(':library-api').projectDir = new File(rootDir, 'aoe/api')
+project(':library-logging').projectDir = new File(rootDir, 'aoe/logging')
+project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/model-option-loader')
 
 
 project(':extensions-parcel-kryo').projectDir = new File(rootDir, 'aoe/extensions/parcel-kryo')

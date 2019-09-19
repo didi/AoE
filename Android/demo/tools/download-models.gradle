@@ -1,0 +1,71 @@
+apply plugin: 'de.undercouch.download'
+
+// 下载文件临时文件夹
+project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
+
+// 下载模型的 target路径：下载地址
+def models = [
+        // mnist
+        '../features/mnist/src/main/assets'  : [
+                'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/dXvj4yfARd1565012051436.zip', // mnist
+        ],
+        // squeeze
+        '../features/squeeze/src/main/assets': [
+                'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip' // squeeze
+        ],
+        // recognize
+        '../features/recognize/src/main/assets': [
+                'https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip' // recognize
+        ]
+
+]
+
+
+task downloadFiles() {
+    def tmpDir = new File(project.ext.TMP_DIR)
+    if (!tmpDir.exists()) {
+        tmpDir.mkdirs()
+    }
+    models.each { path, urls ->
+        for (modelUrl in urls) {
+            def localFile = modelUrl.split("/")[-1]
+            if (!(new File(project.ext.TMP_DIR + '/' + localFile)).exists()) {
+                download {
+                    println "Downloading ${localFile} from ${modelUrl}"
+                    src modelUrl
+                    dest tmpDir
+                    onlyIfModified true
+                }
+            }
+        }
+    }
+
+}
+
+task extractModels(dependsOn: downloadFiles) {
+    models.each { path, urls ->
+
+        println "extractModels ${path} ${urls}"
+
+        copy {
+            for (f in urls) {
+                def localFile = f.split("/")[-1]
+                def localExt = localFile.split("[.]")[-1]
+                if (localExt == "tgz") {
+                    from tarTree(project.ext.TMP_DIR + '/' + localFile)
+                } else {
+                    from zipTree(project.ext.TMP_DIR + '/' + localFile)
+                }
+            }
+
+            println "into " + projectDir.toString() + '/' + path
+            into file(projectDir.toString() + '/' + path)
+            fileMode 0644
+            exclude '**/LICENSE'
+
+        }
+    }
+
+}
+
+
