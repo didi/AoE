@@ -8,6 +8,6 @@
 #import <AoE/AoE.h>
 #import <AoE/AoEModelConfig.h>
 
-@interface ABSqueezeNet2ModelLoaderConfig : AoEModelConfig
+@interface ABMobileNet2ModelLoaderConfig : AoEModelConfig
 
 @end

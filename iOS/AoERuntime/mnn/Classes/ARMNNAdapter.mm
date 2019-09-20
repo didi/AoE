@@ -197,8 +197,13 @@ namespace aoe_mnn {
         }
         
         MNN::CV::ImageProcess::Config process;
-        ::memcpy(process.mean, info.mean_vals, sizeof(&info.mean_vals) * 3);
-//        ::memcpy(process.normal, info.norm_vals, sizeof(&info.norm_vals) * 3);
+        if (info.mean_vals != nullptr) {
+          ::memcpy(process.mean, info.mean_vals, sizeof(float) * 3);
+        }
+        if (info.norm_vals != nullptr) {
+            ::memcpy(process.normal, info.norm_vals, sizeof(float) * 3);
+        }
+        
         process.sourceFormat = (MNN::CV::ImageFormat)self.sourceFormat;
         process.destFormat   = (MNN::CV::ImageFormat)self.targetFormat;
         
@@ -222,23 +227,7 @@ namespace aoe_mnn {
             continue;
         }
 
-        MNN::Tensor *output = _net->getSessionOutput(_session, info.outKey);
-//        MNN::Tensor copy(output);
-//        output->copyToHostTensor(&copy);
-//        float *data = copy.host<float>();
-//        LabeledElement objects[1000];
-//        for (int i = 0; i < 1000; i++) {
-//            objects[i].value = data[i];
-//            objects[i].index = i;
-//        }
-//        qsort(objects, 1000, sizeof(objects[0]), (int (*)(const void *, const void *))CompareElements);
-//
-//        // to string
-//
-//        for (int i = 0; i < 3; i++) {
-//            [outputs addObject:@[@(objects[i].index),@(objects[i].value)]];
-//        }
-        
+        MNN::Tensor *output = _net->getSessionOutput(_session, nullptr);
         NSArray *channel = [self processOutputData:output];
         [outputs addObject:channel];
     }

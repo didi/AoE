@@ -336,7 +336,7 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
@@ -406,7 +406,7 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

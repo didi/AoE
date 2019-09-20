@@ -1,23 +1,24 @@
 //
-//  ABMnistInterceptor.m
+//  ABMobileNet2Interceptor.m
 //  AoEBiz
 //
-//  Created by dingchao on 2019/7/4.
+//  Created by dingchao on 2019/9/4.
 //
 
-#import "ABSqueezeNet2Interceptor.h"
+#import "ABMobileNet2Interceptor.h"
 #import "AoEGraphicUtil.h"
-#import "ABSqueezeNet2ModelLoaderConfig.h"
+#import "ABMobileNet2ModelLoaderConfig.h"
 #import <AoERuntime/ARMNNAdapter.h>
 #import <AoE/AoEModelOption.h>
 #import <AoE/AoElogger.h>
 #import <AoE/AoECrypto.h>
 #import <AoE/AoEValidJudge.h>
 
-#define INPUT_BLOCK_SIZE 226
-static float meanVals[] = {104.f, 117.f, 123.f};
+#define INPUT_BLOCK_SIZE 223
+static float meanVals[] = {103.94f, 116.78f, 123.68f};
+static float normalVals[] = {0.017f, 0.017f, 0.017f};
 
-@interface ABSqueezeNet2Interceptor ()
+@interface ABMobileNet2Interceptor ()
 
 @property(nonatomic ,strong) ARMNNAdapter *adapter;
 @property(nonatomic ,strong) AoElogger *logger;
@@ -25,7 +26,7 @@ static float meanVals[] = {104.f, 117.f, 123.f};
 
 @end
 
-@implementation ABSqueezeNet2Interceptor
+@implementation ABMobileNet2Interceptor
 
 - (void)close {
     self.adapter = nil;
@@ -68,31 +69,26 @@ static float meanVals[] = {104.f, 117.f, 123.f};
 
 - (NSData *)preProccessInput:(id<AoEInputModelProtocol>)input {
     UIImage *image = (UIImage *)input;
-//    int w               = image.size.width;
-//    int h               = image.size.height;
-//    unsigned char *rgba = (unsigned char *)calloc(w * h * 4, sizeof(unsigned char));
-//    {
-//        CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
-//        CGContextRef contextRef    = CGBitmapContextCreate(rgba, w, h, 8, w * 4, colorSpace,
-//                                                           kCGImageAlphaNoneSkipLast | kCGBitmapByteOrderDefault);
-//        CGContextDrawImage(contextRef, CGRectMake(0, 0, w, h), image.CGImage);
-//        CGContextRelease(contextRef);
-//    }
     
-    // 模型需要使用226 * 226 的输入 输入的格式RGBA
-    CVImageBufferRef buffer = [AoEGraphicUtil pixelBufferFromImage:image];
-    CVImageBufferRef resizebuffer = [AoEGraphicUtil resizeImageBuffer:buffer
-                                                                react:CGSizeMake(INPUT_BLOCK_SIZE, INPUT_BLOCK_SIZE)];
-    CVPixelBufferRelease(buffer);
+    int w               = image.size.width;
+    int h               = image.size.height;
+    unsigned char *rgba = (unsigned char *)calloc(w * h * 4, sizeof(unsigned char));
+    {
+        CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
+        CGContextRef contextRef    = CGBitmapContextCreate(rgba, w, h, 8, w * 4, colorSpace,
+                                                           kCGImageAlphaNoneSkipLast | kCGBitmapByteOrderDefault);
+        CGContextDrawImage(contextRef, CGRectMake(0, 0, w, h), image.CGImage);
+        CGContextRelease(contextRef);
+    }
     
-    size_t bufferLengh = CVPixelBufferGetDataSize(resizebuffer);
+    // 模型需要使用223 * 223 的输入 输入的格式RGBA
     self.adapter.blockSize = CGSizeMake(INPUT_BLOCK_SIZE, INPUT_BLOCK_SIZE);
-    self.adapter.sourceSize =  CGSizeMake(CVPixelBufferGetWidth(resizebuffer), CVPixelBufferGetHeight(resizebuffer)); //CGSizeMake(w, h);//
+    self.adapter.sourceSize = CGSizeMake(w, h);
     self.adapter.meanVals = meanVals;
-    self.adapter.normVals = 0;
+    self.adapter.normVals = normalVals;
     self.adapter.sourceFormat = MNNAdapterImageFormatForRGBA;
     self.adapter.targetFormat = MNNAdapterImageFormatForBGR;
-    NSData *inputData = [NSData dataWithBytes:[AoEGraphicUtil RGBA8BitmapFromBuffer:resizebuffer] length:bufferLengh];
+    NSData *inputData = [NSData dataWithBytes:rgba length:w*h*4];
     return inputData;
 }
 
@@ -106,7 +102,7 @@ static float meanVals[] = {104.f, 117.f, 123.f};
     int top_class = 0;
     float max_score = 0.f;
     for (size_t i=0; i<sort.count; i++) {
-        float score = ((NSNumber *)((NSArray *)sort[i]).firstObject).floatValue;
+        float score = ((NSNumber *)((NSArray *)sort[i]).lastObject).floatValue;
         if (score > max_score) {
             top_class = (int)i;
             max_score = score;
@@ -124,7 +120,7 @@ static float meanVals[] = {104.f, 117.f, 123.f};
         return NO;
     }
     AoEModelOption *option = options.firstObject;
-    NSString *fileName = [option.modelName stringByAppendingPathExtension:[ABSqueezeNet2ModelLoaderConfig ModelFileExtension]];
+    NSString *fileName = [option.modelName stringByAppendingPathExtension:[ABMobileNet2ModelLoaderConfig ModelFileExtension]];
     NSString *modelPath = option.modelDirPath;
     self.adapter = [[ARMNNAdapter alloc] initWithPath:modelPath model:fileName];
     if (!self.adapter) {

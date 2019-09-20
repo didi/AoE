@@ -23,7 +23,7 @@
     self.view.backgroundColor = [UIColor colorWithWhite:242/255.f alpha:    1.f];
     [self setupView];
     AoEClientOption *clientOption = [AoEClientOption new];
-    clientOption.interpreterClassName = @"ABSqueezeNet2Interceptor";
+    clientOption.interpreterClassName = @"ABMobileNet2Interceptor";
 //    clientOption.modelOptionLoaderClassName = @"ABSqueezeModelManager";
     
     NSString *dir = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"AoEBiz-squeeze_mnn.bundle/squeeze_mnn/recognize-mnn"];

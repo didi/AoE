@@ -5,9 +5,9 @@
 //  Created by dingchao on 2019/7/5.
 //
 
-#import "ABSqueezeNet2ModelLoaderConfig.h"
+#import "ABMobileNet2ModelLoaderConfig.h"
 
-@implementation ABSqueezeNet2ModelLoaderConfig
+@implementation ABMobileNet2ModelLoaderConfig
 
 + (NSString *)ModelFileExtension {
     return @"mnn";

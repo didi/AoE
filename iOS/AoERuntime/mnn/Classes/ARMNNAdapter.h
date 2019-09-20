@@ -10,7 +10,7 @@
 #import <AoE/AoE.h>
 
 typedef NS_ENUM(NSUInteger, MNNAdapterImageFormat) {
-    MNNAdapterImageFormatForRGBA,
+    MNNAdapterImageFormatForRGBA = 0,
     MNNAdapterImageFormatForRGB,
     MNNAdapterImageFormatForBGR,
     MNNAdapterImageFormatForGRAY,
