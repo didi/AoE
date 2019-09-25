@@ -26,16 +26,17 @@
     return model;
 }
 - (NSString *)version {
-    return self.dic[@"version"];
+    return self.dic[@"modelVersionCode"];
 }
 - (NSString *)downloadUrl {
-    return self.dic[@"upgradeUrl"];
+    return self.dic[@"modelUrl"];
 }
 - (NSNumber *)size {
     return self.dic[@"size"];
 }
+
 - (NSString *)sign {
-    return self.dic[@"sign"];
+    return self.dic[@"modelMd5"];
 }
 
 @end
