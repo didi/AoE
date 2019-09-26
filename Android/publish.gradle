@@ -1,8 +1,10 @@
 apply plugin: 'com.novoda.bintray-release'
 
 Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
-properties.load(inputStream)
+if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+    properties.load(inputStream)
+}
 
 publish {
     bintrayUser = properties.getProperty("bintray.user")
