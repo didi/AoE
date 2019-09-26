@@ -27,7 +27,7 @@
 ## 二、使用文档&示例
 - [Android用户指南](./Android/README.md)
 - [iOS用户指南](./iOS/README.md)
-- [Android Demo](./Android/samples/demo)
+- [Android Demo](./Android/demo)
 - [iOS Demo](./iOS/Demo)
 - [更多内容请移步 aoe-open](https://github.com/aoe-open)
 
