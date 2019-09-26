@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.library.core.domain;
+package com.didi.aoe.library.api.interpreter;
+
+import androidx.annotation.NonNull;
+
+import com.didi.aoe.library.api.AoeProcessor;
 
 /**
- * The runtime device type used
- *
  * @author noctis
  * @since 1.1.0
  */
-public enum DeviceType {
-    CPU,
-    GPU,
-    NNAPI // TFLite only
+public interface OnInterpreterInitListener {
+    void onInitResult(@NonNull InterpreterInitResult result);
 }

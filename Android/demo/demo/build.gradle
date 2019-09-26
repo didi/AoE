@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
-apply from: '../../constants.gradle'
 
 apply from: "../tools/download-models.gradle"
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.didi.aoe.examples.demo"
-        minSdkVersion project.ext.minAppSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.releaseVersionCode
-        versionName project.ext.releaseVersion
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 2
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -57,16 +56,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
-        implementation "com.didi.aoe:library-core:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:features-mnist:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:features-squeeze:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:features-recognize:$project.ext.releaseVersion"
-    } else {
+    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         implementation project(':library-core')
-        implementation project(':features-mnist')
-        implementation project(':features-squeeze')
-        implementation project(':features-recognize')
+    } else {
+        implementation 'com.didi.aoe:library-core:1.0.2.1'
     }
 
+    implementation project(':features-mnist')
+    implementation project(':features-squeeze')
+    implementation project(':features-recognize')
+
 }
+

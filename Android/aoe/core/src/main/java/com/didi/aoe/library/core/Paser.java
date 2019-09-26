@@ -14,6 +14,7 @@ import java.util.List;
  * 内部数据拆装包操作工具类
  *
  * @author noctis
+ * @note 线程不安全的，但AoeProcessService内是同步处理接收数据的，暂时不用考虑线程安全。
  */
 final class Paser {
     /**

@@ -7,7 +7,7 @@ project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
 def models = [
         // mnist
         '../features/mnist/src/main/assets'  : [
-                'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/dXvj4yfARd1565012051436.zip', // mnist
+                'https://img0.didiglobal.com/static/starfile/node20190926/895f1e95e30aba5dd56d6f2ccf768b57/APWmDl1XCf1569496524271.zip', // mnist
         ],
         // squeeze
         '../features/squeeze/src/main/assets': [

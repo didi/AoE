@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.library.modeloption.loader.utils;
+package com.didi.aoe.features.squeeze.utils;
 
 import androidx.annotation.RestrictTo;
 

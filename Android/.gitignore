@@ -11,3 +11,5 @@
 *.tflite
 *.config
 *.param
+
+.dev_settings.gradle

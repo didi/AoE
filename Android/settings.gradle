@@ -16,9 +16,6 @@ include ':library-api'
 include ':library-logging'
 include ':library-model-option-loader'
 
-// Extensions
-include ':extensions-parcel-kryo'
-
 // Runtime
 include ':runtime-tensorflow-lite'
 include ':runtime-mnn'
@@ -35,9 +32,14 @@ project(':library-api').projectDir = new File(rootDir, 'aoe/api')
 project(':library-logging').projectDir = new File(rootDir, 'aoe/logging')
 project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/model-option-loader')
 
-
-project(':extensions-parcel-kryo').projectDir = new File(rootDir, 'aoe/extensions/parcel-kryo')
-
 project(':runtime-tensorflow-lite').projectDir = new File(rootDir, 'third_party/tensorflow-lite')
 project(':runtime-mnn').projectDir = new File(rootDir, 'third_party/mnn')
 project(':runtime-ncnn').projectDir = new File(rootDir, 'third_party/ncnn')
+
+
+// NOTE：全局设置开发模式，AoE内部开发使用工程依赖管理
+gradle.ext.aoeDevEnabled = false
+if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
+    apply from: 'dev_settings.gradle'
+}
+

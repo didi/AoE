@@ -6,8 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.AoeProcessor;
-import com.didi.aoe.library.api.SingleInterpreterComponent;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.convertor.MultiConvertor;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
+import com.didi.aoe.library.api.interpreter.SingleInterpreterComponent;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -35,26 +38,26 @@ import java.util.Map;
  * @author noctis
  */
 public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, TModelInput, TModelOutput>
-        extends SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.MultiConvertor<TInput, TOutput, Object, TModelOutput> {
+        extends SingleInterpreterComponent<TInput, TOutput> implements MultiConvertor<TInput, TOutput, Object, TModelOutput> {
     private final Logger mLogger = LoggerFactory.getLogger("TensorFlowLite.Interpreter");
     private Interpreter mInterpreter;
     private Map<Integer, Object> outputPlaceholder;
 
     @Override
-    public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable AoeProcessor.OnInitListener listener) {
-        String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName() + ".tflite";
+    public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable OnInterpreterInitListener listener) {
+        String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName();
         ByteBuffer bb = loadFromAssets(context, modelFilePath);
         if (bb != null) {
             mInterpreter = new Interpreter(bb);
 
             outputPlaceholder = generalOutputPlaceholder(mInterpreter);
             if (listener != null) {
-                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
             }
             return;
         }
         if (listener != null) {
-            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_INNER_ERROR));
+            listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR));
         }
     }
 

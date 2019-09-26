@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
-apply from: '../../../constants.gradle'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    compileSdkVersion 29
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.releaseVersionCode
-        versionName project.ext.releaseVersion
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 2
+        versionName "1.0.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,24 +28,19 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
-        implementation "com.didi.aoe:library-logging:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:library-api:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:library-model-option-loader:$project.ext.releaseVersion"
-
-    } else {
-        implementation project(':library-logging')
+    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         implementation project(':library-api')
-        implementation project(':runtime-ncnn')
-        implementation project(':library-model-option-loader')
+        implementation project(":library-logging")
+        implementation project(":runtime-ncnn")
+        api project(':extensions-parcel-kryo')
+    } else {
+        implementation 'com.didi.aoe:library-api:1.0.2.1'
+        implementation "com.didi.aoe:library-logging:1.0.1"
+        implementation "com.didi.aoe:runtime-ncnn:1.0.2.1"
+        api "com.didi.aoe:extensions-parcel-kryo:1.0.0"
     }
 
-    api "com.didi.aoe:extensions-parcel-kryo:$project.ext.releaseVersion"
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }
 
-ext {
-    releaseArtifact = 'features-squeeze'
-    releaseDescription = 'The AoE squeeze library'
-}
-apply from: '../../../publish.gradle'

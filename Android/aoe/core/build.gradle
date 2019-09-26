@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
-apply from: '../../constants.gradle'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    compileSdkVersion 29
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.releaseVersionCode
-        versionName project.ext.releaseVersion
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 2
+        versionName "1.0.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -25,21 +24,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.annotation:annotation:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'androidx.annotation:annotation:1.1.0'
 
-    if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
-        api "com.didi.aoe:library-logging:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:library-model-option-loader:$project.ext.releaseVersion"
-        api "com.didi.aoe:library-api:$project.ext.releaseVersion"
-    } else {
-        api project(':library-logging')
-        implementation project(':library-model-option-loader')
+    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
+        implementation project(':extensions-downloadmanager')
         api project(':library-api')
+        api project(":library-logging")
+        api project(":library-model-option-loader")
+    } else {
+        api 'com.didi.aoe:library-api:1.0.2.1'
+        api "com.didi.aoe:library-logging:1.0.1"
+        api "com.didi.aoe:library-model-option-loader:1.0.2.1"
     }
 
 }
@@ -47,5 +47,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-core'
     releaseDescription = 'The AoE core library'
+    releaseVersion = '1.0.2.1'
 }
 apply from: '../../publish.gradle'

@@ -16,7 +16,6 @@ import com.didi.aoe.features.mnist.MnistInterpreter;
 import com.didi.aoe.features.mnist.model.SketchModel;
 import com.didi.aoe.features.mnist.render.SketchRenderer;
 import com.didi.aoe.features.mnist.widget.SketchView;
-import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.AoeClient;
 
 import java.util.concurrent.Executor;
@@ -37,13 +36,20 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
         super.onCreate(savedInstanceState);
         mClient = new AoeClient(requireContext(),
                 new AoeClient.Options()
-                        .setInterpreter(MnistInterpreter.class)/*
-                        .useRemoteService(false)*/,
+                        .setInterpreter(MnistInterpreter.class)
+                        .useRemoteService(false),
                 "mnist");
-        mClient.init(new AoeProcessor.OnInitListener() {
+        mClient.init(new AoeClient.OnInitListener() {
             @Override
-            public void onInitResult(@NonNull AoeProcessor.InitResult result) {
-                Log.d(TAG, "AoeClient init: " + result);
+            public void onSuccess() {
+                super.onSuccess();
+                Log.d(TAG, "AoeClient init success");
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                super.onFailed(code, msg);
+                Log.d(TAG, "AoeClient init failed: " + msg);
             }
         });
 

@@ -1,11 +1,13 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -32,8 +34,8 @@ class AoeProcessorImpl implements AoeProcessor,
     }
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInitListener listener) {
-        wrapper.init(context, modelOptions,listener);
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
+        wrapper.init(context, modelOptions, listener);
     }
 
     @Override

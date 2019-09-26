@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.annotation.NonNull;
+
 import com.didi.aoe.library.AoeRemoteException;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
 import com.didi.aoe.library.core.pojos.Message;
 import com.didi.aoe.library.core.service.IAoeProcessService;
@@ -26,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author noctis
  */
 public class AoeProcessService extends Service {
-    private final Logger mLogger = LoggerFactory.getLogger("AoeProcessService");
+    private final Logger LOGGER = LoggerFactory.getLogger("AoeProcessService");
 
     private final Map<String, ProcessorDelegate> mProcessorMap = new HashMap<>();
 
@@ -38,38 +43,41 @@ public class AoeProcessService extends Service {
 
             Context context = AoeProcessService.this.getApplicationContext();
 
-            AoeProcessor.ParcelComponent parceler = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
-            Object obj = parceler.byte2Obj(ins);
+            AoeProcessor.ParcelComponent packer = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
+            Object obj = packer.byte2Obj(ins);
+            // RemoteOptions 包含一些简单的配置描述，单个AIDL切片为100k，此处直接判断数据，不做数据切片合并
             if (obj instanceof RemoteOptions) {
                 RemoteOptions aoeOptions = (RemoteOptions) obj;
                 NativeProcessorWrapper processorWrapper = new NativeProcessorWrapper(context, aoeOptions.getClientOptions());
+
                 final CountDownLatch latch = new CountDownLatch(1);
 
-                final AtomicInteger statusCode = new AtomicInteger(AoeProcessor.StatusCode.STATUS_INNER_ERROR);
-                processorWrapper.init(context, aoeOptions.getModelOptions(), new AoeProcessor.OnInitListener() {
+                final AtomicInteger statusCode = new AtomicInteger(StatusCode.STATUS_INNER_ERROR);
+                processorWrapper.init(context, aoeOptions.getModelOptions(), new OnInterpreterInitListener() {
                     @Override
-                    public void onInitResult(AoeProcessor.InitResult result) {
+                    public void onInitResult(@NonNull InterpreterInitResult result) {
                         statusCode.set(result.getCode());
                         latch.countDown();
                     }
+
                 });
                 try {
                     // 最多等待1s
                     latch.await(1, TimeUnit.SECONDS);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.warn("InterruptedException: ", e);
                 }
 
-                mLogger.debug("init: " + statusCode.get() + ", clientId: " + clientId);
+                LOGGER.debug("init: " + statusCode.get() + ", clientId: " + clientId);
 
-                if (AoeProcessor.StatusCode.STATUS_OK == statusCode.get()) {
+                if (StatusCode.STATUS_OK == statusCode.get()) {
                     // 加载成功，cache执行委托者
                     ProcessorDelegate processorDelegate = new ProcessorDelegate(processorWrapper);
                     mProcessorMap.put(clientId, processorDelegate);
                 }
                 return statusCode.get();
             } else {
-                mLogger.error("parse init options " + clientId + ": " + obj);
+                LOGGER.error("parse init options " + clientId + ": " + obj);
                 throw new AoeRemoteException("parse init options " + clientId + ": " + obj);
             }
         }

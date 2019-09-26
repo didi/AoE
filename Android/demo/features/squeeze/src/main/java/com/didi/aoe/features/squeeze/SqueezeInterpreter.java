@@ -9,6 +9,9 @@ import androidx.annotation.Nullable;
 import com.didi.aoe.features.squeeze.extension.SqueezeModelOption;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 import com.didi.aoe.runtime.ncnn.Interpreter;
@@ -39,10 +42,10 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
     private List<String> lableList = new ArrayList();
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable AoeProcessor.OnInitListener listener) {
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
         if (modelOptions.size() != 1) {
             if (listener != null) {
-                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED));
             }
             return;
         }
@@ -62,16 +65,16 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
 
             if (listener != null) {
                 if (squeeze.isLoadModelSuccess()) {
-                    listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+                    listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
                 } else {
-                    listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+                    listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED));
                 }
             }
             return;
         }
 
         if (listener != null) {
-            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_INNER_ERROR));
+            listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR));
         }
 
     }
