@@ -1,10 +1,11 @@
 name: Android CI
 
-on: [push]
-  branches:
-    - master
-  paths:
-    - 'Android/*'
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'Android/*'
 
 jobs:
   check:
