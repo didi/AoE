@@ -1,6 +1,10 @@
 name: Android CI
 
 on: [push]
+  branches:
+    - master
+  paths:
+    - 'Android/*'
 
 jobs:
   check:
@@ -10,8 +14,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build with Gradle
-      run: |
-        cd ./Android
-        ./gradlew clean check --profile
+      - uses: actions/checkout@v1
+      - name: Build with Gradle
+        run: |
+          cd ./Android
+          ./gradlew clean check --profile
