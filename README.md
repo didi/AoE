@@ -56,5 +56,6 @@
 [tangjiaxu](https://github.com/shupiankuaile) 
 
 ## 五、友情链接
-我们部门的另外一款开源作品 [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
-
+1. [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
+2. 普惠出行产品技术公众号，欢迎关注。
+<img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="xKuloud" src="https://img0.didiglobal.com/static/gstar/img/NlLuFeiqKU1570690897784.jpg" width="196">
