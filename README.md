@@ -57,4 +57,5 @@
 
 ## 五、友情链接
 1. [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
-2. 普惠出行产品技术公众号，欢迎关注。<img alt="普惠出行产品技术公众号" src="https://img0.didiglobal.com/static/gstar/img/NlLuFeiqKU1570690897784.jpg" width="196">
+2. 普惠出行产品技术公众号，欢迎关注。
+    <img alt="普惠出行产品技术公众号" src="https://img0.didiglobal.com/static/gstar/img/NlLuFeiqKU1570690897784.jpg" width="196">
