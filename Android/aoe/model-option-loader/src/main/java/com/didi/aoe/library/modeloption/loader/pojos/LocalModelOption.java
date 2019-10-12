@@ -15,8 +15,6 @@ import com.didi.aoe.library.api.AoeModelOption;
 public class LocalModelOption implements AoeModelOption {
     private String version;
 
-    private String modelId;
-
     /**
      * 模型文件目录路径，目前只支持local模型
      */
@@ -28,10 +26,6 @@ public class LocalModelOption implements AoeModelOption {
 
     public String getVersion() {
         return version;
-    }
-
-    public String getModelId() {
-        return modelId;
     }
 
     @NonNull
@@ -56,7 +50,6 @@ public class LocalModelOption implements AoeModelOption {
     public String toString() {
         return "LocalModelOption{" +
                 "version='" + version + '\'' +
-                ", modelId='" + modelId + '\'' +
                 ", modelDir='" + modelDir + '\'' +
                 ", modelName='" + modelName + '\'' +
                 '}';
