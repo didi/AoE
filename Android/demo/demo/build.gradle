@@ -4,6 +4,8 @@ apply from: "../tools/download-models.gradle"
 
 android {
     compileSdkVersion 29
+    buildToolsVersion = '29.0.2'
+
     defaultConfig {
         applicationId "com.didi.aoe.examples.demo"
         minSdkVersion 15
@@ -60,7 +62,8 @@ dependencies {
         implementation project(':extensions-service')
         implementation project(':library-core')
     } else {
-        implementation 'com.didi.aoe:library-core:1.0.2.1'
+        implementation 'com.didi.aoe:library-core:1.0.2.3'
+        implementation 'com.didi.aoe:extensions-service:1.0.2.3'
     }
 
     implementation project(':features-mnist')

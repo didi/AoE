@@ -1,8 +1,9 @@
 apply plugin: 'com.novoda.bintray-release'
 
 Properties properties = new Properties()
-if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+File propertiesFile = project.rootProject.file('local.properties')
+if (propertiesFile.exists()) {
+    InputStream inputStream = propertiesFile.newDataInputStream();
     properties.load(inputStream)
 }
 
