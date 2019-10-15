@@ -1,6 +1,7 @@
 package com.didi.aoe.library.api;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -26,6 +27,13 @@ public interface AoeModelOption extends Serializable {
      */
     @NonNull
     String getModelName();
+
+    @Nullable
+    String getVersion();
+
+    @NonNull
+    @ModelSource
+    String getModelSource();
 
     /**
      * 模型配置验证
