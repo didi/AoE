@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.didi.aoe.library.api.StatusCode.STATUS_MODEL_DOWNLOAD_WAITING;
 import static com.didi.aoe.library.api.StatusCode.STATUS_OK;
 import static com.didi.aoe.library.api.StatusCode.STATUS_UNDEFINE;
 
@@ -121,7 +122,8 @@ public final class AoeClient {
 
     private void initInternal(@Nullable final OnInitListener listener) {
 
-        if (STATUS_UNDEFINE != mStatusResult.getCode()) {
+        if (STATUS_UNDEFINE != mStatusResult.getCode()
+                && STATUS_MODEL_DOWNLOAD_WAITING != mStatusResult.getCode()) {
             // 已执行初始化，直接返回当前状态
             dispatchInitResult(mStatusResult, listener);
             return;
@@ -138,6 +140,8 @@ public final class AoeClient {
                 }
 
             });
+        } else {
+            dispatchInitResult(mStatusResult, listener);
         }
     }
 
