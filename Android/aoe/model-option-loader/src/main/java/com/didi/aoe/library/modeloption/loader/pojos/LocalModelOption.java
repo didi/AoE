@@ -1,10 +1,12 @@
 package com.didi.aoe.library.modeloption.loader.pojos;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+
 import com.didi.aoe.library.api.AoeModelOption;
+import com.didi.aoe.library.api.ModelSource;
 
 /**
  * AoE默认的模型配置定义
@@ -38,6 +40,12 @@ public class LocalModelOption implements AoeModelOption {
     @Override
     public String getModelName() {
         return modelName;
+    }
+
+    @NonNull
+    @Override
+    public String getModelSource() {
+        return ModelSource.LOCAL;
     }
 
     @Override

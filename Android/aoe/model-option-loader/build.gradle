@@ -6,7 +6,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 2
-        versionName "1.0.2.1"
+        versionName "1.0.2.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -34,7 +34,7 @@ dependencies {
         implementation project(':library-api')
         implementation project(":library-logging")
     } else {
-        implementation 'com.didi.aoe:library-api:1.0.2.1'
+        implementation 'com.didi.aoe:library-api:1.0.2.2'
         implementation "com.didi.aoe:library-logging:1.0.1"
     }
 
@@ -44,6 +44,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-model-option-loader'
     releaseDescription = 'The AoE model option loader library'
-    releaseVersion = '1.0.2.1'
+    releaseVersion = '1.0.2.4'
 }
 apply from: '../../publish.gradle'
