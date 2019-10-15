@@ -6,7 +6,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 2
-        versionName "1.0.2.1"
+        versionName "1.0.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -35,7 +35,7 @@ dependencies {
         implementation project(':library-api')
         implementation project(":library-logging")
     } else {
-        implementation 'com.didi.aoe:library-api:1.0.2.1'
+        implementation 'com.didi.aoe:library-api:1.0.2.2'
         implementation "com.didi.aoe:library-logging:1.0.1"
     }
 
@@ -46,6 +46,6 @@ dependencies {
 ext {
     releaseArtifact = 'runtime-tensorflow-lite'
     releaseDescription = 'The AoE tensorflow lite runtime library'
-    releaseVersion = '1.0.2.1'
+    releaseVersion = '1.0.2.2'
 }
 apply from: '../../publish.gradle'

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
+import com.didi.aoe.library.api.ModelSource;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.convertor.MultiConvertor;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
@@ -20,11 +21,13 @@ import org.tensorflow.lite.Tensor;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,8 +48,33 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
 
     @Override
     public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable OnInterpreterInitListener listener) {
-        String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName();
-        ByteBuffer bb = loadFromAssets(context, modelFilePath);
+
+        @ModelSource String modelSource = modelOptions.getModelSource();
+        ByteBuffer bb = null;
+        if (ModelSource.CLOUD.equals(modelSource)) {
+            String modelFilePath = modelOptions.getModelDir() + "_" + modelOptions.getVersion() + File.separator + modelOptions.getModelName();
+            File modelFile = new File(FileUtils.prepareRootPath(context) + File.separator + modelFilePath);
+            if (modelFile.exists()) {
+                try {
+                    bb = loadFromExternal(context, modelFilePath);
+                } catch (Exception e) {
+                    mLogger.warn("IOException", e);
+                }
+            } else {
+                // 配置为云端模型，本地无文件，返回等待中状态
+                if (listener != null) {
+                    listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_DOWNLOAD_WAITING));
+                }
+                return;
+            }
+
+
+        } else {
+            String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName();
+            // local default
+            bb = loadFromAssets(context, modelFilePath);
+        }
+
         if (bb != null) {
             mInterpreter = new Interpreter(bb);
 
@@ -55,10 +83,19 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
                 listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
             }
             return;
+        } else {
+            if (listener != null) {
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR));
+            }
         }
-        if (listener != null) {
-            listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR));
-        }
+    }
+
+    private ByteBuffer loadFromExternal(Context context, String modelFilePath) throws IOException {
+        FileInputStream fis = new FileInputStream(FileUtils.prepareRootPath(context) + File.separator + modelFilePath);
+        FileChannel fileChannel = fis.getChannel();
+        long startOffset = fileChannel.position();
+        long declaredLength = fileChannel.size();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 
     private Map<Integer, Object> generalOutputPlaceholder(@NonNull Interpreter interpreter) {
@@ -112,7 +149,9 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
 
     @Override
     public void release() {
-        mInterpreter.close();
+        if (mInterpreter != null) {
+            mInterpreter.close();
+        }
     }
 
     @Override
