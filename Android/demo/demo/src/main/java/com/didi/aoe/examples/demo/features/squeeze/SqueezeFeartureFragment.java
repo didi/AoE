@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +15,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.didi.aoe.examples.demo.R;
 import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
 import com.didi.aoe.extensions.parcel.kryo.KryoParcelImpl;
 import com.didi.aoe.features.squeeze.SqueezeInterpreter;
 import com.didi.aoe.features.squeeze.extension.SqueezeModelLoaderImpl;
-import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.AoeClient;
 
 import java.io.FileNotFoundException;
@@ -46,10 +46,17 @@ public class SqueezeFeartureFragment extends BaseFeartureFragment {
                         .setParceler(KryoParcelImpl.class)
                         .useRemoteService(false),
                 "squeeze");
-        mClient.init(new AoeProcessor.OnInitListener() {
+        mClient.init(new AoeClient.OnInitListener() {
             @Override
-            public void onInitResult(@NonNull AoeProcessor.InitResult result) {
-                Log.d(TAG, "AoeClient init: " + result);
+            public void onSuccess() {
+                super.onSuccess();
+                Log.d(TAG, "AoeClient init success");
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                super.onFailed(code, msg);
+                Log.d(TAG, "AoeClient init failed: " + msg);
             }
         });
     }

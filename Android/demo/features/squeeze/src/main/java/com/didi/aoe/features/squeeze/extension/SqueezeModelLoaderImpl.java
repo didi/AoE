@@ -1,15 +1,16 @@
 package com.didi.aoe.features.squeeze.extension;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
+import com.didi.aoe.features.squeeze.utils.FileUtil;
+import com.didi.aoe.features.squeeze.utils.JsonUtil;
 import com.didi.aoe.library.AoeRuntimeException;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
-import com.didi.aoe.library.modeloption.loader.utils.FileUtil;
-import com.didi.aoe.library.modeloption.loader.utils.JsonUtil;
 
 import java.io.File;
 

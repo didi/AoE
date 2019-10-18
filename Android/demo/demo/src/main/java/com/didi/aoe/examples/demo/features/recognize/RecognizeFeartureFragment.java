@@ -44,10 +44,17 @@ public class RecognizeFeartureFragment extends BaseFeartureFragment {
                         .setParceler(KryoParcelImpl.class)
                         .useRemoteService(false),
                 "recognize-mnn");
-        mClient.init(new AoeProcessor.OnInitListener() {
+        mClient.init(new AoeClient.OnInitListener() {
             @Override
-            public void onInitResult(@NonNull AoeProcessor.InitResult result) {
-                Log.d(TAG, "AoeClient init: " + result);
+            public void onSuccess() {
+                super.onSuccess();
+                Log.d(TAG, "AoeClient init success");
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                super.onFailed(code, msg);
+                Log.d(TAG, "AoeClient init failed: " + msg);
             }
         });
     }

@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
-apply from: '../../constants.gradle'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    compileSdkVersion 29
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.releaseVersionCode
-        versionName project.ext.releaseVersion
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 2
+        versionName "1.0.2.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -31,12 +30,12 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    if (project.ext.has("aoePublishEnabled") && project.ext.aoePublishEnabled) {
-        implementation "com.didi.aoe:library-logging:$project.ext.releaseVersion"
-        implementation "com.didi.aoe:library-api:$project.ext.releaseVersion"
-    } else {
-        implementation project(':library-logging')
+    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         implementation project(':library-api')
+        implementation project(":library-logging")
+    } else {
+        implementation 'com.didi.aoe:library-api:1.0.2.2'
+        implementation "com.didi.aoe:library-logging:1.0.1"
     }
 
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -45,5 +44,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-model-option-loader'
     releaseDescription = 'The AoE model option loader library'
+    releaseVersion = '1.0.2.4'
 }
 apply from: '../../publish.gradle'

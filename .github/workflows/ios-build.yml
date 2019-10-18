@@ -1,0 +1,30 @@
+name: iOS CI
+
+on: 
+  push:
+    paths:
+    - 'iOS'  
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Install Cocoapods
+      run: gem install cocoapods
+      
+    - name: lint Cocoapods
+      run: |
+        set -eo pipefail
+        pod lib lint --allow-warning
+      env:
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        
+    - name: build example
+      run: |
+        pod install --project-directory=iOS/Demo
+        xcodebuild -workspace iOS/Demo/AoEOpenSDKDemo.xcworkspace -scheme AoEOpenSDKDemo -configuration Debug
+    
+    

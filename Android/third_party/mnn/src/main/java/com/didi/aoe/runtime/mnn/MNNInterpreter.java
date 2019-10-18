@@ -6,8 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.AoeProcessor;
-import com.didi.aoe.library.api.SingleInterpreterComponent;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.convertor.Convertor;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
+import com.didi.aoe.library.api.interpreter.SingleInterpreterComponent;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -26,7 +29,7 @@ import java.nio.ByteOrder;
  * @param <TOutput> 范型，业务输出数据
  * @author coleman
  */
-public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
+public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterComponent<TInput, TOutput> implements Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
 
     private final Logger mLogger = LoggerFactory.getLogger("MNNInterpreter");
     private MNNNetInstance mNetInstance;
@@ -35,7 +38,7 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
     protected Context mAppContext;
 
     @Override
-    public void init(@NonNull Context context, @NonNull AoeModelOption option, @Nullable AoeProcessor.OnInitListener listener) {
+    public void init(@NonNull Context context, @NonNull AoeModelOption option, @Nullable OnInterpreterInitListener listener) {
         this.mAppContext = context.getApplicationContext();
         String modelFilePath = option.getModelDir() + File.separator + option.getModelName() + ".mnn";
         try {
@@ -49,7 +52,7 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
             mSession = mNetInstance.createSession(config);
             mInputTensor = mSession.getInput(null);
             if (listener != null) {
-                listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_OK));
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
             }
             return;
         } catch (Exception e) {
@@ -57,7 +60,7 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
         }
 
         if (listener != null) {
-            listener.onInitResult(AoeProcessor.InitResult.create(AoeProcessor.StatusCode.STATUS_MODEL_LOAD_FAILED));
+            listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED));
         }
     }
 

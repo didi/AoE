@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.didi.aoe.library.api.AoeModelOption;
+import com.didi.aoe.library.api.ModelSource;
 
 /**
  * @author noctis
@@ -34,6 +35,12 @@ public class SqueezeModelOption implements AoeModelOption {
     @Override
     public String getModelName() {
         return modelName;
+    }
+
+    @NonNull
+    @Override
+    public String getModelSource() {
+        return ModelSource.LOCAL;
     }
 
     public String getVersion() {

@@ -8,7 +8,7 @@ import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
-import com.didi.aoe.library.modeloption.loader.impl.AoeModelOptionLoaderImpl;
+import com.didi.aoe.library.modeloption.loader.impl.LocalOnlyModelOptionLoader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +57,7 @@ final class ComponentProvider {
         AoeProcessor.ModelOptionLoaderComponent modelLoaderComponent = modelLoaderComponentMap.get(clzName);
         if (modelLoaderComponent == null) {
             // 未指定实现则使用AoE默认实现
-            modelLoaderComponent = new AoeModelOptionLoaderImpl();
+            modelLoaderComponent = new LocalOnlyModelOptionLoader();
         }
         return modelLoaderComponent;
     }

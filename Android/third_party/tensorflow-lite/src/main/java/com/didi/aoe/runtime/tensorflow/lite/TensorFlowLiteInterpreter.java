@@ -3,7 +3,7 @@ package com.didi.aoe.runtime.tensorflow.lite;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.convertor.Convertor;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  * @param <TModelOutput> 范型，模型输出数据
  * @author noctis
  */
-public abstract class TensorFlowLiteInterpreter<TInput, TOutput, TModelInput, TModelOutput> extends TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, Object, TModelOutput> implements AoeProcessor.Convertor<TInput, TOutput, TModelInput, TModelOutput> {
+public abstract class TensorFlowLiteInterpreter<TInput, TOutput, TModelInput, TModelOutput> extends TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, Object, TModelOutput> implements Convertor<TInput, TOutput, TModelInput, TModelOutput> {
 
     @Nullable
     @Override

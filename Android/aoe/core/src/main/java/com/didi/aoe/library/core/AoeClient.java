@@ -8,6 +8,9 @@ import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -15,7 +18,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
+import static com.didi.aoe.library.api.StatusCode.STATUS_MODEL_DOWNLOAD_WAITING;
+import static com.didi.aoe.library.api.StatusCode.STATUS_OK;
+import static com.didi.aoe.library.api.StatusCode.STATUS_UNDEFINE;
 
 /**
  * AoE业务交互终端。
@@ -23,7 +28,6 @@ import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
  * @author noctis
  */
 public final class AoeClient {
-
 
     private final Logger mLogger = LoggerFactory.getLogger("AoeClient");
 
@@ -33,8 +37,7 @@ public final class AoeClient {
 
     private final List<AoeModelOption> mModelOptions = new ArrayList<>();
 
-    @AoeProcessor.StatusCode
-    private int mStatusCode = STATUS_UNDEFINE;
+    private InterpreterInitResult mStatusResult = InterpreterInitResult.create(STATUS_UNDEFINE);
 
     /**
      * 默认单模型构造方法
@@ -77,7 +80,7 @@ public final class AoeClient {
      *
      * @param listener
      */
-    public void init(@Nullable AoeProcessor.OnInitListener listener) {
+    public void init(@Nullable OnInitListener listener) {
 
         initInternal(listener);
 
@@ -89,8 +92,8 @@ public final class AoeClient {
                                      String... subsequentModelDirs) {
         AoeModelOption modelOption = modelLoader.load(context, mainModelDir);
         if (modelOption == null || !modelOption.isValid()) {
-            mLogger.debug("Model init error: " + modelOption);
-            mStatusCode = AoeProcessor.StatusCode.STATUS_CONFIG_PARSE_ERROR;
+            mLogger.warn("[tryLoadModelOptions] error ModelOption: " + modelOption);
+            mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: " + modelOption);
             return;
         }
 
@@ -107,7 +110,7 @@ public final class AoeClient {
 
                 } else {
                     mLogger.debug("Subsequent model init error: " + modelOption);
-                    mStatusCode = AoeProcessor.StatusCode.STATUS_CONFIG_PARSE_ERROR;
+                    mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "Subsequent ModelOption parse error: " + modelOption);
                     return;
                 }
             }
@@ -117,28 +120,38 @@ public final class AoeClient {
         mModelOptions.addAll(options);
     }
 
-    private void initInternal(@Nullable final AoeProcessor.OnInitListener listener) {
-        AoeProcessor.InitResult initResult = AoeProcessor.InitResult.create(mStatusCode);
+    private void initInternal(@Nullable final OnInitListener listener) {
+
+        if (STATUS_UNDEFINE != mStatusResult.getCode()
+                && STATUS_MODEL_DOWNLOAD_WAITING != mStatusResult.getCode()) {
+            // 已执行初始化，直接返回当前状态
+            dispatchInitResult(mStatusResult, listener);
+            return;
+        }
 
         if (isModelOptionReady()) {
-            if (STATUS_UNDEFINE != mStatusCode) {
-                if (listener != null) {
-                    listener.onInitResult(initResult);
-                }
-                return;
-            }
-            mProcessor.getInterpreterComponent().init(mContext, mModelOptions, new AoeProcessor.OnInitListener() {
-                @Override
-                public void onInitResult(AoeProcessor.InitResult result) {
-                    mStatusCode = result.getCode();
 
-                    if (listener != null) {
-                        listener.onInitResult(result);
-                    }
+            mProcessor.getInterpreterComponent().init(mContext, mModelOptions, new OnInterpreterInitListener() {
+                @Override
+                public void onInitResult(@NonNull InterpreterInitResult result) {
+                    mStatusResult = result;
+
+                    dispatchInitResult(result, listener);
                 }
+
             });
-        } else if (listener != null) {
-            listener.onInitResult(initResult);
+        } else {
+            dispatchInitResult(mStatusResult, listener);
+        }
+    }
+
+    private void dispatchInitResult(@NonNull InterpreterInitResult result, @Nullable OnInitListener listener) {
+        if (listener != null) {
+            if (STATUS_OK == result.getCode()) {
+                listener.onSuccess();
+            } else {
+                listener.onFailed(result.getCode(), result.getMsg());
+            }
         }
     }
 
@@ -166,7 +179,7 @@ public final class AoeClient {
      * @return true，模型加载正常
      */
     private boolean isModelReady() {
-        return AoeProcessor.StatusCode.STATUS_OK == mStatusCode;
+        return STATUS_OK == mStatusResult.getCode();
     }
 
     @Nullable
@@ -227,6 +240,19 @@ public final class AoeClient {
             return this;
         }
 
+    }
+
+    /**
+     * AoeClient 初始化监听
+     */
+    public static class OnInitListener {
+        public void onSuccess() {
+
+        }
+
+        public void onFailed(@StatusCode int code, String msg) {
+
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -17,7 +18,6 @@ abstract class AbsProcessorWrapper implements AoeProcessor,
 
     AbsProcessorWrapper(@NonNull Context context, @NonNull AoeClient.Options options) {
         mContext = context;
-
     }
 
     @NonNull

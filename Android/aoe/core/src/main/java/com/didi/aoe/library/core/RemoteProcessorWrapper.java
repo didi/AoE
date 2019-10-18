@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
+import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
 import com.didi.aoe.library.core.pojos.Message;
 import com.didi.aoe.library.core.service.IAoeProcessService;
@@ -22,9 +25,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.content.Context.BIND_AUTO_CREATE;
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_CONNECTION_WAITING;
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_OK;
-import static com.didi.aoe.library.api.AoeProcessor.StatusCode.STATUS_UNDEFINE;
+import static com.didi.aoe.library.api.StatusCode.STATUS_OK;
+import static com.didi.aoe.library.api.StatusCode.STATUS_UNDEFINE;
 
 /**
  * 独立进程处理器包装实现，通过Context建立远程连接，包装推理交互。
@@ -39,8 +41,8 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     private String mId;
     private List<AoeModelOption> mModelOptions;
     private IAoeProcessService mProcessProxy;
-    private OnInitListener mOnInitListener;
-    @AoeProcessor.StatusCode
+    private OnInterpreterInitListener mOnInitListener;
+    @StatusCode
     private int mStatusCode = STATUS_UNDEFINE;
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -50,8 +52,8 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
             bServiceBinded.set(true);
             mProcessProxy = IAoeProcessService.Stub.asInterface(service);
 
-            if (STATUS_CONNECTION_WAITING == mStatusCode) {
-                InitResult initResult = tryInitIfNeeded(mId, mModelOptions);
+            if (StatusCode.STATUS_CONNECTION_WAITTING == mStatusCode) {
+                InterpreterInitResult initResult = tryInitIfNeeded(mId, mModelOptions);
                 if (mOnInitListener != null) {
                     mOnInitListener.onInitResult(initResult);
                 }
@@ -77,11 +79,11 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     }
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInitListener listener) {
+    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
         mModelOptions = modelOptions;
         mOnInitListener = listener;
         if (isServiceRunning()) {
-            InitResult initResult = tryInitIfNeeded(mId, mModelOptions);
+            InterpreterInitResult initResult = tryInitIfNeeded(mId, mModelOptions);
             if (listener != null) {
                 listener.onInitResult(initResult);
             }
@@ -90,7 +92,11 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
 
             if (STATUS_UNDEFINE == mStatusCode) {
                 // 初始状态，尚未绑定RemoteService，标记为等待连接状态，在建立连接后自动初始化
-                mStatusCode = STATUS_CONNECTION_WAITING;
+                mStatusCode = StatusCode.STATUS_CONNECTION_WAITTING;
+            }
+
+            if (listener != null) {
+                listener.onInitResult(InterpreterInitResult.create(mStatusCode));
             }
 
         }
@@ -175,9 +181,9 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     }
 
     @NonNull
-    private InitResult tryInitIfNeeded(@NonNull String id, @NonNull List<AoeModelOption> modelOptions) {
+    private InterpreterInitResult tryInitIfNeeded(@NonNull String id, @NonNull List<AoeModelOption> modelOptions) {
         if (isReady()) {
-            return InitResult.create(StatusCode.STATUS_OK);
+            return InterpreterInitResult.create(STATUS_OK);
         }
         if (isServiceRunning()) {
 
@@ -194,12 +200,12 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
 
                 mStatusCode = initResultCode;
 
-                return InitResult.create(initResultCode);
+                return InterpreterInitResult.create(initResultCode);
             } catch (RemoteException e) {
                 mLogger.error("tryInitIfNeeded error", e);
             }
         }
-        return InitResult.create(STATUS_CONNECTION_WAITING, "RemoteService not active.");
+        return InterpreterInitResult.create(StatusCode.STATUS_CONNECTION_WAITTING, "RemoteService not active.");
     }
 
     /**

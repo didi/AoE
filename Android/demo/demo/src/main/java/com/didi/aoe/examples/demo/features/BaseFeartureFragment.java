@@ -1,5 +1,6 @@
 package com.didi.aoe.examples.demo.features;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -65,7 +66,11 @@ public class BaseFeartureFragment extends BaseFragment {
         Log.d(TAG, "[onDestroy]");
         mHandler.removeCallbacksAndMessages(null);
         if (mWorkerHandler != null) {
-            mWorkerHandler.quitSafely();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mWorkerHandler.quitSafely();
+            } else {
+                mWorkerHandler.quit();
+            }
         }
         if (mWorker != null) {
             mWorker.removeCallbacksAndMessages(null);
