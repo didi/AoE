@@ -39,11 +39,11 @@ int dencryptAoeData(const char *srcData, const int srcLength, const char **dstDa
 
  @param srcData 原始数据
  @param srcLength 原始数据长度
- @param verion 版本号
+ @param version 版本号
  @param header 根据原始数据获得到 头数据
  @return 头数据长度，返回-1表示加密失败
  */
-int getAoECryptHeader(const char *srcData, const int srcLength, const int verion, const char **header);
+int getAoECryptHeader(const char *srcData, const int srcLength, const int version, const char **header);
 
 #ifdef __cplusplus
 }

@@ -7,25 +7,48 @@
 
 ## 简介
 **AoE** 提供终端侧机器学习集成运行环境（IRE），实现方便拓展支持各种AI推理框架的运
-行，对上层业务提供统一的、轻量级、解藕的接口，提供独立进程运行机制，保障推理服务和数
-据处理实现对业务宿主的稳定运行不受影响。
+行，对上层业务提供统一的、轻量级、解藕的接口。
 
-## 文档
-* [概念介绍](./Concept.md)
-* [架构设计](./Architecture.md)
-* [组件设计](./Component.md)
-* [高级定制](./Advanced.md)
-* [发布历史](./ReleaseNotes.md)
 
 ## 示例Demo
+[Demo](./demo/demo) 通过几个简单的例子，演示了如何集成 AoE SDK，使用不同的推理框架和组件实现进行业务应用。
 
-[Demo](./samples/demo/demo) 通过两个简单的例子，演示了如何集成 AoE SDK，使用不同的推理框架和组件实现进行业务应用。
+### 环境要求
+* 如果尚未安装，请按照网站上的说明安装 [Android Studio 3.5](https://developer.android.com/studio/index.html) 或更高版本。
+
+* 最低 API 为 15 的 Android 设备和 Android 开发环境。
+
+### 工程编译
+* 打开Android Studio，然后从“欢迎”屏幕中选择 `Open an existing Android Studio project`。
+
+* 在出现的 `Open File or Project` 窗口中，导航至克隆的 AoE GitHub 项目的存储位置，选择项目根目录下的 `Android` 目录。单击 `Ok`。
+
+* 如果它要求您执行 `Gradle Sync`，请单击 `Ok`。
+
+* 如果遇到诸如 `android-15` 之类的目标无法找到之类的错误，则可能还需要安装各种平台和工具。单击运行按钮（绿色箭头），或从顶部菜单中选择 运行 > 运行 'examples-demo'。您可能需要使用 `Build` > `Rebuild` 来重建项目。
+
+* 另外，您需要插入一个启用了开发人员选项的 Android 设备。有关设置开发者设备的更多详细信息，请参见 [此处](https://developer.android.com/studio/run/device)。
+
+### Demo 模型介绍
+|模型|推理框架|拓展组件|加载方式|
+|:-|:-|:-|:-|
+|MNIST|TensorFlow Lite| -[x]runtime-tensorflow-lite -[x]extensions-service|云端加载|
+|Squeeze|NCNN|-[x]runtime-ncnn|内置模型|
+|MobileNet V1|MNN|-[x]runtime-mnn|内置模型|
+
+### 使用模型
+Demo 项目中 `MNIST` 使用了云端加载方式从 AoE 后台同步/下载模型（请确保授予应用网络访问权限），而 `recognize` 和 `squeeze` 则直接使用脚本 `download-models.gradle` 自动下载解压模型文件到指定目录供本地离线使用。
+
+如果您想直接下载模型和配置文件，可直接访问下载：
+
+[recognize](https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip)
+｜
+[squeeze](https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip)
 
 
-| 1. 基于 [TensorFLow Lite](https://www.tensorflow.org/lite/) 的 MNIST 手写数字识别 | 2. 基于 [NCNN](https://github.com/Tencent/ncnn) 的 SqueezeNet 物体识别 |
-|---|---|
-|  ![MNIST](./../images/mnist_android.jpeg) |![Squeeze](./../images/squeeze_android.jpeg)|
 
+### 附加说明
+请不要删除 `assets` 文件夹内容。如果您删除了文件，请从菜单中选择 `Build` > `Rebuild`，以将已删除的模型文件重新下载到 `assets` 文件夹中。
 
 ## 集成使用
 ### 1. 引用依赖
@@ -37,6 +60,9 @@ AoE Android SDK 适用于 `API 15+`
 ```
 allprojects {
   repositories {
+    maven {
+      url 'https://dl.bintray.com/aoe/maven'
+    }
     jcenter()
   }
 }
@@ -44,7 +70,8 @@ allprojects {
 在组件 build.gradle 中添加依赖即可：
 
 ```
-implementation 'com.didi.aoe:library-core:1.0.0'
+implementation 'com.didi.aoe:library-core:latest'
+implementation 'com.didi.aoe:runtime-xxx:latest' // 依赖于选择的推理框架运行时
 ```
 ### 2. 添加模型和描述文件
 AoE 标准模型配置规范是在 assets 模型目录下定义模型描述文件 `model.config`，指明
@@ -56,26 +83,18 @@ assets/{feature_name}/model.config
 ```
 {
       "version": "1.0.0",
-      "tag": "tag_mnist",
       "runtime": "tensorflow",
-      "source": "installed",
+      "source": "cloud",
+      "modelId": 75,
       "modelDir": "mnist",
-      "modelName": "mnist_cnn_keras"
+      "modelName": "mnist_cnn_keras.tflite",
+      "modelSign":"822d72ce038baef3e40924016d4550bc"
 }
 ```
 
->Tips: 如需定制协议请参考文档 [高级定制](./Advanced.md)
-
-之后将本地内置或云端加载的模型文件放置在描述文件指定的地方。
-
 ### 3. 实现 InterpreterComponent 接口
 
-目前AoE支持三种组件：
-* [InterpreterComponent](./CONCEPT.md#InterpreterComponent)
-* [ModelOptionLoaderComponent](./CONCEPT.md#ModelOptionLoaderComponent)
-* [ParcelComponent](./CONCEPT.md#ParcelComponent)
-
-InterpreterComponent为 **必须** 实现的组件，用于完成模型加载和数据预处理、后处理；
+InterpreterComponent 用于完成模型加载和数据预处理、后处理；
 
 以下代码片段演示了如何基于 TensorFlow Lite 实现 MNIST 图像数字识别功能的 
 InterpreterComponent，我们提供TensorFlow的运行时组件，使用了抽象类 
@@ -107,24 +126,33 @@ public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer
 
 }
 ```
-ModelOptionLoaderComponent 和 ParcelComponent，可根据业务实际情况进行接口实现
-然后进行注册。
 
-> 具体使用方法参见 [MNIST](./samples/demo/features/mnist) 应用示例和 
-[高级定制](./Advanced.md)
+> 具体使用方法参见 [MNIST](./demo/features/mnist) 应用示例
 
 ### 4. 推理服务交互
 构造AoeClient实例，显式声明InterpreterComponent实例，进行推理操作。
 ```
 // 1 构造AoeClient交互实例
-AoeClient client = new AoeClient(requireContext(), {Client ID，自定义},
+AoeClient client = new AoeClient(requireContext(),
                 new AoeClient.Options()
                         .setInterpreter({Interpreter实例类})
                         .useRemoteService(false), // AoE默认使用独立进程执行Interpreter，可手动关闭使用该特性
                 {模型配置assets文件夹路径});
 
 // 2 模型初始化，加载模型文件
-int statusCode = client.init();
+mClient.init(new AoeClient.OnInitListener() {
+    @Override
+    public void onSuccess() {
+        super.onSuccess();
+        Log.d(TAG, "AoeClient init success");
+    }
+
+    @Override
+    public void onFailed(int code, String msg) {
+        super.onFailed(code, msg);
+        Log.d(TAG, "AoeClient init failed: " + code + ", " + msg);
+    }
+});
 
 if (client.isRunning()) {
     // 3 执行推理
@@ -135,14 +163,3 @@ if (client.isRunning()) {
 client.release();
 ```
 
-## 开源依赖
-
-[TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/LICENSE) Google的机器学习推理框架。MNIST 功能演示如何使用 AoE 包装好的TensorFlow Lite组件，porting了mnist的示例工程。
-
-[Gson](https://github.com/google/gson/blob/master/LICENSE) Google的Json序列化库，用于默认模型配置加载。
-
-[Kryo](https://github.com/EsotericSoftware/kryo/blob/master/LICENSE.md) EsotericSoftware的对象序列化框架，用于跨进程通信时对象序列化传递。有比较好的性能，作为可选序列化组件。
-
-[NCNN](https://github.com/Tencent/ncnn/blob/master/LICENSE.txt) 腾讯的神经网络前向计算框架。Squeeze 功能演示如何深度定制集成推理框架，porting了ncnn的示例工程。
-
-[gradle-download-task](https://github.com/michel-kraemer/gradle-download-task/blob/master/LICENSE.txt) Gradle 文件下载插件，用于模型文件下载任务，减小工程体积。

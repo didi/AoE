@@ -70,4 +70,7 @@ typedef NS_ENUM(NSUInteger, AoECryptoType) {
                      encryptKey:(NSString *)key
                          offset:(NSData *)iv
                        saltType:(AoECryptoType)type;
+
++ (NSString *)aoe_encryptAoEReqParams:(NSDictionary *)params
+                           encryptKey:(NSString *)key;
 @end

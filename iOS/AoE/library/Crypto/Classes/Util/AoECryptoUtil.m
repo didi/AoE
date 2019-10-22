@@ -10,6 +10,8 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonDigest.h>
 #import "aoecrypt.h"
+#import "aoesign.h"
+//#import <aoesign/aoesign.h>
 
 #define CC_MD5_DIGEST_LENGTH    16          /* digest length in bytes */
 #define VERSION 1
@@ -156,5 +158,15 @@
     return distData;
 }
 
-
++ (NSString *)aoe_encryptAoEReqParams:(NSDictionary <NSString *,NSString *> *)params
+                           encryptKey:(NSString *)key {
+    NSString *sginStr = @"";
+    for (NSString *paramskey in params.allKeys) {
+        sginStr = [sginStr stringByAppendingFormat:@"%@%@",key,[params objectForKey:paramskey]];
+    }
+    const char *distDataBytes = NULL;
+    aoe_generalSign([sginStr cStringUsingEncoding:NSUTF8StringEncoding], (int)sginStr.length, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
+    NSString *sginedStr = [NSString stringWithUTF8String:distDataBytes];
+    return sginedStr;
+}
 @end
