@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AoEModelOption.h"
 
 @interface AoEUpgradeServiceInputModel : NSObject
 
@@ -23,6 +24,9 @@
 
 @property (nonatomic, assign) BOOL needDownloadImmediately;
 
+@property (nonatomic, copy) NSDictionary *requestParams;
+
 + (instancetype)initWithName:(NSString *)name version:(NSString *)version url:(NSString *)url storagePath:(NSString *)path;
 
++ (instancetype)initWithModuleOption:(AoEModelOption *)option storagePath:(NSString *)path;
 @end

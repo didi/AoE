@@ -26,7 +26,8 @@ target 'AoEOpenSDKDemo' do
   ], :inhibit_warnings => false
   pod 'DoraemonKit/Core','~> 1.2.0', :inhibit_warnings => false
   
-  pod 'OpenSSL-Universal'
+#  pod 'OpenSSL-Universal', :path => "./OpenSSL-U/"
+  
     target 'AoEOpenSDKDemoTests' do
 
     end

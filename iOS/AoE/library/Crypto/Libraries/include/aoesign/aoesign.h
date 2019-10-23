@@ -9,15 +9,14 @@
 #define aoesign_h
 
 #include <stdio.h>
+#include "aoedict.h"
 
-struct aoeSignParams
-{
-    char *strToSign;
-    char *appKey;
-    int strToSignLenght;
-    int appKeyLenght;
-    int method;
-};
+/// aoe生成通用签名
+/// @param appKey appkey
+/// @param appKeyLenght appkey长度
+/// @param method 签名方法 （暂时没有使用）
+/// @param signedStr 回调
+int aoe_generalSignDict(const dict *paramDict,const char *appKey , const unsigned long appKeyLenght, int method, char **signedStr);
 
 /// aoe生成通用签名
 /// @param paramStr 要加密的参数拼接的string

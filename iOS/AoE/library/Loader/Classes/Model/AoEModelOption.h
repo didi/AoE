@@ -51,6 +51,10 @@
  模型加密类型
  */
 @property (assign, nonatomic) NSInteger encryptType;
+/**
+ 模型ID
+ */
+@property (assign, nonatomic) NSInteger modelId;
 
 + (instancetype)modelWithPath:(NSString *)path;
 - (instancetype)initWithPath:(NSString *)path;

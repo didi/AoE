@@ -160,13 +160,14 @@
 
 + (NSString *)aoe_encryptAoEReqParams:(NSDictionary <NSString *,NSString *> *)params
                            encryptKey:(NSString *)key {
-    NSString *sginStr = @"";
+    dict *paramsDict = dictCreate(NULL, NULL);
     for (NSString *paramskey in params.allKeys) {
-        sginStr = [sginStr stringByAppendingFormat:@"%@%@",key,[params objectForKey:paramskey]];
+        dictAdd(paramsDict, (void *)[paramskey cStringUsingEncoding:NSUTF8StringEncoding], (void *)[[params objectForKey:paramskey] cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     const char *distDataBytes = NULL;
-    aoe_generalSign([sginStr cStringUsingEncoding:NSUTF8StringEncoding], (int)sginStr.length, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
+    aoe_generalSignDict(paramsDict, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
     NSString *sginedStr = [NSString stringWithUTF8String:distDataBytes];
+    dictRelease(paramsDict);
     return sginedStr;
 }
 @end
