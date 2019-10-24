@@ -21,10 +21,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.didi.aoe.library.AoeRuntimeException;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
+import com.didi.aoe.library.lang.AoeRuntimeException;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -54,7 +54,7 @@ public abstract class MultiInterpreterComponent<TInput, TOutput> implements AoeP
 
         final CountDownLatch latch = new CountDownLatch(mSubInterpreters.size());
 
-        final AtomicInteger statusCode = new AtomicInteger(StatusCode.STATUS_INNER_ERROR);
+        final AtomicInteger statusCode = new AtomicInteger(StatusCode.STATUS_OK);
         for (SingleInterpreterComponent interpreter : mSubInterpreters) {
             interpreter.init(context, modelOptions, new OnInterpreterInitListener() {
                 @Override

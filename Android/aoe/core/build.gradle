@@ -2,11 +2,13 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
+    buildToolsVersion = '29.0.2'
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 2
-        versionName "1.0.2.3"
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -18,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
 
 }
 
@@ -33,12 +40,15 @@ dependencies {
 
     if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         api project(':library-api')
-        api project(":library-logging")
         api project(":library-model-option-loader")
+
+        api project(":library-common")
     } else {
-        api 'com.didi.aoe:library-api:1.0.2.2'
-        api "com.didi.aoe:library-logging:1.0.1"
+        api 'com.didi.aoe:library-api:1.0.3.1'
         api 'com.didi.aoe:library-model-option-loader:1.0.2.4'
+
+        implementation 'com.didi.aoe:library-common:1.0.3.1'
+
     }
 
 }
@@ -46,6 +56,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-core'
     releaseDescription = 'The AoE core library'
-    releaseVersion = '1.0.2.3'
+    releaseVersion = '1.0.3'
 }
 apply from: '../../publish.gradle'

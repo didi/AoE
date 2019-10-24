@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
 import com.didi.aoe.library.logging.Logger;
@@ -27,37 +28,77 @@ import com.didi.aoe.library.logging.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author noctis
- * @since 1.1.0
+ * @since 1.0.3
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
 public class FileUtils {
     private static final Logger mLogger = LoggerFactory.getLogger("FileUtils");
 
+    /**
+     * 获取文件根目录，有外置存储时优先用外置空间
+     *
+     * @param context 应用上下文
+     * @return
+     */
     public static String getFilesDir(@NonNull Context context) {
         if (isExternalMediaAvailable()) {
-            return context.getExternalFilesDir(null).getAbsolutePath();
+            File filesDir = Objects.requireNonNull(context.getExternalFilesDir(null));
+            return filesDir.getAbsolutePath();
         }
         return context.getFilesDir().getAbsolutePath();
     }
 
-    private static boolean isExternalMediaAvailable() {
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                || !Environment.isExternalStorageRemovable()) {
-            // No SD card found.
-            return true;
-        }
-        return false;
+    /**
+     * 有可用外置存储
+     *
+     * @return
+     */
+    public static boolean isExternalMediaAvailable() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable();
     }
 
+    public static boolean isExist(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
+    }
+
+    @Nullable
+    public static String readString(String filePath) {
+        byte[] result = read(filePath);
+        if (result == null) {
+            return null;
+        } else {
+            return new String(result);
+        }
+    }
+
+    @Nullable
+    public static String readString(InputStream is) {
+        byte[] result = read(is);
+        if (result == null) {
+            return null;
+        } else {
+            return new String(result);
+        }
+    }
+
+    /**
+     * 读取文件路径字节流数组
+     *
+     * @param filePath 文件全路径
+     * @return
+     */
+    @Nullable
     public static byte[] read(String filePath) {
-        try {
-            FileInputStream fis = new FileInputStream(filePath);
+        try (FileInputStream fis = new FileInputStream(filePath)) {
             return read(fis);
         } catch (Exception e) {
             mLogger.error("read file exception: ", e);
@@ -65,9 +106,17 @@ public class FileUtils {
         return null;
     }
 
+    /**
+     * 读取字节流数组
+     *
+     * @param is 输入流
+     * @return
+     */
+    @Nullable
     public static byte[] read(InputStream is) {
 
-        try (BufferedInputStream bis = new BufferedInputStream(is); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (BufferedInputStream bis = new BufferedInputStream(is);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
             int len;
 

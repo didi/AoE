@@ -51,7 +51,7 @@ dependencies {
         implementation project(':library-api')
         implementation project(":library-logging")
     } else {
-        implementation 'com.didi.aoe:library-api:1.0.2.1'
+        implementation 'com.didi.aoe:library-api:1.0.3.1'
         implementation "com.didi.aoe:library-logging:1.0.1"
     }
 }

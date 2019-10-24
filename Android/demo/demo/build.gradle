@@ -59,7 +59,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-        implementation project(':extensions-service')
+        implementation project(':library-service')
         implementation project(':library-core')
     } else {
         implementation 'com.didi.aoe:library-core:1.0.2.3'

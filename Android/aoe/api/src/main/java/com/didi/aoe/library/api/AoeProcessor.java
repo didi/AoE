@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
+import com.didi.aoe.library.lang.AoeIOException;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface AoeProcessor {
      */
     @FunctionalInterface
     interface ModelOptionLoaderComponent extends Component {
-        AoeModelOption load(@NonNull Context ctx, @NonNull String modelDir);
+        AoeModelOption load(@NonNull Context ctx, @NonNull String modelDir) throws AoeIOException;
     }
 
     /**

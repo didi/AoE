@@ -4,9 +4,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.ModelSource;
+import com.didi.aoe.library.api.domain.ModelSource;
 
 /**
  * AoE默认的模型配置定义
@@ -18,14 +19,16 @@ public class LocalModelOption implements AoeModelOption {
     private String version;
 
     /**
-     * 模型文件目录路径，目前只支持local模型
+     * 模型文件assets目录路径
      */
     private String modelDir;
     /**
-     * 模型文件名，便于拓展多种模型
+     * 模型文件名(带后缀)
      */
     private String modelName;
 
+    @Nullable
+    @Override
     public String getVersion() {
         return version;
     }
@@ -62,5 +65,4 @@ public class LocalModelOption implements AoeModelOption {
                 ", modelName='" + modelName + '\'' +
                 '}';
     }
-
 }

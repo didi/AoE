@@ -11,6 +11,7 @@ import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
+import com.didi.aoe.library.lang.AoeIOException;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -68,7 +69,11 @@ public final class AoeClient {
 
         AoeProcessor.ModelOptionLoaderComponent modelLoader = ComponentProvider.getModelLoader(options.modelOptionLoaderClassName);
 
-        tryLoadModelOptions(context, modelLoader, mainModelDir, subsequentModelDirs);
+        try {
+            tryLoadModelOptions(context, modelLoader, mainModelDir, subsequentModelDirs);
+        } catch (AoeIOException e) {
+            mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: " + e.getMessage());
+        }
 
         mProcessor = new AoeProcessorImpl(context, options);
         mProcessor.setId(clientId);
@@ -89,12 +94,12 @@ public final class AoeClient {
     private void tryLoadModelOptions(@NonNull Context context,
                                      @NonNull AoeProcessor.ModelOptionLoaderComponent modelLoader,
                                      String mainModelDir,
-                                     String... subsequentModelDirs) {
+                                     String... subsequentModelDirs) throws AoeIOException {
         AoeModelOption modelOption = modelLoader.load(context, mainModelDir);
-        if (modelOption == null || !modelOption.isValid()) {
-            mLogger.warn("[tryLoadModelOptions] error ModelOption: " + modelOption);
-            mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: " + modelOption);
-            return;
+        mLogger.debug("[tryLoadModelOptions] ModelOption: " + modelOption);
+
+        if (modelOption == null) {
+            throw new AoeIOException("ModelOption load error, no main model.");
         }
 
         final List<AoeModelOption> options = new ArrayList<>();
@@ -104,15 +109,11 @@ public final class AoeClient {
             // 处理子模型
             for (String modelDir : subsequentModelDirs) {
                 AoeModelOption subModelOption = modelLoader.load(context, modelDir);
-                if (subModelOption != null && subModelOption.isValid()) {
-
-                    options.add(subModelOption);
-
-                } else {
-                    mLogger.debug("Subsequent model init error: " + modelOption);
-                    mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "Subsequent ModelOption parse error: " + modelOption);
-                    return;
+                mLogger.debug("Subsequent model: " + subModelOption);
+                if (subModelOption == null) {
+                    throw new AoeIOException("ModelOption load error, no sub model.");
                 }
+                options.add(subModelOption);
             }
         }
 
@@ -212,7 +213,7 @@ public final class AoeClient {
          */
         boolean useRemoteService = true;
 
-        @IntRange(from = 1)
+        @IntRange(from = 1, to = 16)
         int threadNum = 1;
 
         public Options setModelOptionLoader(@NonNull Class<? extends AoeProcessor.ModelOptionLoaderComponent> modelOptionLoader) {
@@ -235,7 +236,7 @@ public final class AoeClient {
             return this;
         }
 
-        public Options setThreadNum(@IntRange(from = 1) int threadNum) {
+        public Options setThreadNum(@IntRange(from = 1, to = 16) int threadNum) {
             this.threadNum = threadNum;
             return this;
         }

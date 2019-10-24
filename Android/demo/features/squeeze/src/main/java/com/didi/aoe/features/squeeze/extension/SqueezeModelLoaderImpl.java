@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.didi.aoe.features.squeeze.utils.FileUtil;
 import com.didi.aoe.features.squeeze.utils.JsonUtil;
-import com.didi.aoe.library.AoeRuntimeException;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.lang.AoeIOException;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class SqueezeModelLoaderImpl implements AoeProcessor.ModelOptionLoaderCom
     private final Logger mLogger = LoggerFactory.getLogger("ModelLoader");
 
     @Override
-    public AoeModelOption load(@NonNull Context ctx, @NonNull String modelDir) {
+    public AoeModelOption load(@NonNull Context ctx, @NonNull String modelDir) throws AoeIOException {
         AoeModelOption option = null;
         String config = null;
         try {
@@ -37,7 +37,7 @@ public class SqueezeModelLoaderImpl implements AoeProcessor.ModelOptionLoaderCom
         mLogger.debug("readInternalConfig: " + modelDir);
         //make sure each filed is not empty
         if (option != null && !option.isValid()) {
-            throw new AoeRuntimeException("Some field of this config is empty: " + option.toString());
+            throw new AoeIOException("Some field of this config is empty: " + option.toString());
         }
         return option;
     }

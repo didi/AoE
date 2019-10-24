@@ -3,6 +3,8 @@ package com.didi.aoe.library.api;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.didi.aoe.library.api.domain.ModelSource;
+
 import java.io.Serializable;
 
 /**

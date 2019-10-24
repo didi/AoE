@@ -1,25 +1,25 @@
 package com.didi.aoe.runtime.tensorflow.lite;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.ModelSource;
+import com.didi.aoe.library.api.domain.ModelSource;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.convertor.MultiConvertor;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.api.interpreter.SingleInterpreterComponent;
+import com.didi.aoe.library.common.util.FileUtils;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,9 +42,9 @@ import java.util.Map;
  */
 public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, TModelInput, TModelOutput>
         extends SingleInterpreterComponent<TInput, TOutput> implements MultiConvertor<TInput, TOutput, Object, TModelOutput> {
-    private final Logger mLogger = LoggerFactory.getLogger("TensorFlowLite.Interpreter");
+    private final Logger mLogger = LoggerFactory.getLogger("TFLite.Interpreter");
     private Interpreter mInterpreter;
-    private Map<Integer, Object> outputPlaceholder;
+    private Map<Integer, Object> mOutputPlaceholder;
 
     @Override
     public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable OnInterpreterInitListener listener) {
@@ -53,7 +53,7 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
         ByteBuffer bb = null;
         if (ModelSource.CLOUD.equals(modelSource)) {
             String modelFilePath = modelOptions.getModelDir() + "_" + modelOptions.getVersion() + File.separator + modelOptions.getModelName();
-            File modelFile = new File(FileUtils.prepareRootPath(context) + File.separator + modelFilePath);
+            File modelFile = new File(FileUtils.getFilesDir(context), modelFilePath);
             if (modelFile.exists()) {
                 try {
                     bb = loadFromExternal(context, modelFilePath);
@@ -78,7 +78,7 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
         if (bb != null) {
             mInterpreter = new Interpreter(bb);
 
-            outputPlaceholder = generalOutputPlaceholder(mInterpreter);
+            mOutputPlaceholder = generalOutputPlaceholder(mInterpreter);
             if (listener != null) {
                 listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
             }
@@ -91,7 +91,7 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
     }
 
     private ByteBuffer loadFromExternal(Context context, String modelFilePath) throws IOException {
-        FileInputStream fis = new FileInputStream(FileUtils.prepareRootPath(context) + File.separator + modelFilePath);
+        FileInputStream fis = new FileInputStream(FileUtils.getFilesDir(context) + File.separator + modelFilePath);
         FileChannel fileChannel = fis.getChannel();
         long startOffset = fileChannel.position();
         long declaredLength = fileChannel.size();
@@ -99,6 +99,7 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
     }
 
     private Map<Integer, Object> generalOutputPlaceholder(@NonNull Interpreter interpreter) {
+        @SuppressLint("UseSparseArrays")
         Map<Integer, Object> out = new HashMap<>(interpreter.getOutputTensorCount());
         for (int i = 0; i < interpreter.getOutputTensorCount(); i++) {
             Tensor tensor = interpreter.getOutputTensor(i);
@@ -137,10 +138,10 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
 
             if (modelInput != null) {
 
-                mInterpreter.runForMultipleInputsOutputs(modelInput, outputPlaceholder);
+                mInterpreter.runForMultipleInputsOutputs(modelInput, mOutputPlaceholder);
 
                 //noinspection unchecked
-                return postProcessMulti((Map<Integer, TModelOutput>) outputPlaceholder);
+                return postProcessMulti((Map<Integer, TModelOutput>) mOutputPlaceholder);
             }
 
         }
@@ -156,14 +157,12 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
 
     @Override
     public boolean isReady() {
-        return mInterpreter != null && outputPlaceholder != null;
+        return mInterpreter != null && mOutputPlaceholder != null;
     }
 
     private ByteBuffer loadFromAssets(Context context, String modelFilePath) {
-        InputStream is = null;
-        try {
-            is = context.getAssets().open(modelFilePath);
-            byte[] bytes = read(is);
+        try (InputStream is = context.getAssets().open(modelFilePath)) {
+            byte[] bytes = FileUtils.read(is);
             if (bytes == null) {
                 return null;
             }
@@ -174,54 +173,9 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
             return bf;
         } catch (IOException e) {
             mLogger.error("loadFromAssets error", e);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
         }
 
         return null;
 
-    }
-
-    private byte[] read(InputStream is) {
-        BufferedInputStream bis = null;
-        ByteArrayOutputStream baos = null;
-
-        try {
-            bis = new BufferedInputStream(is);
-            baos = new ByteArrayOutputStream();
-
-            int len;
-
-            byte[] buf = new byte[1024];
-
-            while ((len = bis.read(buf)) != -1) {
-                baos.write(buf, 0, len);
-            }
-
-            return baos.toByteArray();
-
-        } catch (Exception e) {
-            mLogger.error("read InputStream error: ", e);
-        } finally {
-            if (baos != null) {
-                try {
-                    baos.close();
-                } catch (IOException ignored) {
-                }
-            }
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException ignored) {
-                }
-            }
-        }
-        return new byte[0];
     }
 }
