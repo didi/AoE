@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.library.api;
+package com.didi.aoe.library.api.domain;
 
 import androidx.annotation.StringDef;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
-import static com.didi.aoe.library.api.ModelSource.CLOUD;
-import static com.didi.aoe.library.api.ModelSource.LOCAL;
+import static com.didi.aoe.library.api.domain.ModelType.FLOAT;
+import static com.didi.aoe.library.api.domain.ModelType.QUANTIZED;
 
 /**
- * 定义模型数据来源，目前有两种：本地模型，云端加载模型
- * 本地模型，内置于assets内的模型目录下
- * 云端模型，下载到应用外部存储的模型目录下，并按版本号区分
  * @author noctis
  * @since 1.1.0
  */
 @Retention(RetentionPolicy.SOURCE)
-@StringDef({LOCAL, CLOUD})
-@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
-public @interface ModelSource {
-    String LOCAL = "local";
-    String CLOUD = "cloud";
+@StringDef({FLOAT, QUANTIZED})
+public @interface ModelType {
+    String FLOAT = "float";
+    String QUANTIZED = "quantized";
 }

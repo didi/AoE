@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 
 import com.didi.aoe.examples.demo.R;
 import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
-import com.didi.aoe.extensions.service.AoeModelOptionLoader;
 import com.didi.aoe.features.mnist.MnistInterpreter;
 import com.didi.aoe.features.mnist.model.SketchModel;
 import com.didi.aoe.features.mnist.render.SketchRenderer;
@@ -37,7 +36,7 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
         super.onCreate(savedInstanceState);
         mClient = new AoeClient(requireContext(),
                 new AoeClient.Options()
-                        .setModelOptionLoader(AoeModelOptionLoader.class)
+//                        .setModelOptionLoader(AoeModelOptionLoader.class)// TODO wait library-service
                         .setInterpreter(MnistInterpreter.class)
                         .useRemoteService(false),
                 "mnist");

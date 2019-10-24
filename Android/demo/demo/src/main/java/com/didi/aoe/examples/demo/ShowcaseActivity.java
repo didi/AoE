@@ -18,9 +18,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
-import com.didi.aoe.extensions.service.Aoe;
-import com.didi.aoe.extensions.service.AoeDataProvider;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,22 +52,6 @@ public class ShowcaseActivity extends AppCompatActivity implements NavController
             getRuntimePermissions();
         }
 
-        Aoe.getInstance().setDataProvider(new AoeDataProvider() {
-            @Override
-            public long appId() {
-                return 164;
-            }
-
-            @Override
-            public double latitude() {
-                return 39.92;
-            }
-
-            @Override
-            public double longitude() {
-                return 116.46;
-            }
-        });
     }
 
     @Override

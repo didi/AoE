@@ -1,10 +1,11 @@
 package com.didi.aoe.features.squeeze.extension;
 
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.ModelSource;
+import com.didi.aoe.library.api.domain.ModelSource;
 
 /**
  * @author noctis

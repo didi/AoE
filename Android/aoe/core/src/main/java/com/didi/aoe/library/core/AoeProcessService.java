@@ -8,7 +8,6 @@ import android.os.RemoteException;
 
 import androidx.annotation.NonNull;
 
-import com.didi.aoe.library.AoeRemoteException;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
@@ -16,6 +15,7 @@ import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
 import com.didi.aoe.library.core.pojos.Message;
 import com.didi.aoe.library.core.service.IAoeProcessService;
+import com.didi.aoe.library.lang.AoeRemoteException;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 

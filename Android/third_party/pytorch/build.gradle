@@ -57,11 +57,10 @@ dependencies {
 
     if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         implementation project(':library-api')
-        implementation project(":library-logging")
 
         implementation project(":library-common")
     } else {
-        implementation 'com.didi.aoe:library-api:1.0.2.2'
+        implementation 'com.didi.aoe:library-api:1.0.3.1'
         implementation "com.didi.aoe:library-logging:1.0.1"
     }
 }

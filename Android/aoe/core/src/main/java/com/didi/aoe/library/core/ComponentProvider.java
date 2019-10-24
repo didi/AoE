@@ -3,9 +3,9 @@ package com.didi.aoe.library.core;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.didi.aoe.library.AoeRuntimeException;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
+import com.didi.aoe.library.lang.AoeRuntimeException;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 import com.didi.aoe.library.modeloption.loader.impl.LocalOnlyModelOptionLoader;

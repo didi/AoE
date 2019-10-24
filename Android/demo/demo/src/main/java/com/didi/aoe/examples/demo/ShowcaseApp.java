@@ -17,5 +17,22 @@ public class ShowcaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
+//        Aoe.init(getContext(), new AoeDataProvider() {
+//            @Override
+//            public long appId() {
+//                return 164;
+//            }
+//
+//            @Override
+//            public double latitude() {
+//                return 39.92;
+//            }
+//
+//            @Override
+//            public double longitude() {
+//                return 116.46;
+//            }
+//        });
     }
 }

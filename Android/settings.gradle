@@ -1,45 +1,22 @@
-gradle.ext.aoeRoot = settingsDir
+module('examples', 'demo')
 
-def rootDir = gradle.ext.aoeRoot
+module('features', 'mnist')
+module('features', 'squeeze')
+module('features', 'recognize')
 
-// Examples
-include ':examples-demo'
+module('library', 'core')
+module('library', 'api')
+module('library', 'logging')
+module('library', 'model-option-loader')
+module('library', 'common')
+module('library', 'service')
 
-// Features
-include ':features-mnist'
-include ':features-squeeze'
-include ':features-recognize'
+module('runtime', 'tensorflow-lite')
+module('runtime', 'mnn')
+module('runtime', 'ncnn')
+module('runtime', 'pytorch')
 
-// Library
-include ':library-core'
-include ':library-api'
-include ':library-logging'
-include ':library-model-option-loader'
-include ':library-common'
-
-// Runtime
-include ':runtime-tensorflow-lite'
-include ':runtime-mnn'
-include ':runtime-ncnn'
-include ':runtime-pytorch'
-
-project(':examples-demo').projectDir = new File(rootDir, 'demo/demo')
-
-project(':features-mnist').projectDir = new File(rootDir, 'demo/features/mnist')
-project(':features-squeeze').projectDir = new File(rootDir, 'demo/features/squeeze')
-project(':features-recognize').projectDir = new File(rootDir, 'demo/features/recognize')
-
-project(':library-core').projectDir = new File(rootDir, 'aoe/core')
-project(':library-api').projectDir = new File(rootDir, 'aoe/api')
-project(':library-logging').projectDir = new File(rootDir, 'aoe/logging')
-project(':library-model-option-loader').projectDir = new File(rootDir, 'aoe/model-option-loader')
-project(':library-common').projectDir = new File(rootDir, 'aoe/common')
-
-project(':runtime-tensorflow-lite').projectDir = new File(rootDir, 'third_party/tensorflow-lite')
-project(':runtime-mnn').projectDir = new File(rootDir, 'third_party/mnn')
-project(':runtime-ncnn').projectDir = new File(rootDir, 'third_party/ncnn')
-project(':runtime-pytorch').projectDir = new File(rootDir, 'third_party/pytorch')
-
+// -------------------------------------------------------------------------------------------------
 
 // NOTE：全局设置开发模式，AoE内部开发使用工程依赖管理
 gradle.ext.aoeDevEnabled = false
@@ -47,3 +24,32 @@ if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
     apply from: 'dev_settings.gradle'
 }
 
+/**
+ * 模组定义函数
+ * @param group
+ * @param name
+ * @return
+ */
+def module(String group, String name) {
+    include(":$group-$name")
+    String path = getTemplateModuleDir(group) + '/' + name
+    project(":$group-$name").projectDir = file("$path")
+}
+
+/**
+ * 约束工程模组结构
+ * @param group
+ * @return
+ */
+String getTemplateModuleDir(String group) {
+    switch (group) {
+        case 'examples':
+            return 'demo'
+        case 'features':
+            return 'demo/features'
+        case 'library':
+            return 'aoe'
+        case 'runtime':
+            return 'third_party'
+    }
+}

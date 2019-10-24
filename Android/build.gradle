@@ -35,16 +35,11 @@ allprojects {
 
     }
 
-//    subprojects {
-//        project.configurations.all {
-//            resolutionStrategy.eachDependency { details ->
-//                if (details.requested.group == 'com.didi.aoe'
-//                        && details.requested.name.contains('library-api') ) {
-//                    details.useVersion '1.0.2.2'
-//                }
-//            }
-//        }
-//    }
+    configurations.all {
+        resolutionStrategy {
+            force 'com.didi.aoe:library-api:1.0.3.1'
+        }
+    }
 
 }
 

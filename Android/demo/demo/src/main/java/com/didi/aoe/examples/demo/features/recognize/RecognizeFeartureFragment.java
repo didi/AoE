@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +15,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.didi.aoe.examples.demo.R;
 import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
 import com.didi.aoe.extensions.parcel.kryo.KryoParcelImpl;
 import com.didi.aoe.features.recognize.RecognizeMnnInterpreter;
-import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.core.AoeClient;
 
 import java.io.FileNotFoundException;
