@@ -22,7 +22,7 @@ public class Tensor {
     }
 
     void close() {
-        delete(this.nativeHandle);
+//        delete(this.nativeHandle);
         this.nativeHandle = 0L;
     }
 

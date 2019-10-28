@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.library.api.convertor;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+package com.didi.aoe.library.api.convertor
 
 /**
  * 数据预处理、后处理转换器接口，单输入单输出
@@ -25,15 +22,14 @@ import androidx.annotation.Nullable;
  * @author noctis
  * @since 1.1.0
  */
-public interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
+interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
     /**
      * 数据预处理，将输入数据转换成模型输入数据
      *
      * @param input 业务输入数据
      * @return 模型输入数据
      */
-    @Nullable
-    TModelInput preProcess(@NonNull TInput input);
+    fun preProcess(input: TInput): TModelInput?
 
     /**
      * 数据后处理，将模型输出数据转换成业务输出数据
@@ -41,6 +37,5 @@ public interface Convertor<TInput, TOutput, TModelInput, TModelOutput> {
      * @param modelOutput 模型输出数据
      * @return 业务输出数据
      */
-    @Nullable
-    TOutput postProcess(@Nullable TModelOutput modelOutput);
+    fun postProcess(modelOutput: TModelOutput?): TOutput?
 }

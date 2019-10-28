@@ -15,12 +15,10 @@
             app:destination="@+id/mnistFeatureFragment" />
 
         <action
-            android:id="@+id/action_featuresFragment_to_squeezeFeartureFragment"
-            app:destination="@+id/squeezeFeartureFragment" />
-        <action
-            android:id="@+id/action_featuresFragment_to_recognizeFeartureFragment"
-            app:destination="@+id/recognizeFeartureFragment" />
+            android:id="@+id/action_featuresFragment_to_classificationFeartureFragment"
+            app:destination="@+id/classificationFeartureFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/mnistFeatureFragment"
         android:name="com.didi.aoe.examples.demo.features.mnist.MnistFeatureFragment"
@@ -28,15 +26,9 @@
         tools:layout="@layout/fragment_mnist" />
 
     <fragment
-        android:id="@+id/squeezeFeartureFragment"
-        android:name="com.didi.aoe.examples.demo.features.squeeze.SqueezeFeartureFragment"
-        android:label="@string/title_squeeze"
-        tools:layout="@layout/fragment_squeeze" />
-
-    <fragment
-        android:id="@+id/recognizeFeartureFragment"
-        android:name="com.didi.aoe.examples.demo.features.recognize.RecognizeFeartureFragment"
-        android:label="@string/title_recognize"
-        tools:layout="@layout/fragment_recognize" />
+        android:id="@+id/classificationFeartureFragment"
+        android:name="com.didi.aoe.examples.demo.features.classification.ClassificationFeartureFragment"
+        android:label="@string/title_classification"
+        tools:layout="@layout/fragment_classification" />
 
 </navigation>
