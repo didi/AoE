@@ -11,7 +11,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "aoecrypt.h"
 #import "aoesign.h"
-//#import <aoesign/aoesign.h>
+//#incude <aoesign/aoesign.h>
 
 #define CC_MD5_DIGEST_LENGTH    16          /* digest length in bytes */
 #define VERSION 1
@@ -160,9 +160,25 @@
 
 + (NSString *)aoe_encryptAoEReqParams:(NSDictionary <NSString *,NSString *> *)params
                            encryptKey:(NSString *)key {
-    dict *paramsDict = dictCreate(NULL, NULL);
+    dictType type = {
+        aoedictHashFunction,
+        NULL,
+        NULL,
+        aoekeyCompare,
+        NULL,
+        NULL
+    };
+    dict *paramsDict = dictCreate(&type, NULL);
     for (NSString *paramskey in params.allKeys) {
-        dictAdd(paramsDict, (void *)[paramskey cStringUsingEncoding:NSUTF8StringEncoding], (void *)[[params objectForKey:paramskey] cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSString *valueStr = [params objectForKey:paramskey];
+        if ([valueStr isKindOfClass:[NSNumber class]]) {
+            valueStr = ((NSNumber *)valueStr).stringValue;
+        }
+        int res = dictAdd(paramsDict, (void *)[paramskey cStringUsingEncoding:NSUTF8StringEncoding], (void *)[valueStr cStringUsingEncoding:NSUTF8StringEncoding]);
+        if (res != DICT_OK) {
+            break;
+            return nil;
+        }
     }
     const char *distDataBytes = NULL;
     aoe_generalSignDict(paramsDict, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);

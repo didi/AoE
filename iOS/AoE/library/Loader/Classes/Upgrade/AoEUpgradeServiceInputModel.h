@@ -28,5 +28,5 @@
 
 + (instancetype)initWithName:(NSString *)name version:(NSString *)version url:(NSString *)url storagePath:(NSString *)path;
 
-+ (instancetype)initWithModuleOption:(AoEModelOption *)option storagePath:(NSString *)path;
++ (instancetype)initWithModuleOption:(AoEModelOption *)option appKey:(NSInteger)appKey storagePath:(NSString *)path;
 @end

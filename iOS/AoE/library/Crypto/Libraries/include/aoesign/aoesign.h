@@ -11,7 +11,13 @@
 #include <stdio.h>
 #include "aoedict.h"
 
+
+/// dictType Functions
+unsigned int aoedictHashFunction(const void *key);
+int aoekeyCompare(void *privdata, const void *key1, const void *key2);
+
 /// aoe生成通用签名
+/// @param paramDict dict 实例
 /// @param appKey appkey
 /// @param appKeyLenght appkey长度
 /// @param method 签名方法 （暂时没有使用）

@@ -192,8 +192,12 @@
 - (id<AoEModelOptionProtocol>)loader:(id<AoEModelLoaderComponentProtocol>)modelLoader
                  modelOptionWithPath:(NSString *)path {
     id<AoEModelOptionProtocol> option = nil;
-    if ([modelLoader respondsToSelector:@selector(loadModelConfig:)]) {
-        option = [modelLoader loadModelConfig:path];
+    if ([modelLoader respondsToSelector:@selector(loadModelConfig:ext:)]) {
+        option = [modelLoader loadModelConfig:path ext:@{
+            @"appId":@(self.clientOption.appId),
+            @"lat":self.clientOption.lat,
+            @"lng":self.clientOption.lng
+        }];
     }
     return option;
 }

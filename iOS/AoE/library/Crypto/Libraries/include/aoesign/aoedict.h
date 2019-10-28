@@ -9,13 +9,11 @@
 #ifndef aoedict_h
 #define aoedict_h
 
-#include <stdio.h>
-
 #define DICT_OK 0
 #define DICT_ERR 1
 
 /* Unused arguments generate annoying warnings... */
-#define DICT_NOTUSED(V) ((void) V)
+//#define DICT_NOTUSED(V) ((void) V)
 
 typedef struct dictEntry {
     void *key;
@@ -86,16 +84,16 @@ typedef struct dictIterator {
 #define dictSize(ht) ((ht)->used)
 
 /* API */
-static unsigned int dictGenHashFunction(const unsigned char *buf, int len);
-static dict *dictCreate(dictType *type, void *privDataPtr);
-static int dictExpand(dict *ht, unsigned long size);
-static int dictAdd(dict *ht, void *key, void *val);
-static int dictReplace(dict *ht, void *key, void *val);
-static int dictDelete(dict *ht, const void *key);
-static void dictRelease(dict *ht);
-static dictEntry * dictFind(dict *ht, const void *key);
-static dictIterator *dictGetIterator(dict *ht);
-static dictEntry *dictNext(dictIterator *iter);
-static void dictReleaseIterator(dictIterator *iter);
+unsigned int dictGenHashFunction(const unsigned char *buf, int len);
+ dict *dictCreate(dictType *type, void *privDataPtr);
+ int dictExpand(dict *ht, unsigned long size);
+ int dictAdd(dict *ht, void *key, void *val);
+ int dictReplace(dict *ht, void *key, void *val);
+ int dictDelete(dict *ht, const void *key);
+ void dictRelease(dict *ht);
+ dictEntry * dictFind(dict *ht, const void *key);
+ dictIterator *dictGetIterator(dict *ht);
+ dictEntry *dictNext(dictIterator *iter);
+ void dictReleaseIterator(dictIterator *iter);
 
 #endif /* aoedict_h */

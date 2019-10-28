@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.source_files = "iOS/#{s.name}/library/Core/Classes/**/*"
     ss.public_header_files = "iOS/#{s.name}/library/Core/Classes/**/*.h"
-    ss.frameworks = 'Foundation','UIKit'
+    ss.frameworks = 'Foundation','UIKit','AdSupport'
     # ss.resource_bundles = {
     #   'iOS-Core' => ["iOS/#{s.name}/library/Core/Assets/**/*"]
     # }

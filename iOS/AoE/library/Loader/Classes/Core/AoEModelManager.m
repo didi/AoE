@@ -42,6 +42,10 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
 }
 
 - (id<AoEModelOptionProtocol>)loadModelConfig:(NSString *)dir {
+    return [self loadModelConfig:dir ext:nil];
+}
+
+- (id<AoEModelOptionProtocol>)loadModelConfig:(NSString *)dir ext:(NSDictionary *)extension {
     AoEModelOption *option = nil;
     option = [self modelWithModelPath:dir];
     if (!option ||
@@ -51,10 +55,12 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     if ([self isRemoteModelReady:option]) {
         option = [self loadRemoteModelConfig:option];
     }
+    option.appId = ((NSNumber *)extension[@"appid"]).integerValue;
+    option.lat = extension[@"lat"];
+    option.lng = extension[@"lng"];
+    [self checkUpgradeModelWithConfig:option];
     return option;
 }
-
-
 
 #pragma mark - private
 
@@ -147,15 +153,6 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     modelOption.version = lastVersion;
     modelOption.modelPath = modelPath;
     
-    if ([AoEValidJudge isValidString:modelOption.updateUrl]) {
-        // 升级管理的key修改为{tag + 目录}的形式，支持单tag多模型的形式。
-        AoEUpgradeServiceInputModel *inputModel = [AoEUpgradeServiceInputModel initWithName:[option.tag stringByAppendingFormat:@"_%@",option.modelDir]  version:option.version url:option.updateUrl storagePath:[self getRemoteModelPathForTag:option.tag alias:option.modelDir]];
-        inputModel.checkUpgradeModel = [self checkUpgradeClass];
-        inputModel.needDownloadImmediately = (![self isInternalModelReady:option] &&
-                                              ![self isValidJudgeModelExist:option]);
-        [[AoEUpgradeService shareInstance] startUpgradeService:inputModel];
-    }
-    
     if ([AoEValidJudge isValidString:option.modelPath]) {
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@"model path can't be nil %@",modelOption.modelPath]];
         NSAssert([AoEValidJudge isValidString:option.modelPath], @"model path can't be nil");
@@ -165,6 +162,18 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
         [self.cacheModelDic setObject:modelOption forKey:[self keyFromOption:option]];
     }
     return modelOption;
+}
+
+- (void)checkUpgradeModelWithConfig:(AoEModelOption *)option {
+    if ([option isValidOption] &&
+        option.appId > 0) {
+        // 升级管理的key修改为{tag + 目录}的形式，支持单tag多模型的形式。
+        AoEUpgradeServiceInputModel *inputModel = [AoEUpgradeServiceInputModel initWithModuleOption:option appKey:option.appId  storagePath:[self getRemoteModelPathForTag:option.tag alias:option.modelDir]];
+        inputModel.checkUpgradeModel = [self checkUpgradeClass];
+        inputModel.needDownloadImmediately = (![self isInternalModelReady:option] &&
+                                              ![self isValidJudgeModelExist:option]);
+        [[AoEUpgradeService shareInstance] startUpgradeService:inputModel];
+    }
 }
 
 - (BOOL)isNewerRemoteModel:(AoEModelOption *)remoteOption internalModel:(AoEModelOption *)option

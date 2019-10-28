@@ -56,6 +56,7 @@
  @return 返回模型配置实例
  */
 - (id<AoEModelOptionProtocol>)loadModelConfig:(NSString *)modelDir;
+- (id<AoEModelOptionProtocol>)loadModelConfig:(NSString *)modelDir ext:(NSDictionary *)extension;
 
 @end
 

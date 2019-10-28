@@ -25,6 +25,18 @@
  日志模块加载的className
  */
 @property (strong, nonatomic) NSString *loggerClassName;
+/**
+ 为升级模块提供纬度
+ */
+@property (strong, nonatomic) NSString *lat;
+/**
+ 为升级模块提供经度
+ */
+@property (strong, nonatomic) NSString *lng;
+/**
+ 升级模块需要使用appId
+*/
+@property (assign, nonatomic) NSInteger appId;
 
 - (instancetype)setModelOptionLoader:(Class)modelOptionLoader;
 @end

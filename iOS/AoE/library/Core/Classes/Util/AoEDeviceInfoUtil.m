@@ -7,13 +7,13 @@
 
 #import "AoEDeviceInfoUtil.h"
 #import <sys/utsname.h>
+#import <AdSupport/AdSupport.h>
 
+static NSString *__AEDeviceType = nil;
 @implementation AoEDeviceInfoUtil
 
 + (AEDevicePerformanceType)devicePerformanceType {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *platform = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    NSString *platform = [self deviceType];
     
     if ([self lowPerformanceDevice:platform]){
         return AEDevicePerformanceTypeForLow;
@@ -23,6 +23,19 @@
         return AEDevicePerformanceTypeForHigh;
     }
     return AEDevicePerformanceTypeForLow;
+}
+
++ (NSString *)deviceType {
+    if (!__AEDeviceType) {
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        __AEDeviceType = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    }
+    return __AEDeviceType;
+}
+
++ (NSString *)deviceSN {
+    return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
 }
 
 + (BOOL)lowPerformanceDevice:(NSString *)platform {

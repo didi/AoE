@@ -55,6 +55,18 @@
  模型ID
  */
 @property (assign, nonatomic) NSInteger modelId;
+/**
+ appID
+ */
+@property (assign, nonatomic) NSInteger appId;
+/**
+ 定位纬度
+ */
+@property (strong, nonatomic) NSString *lat;
+/**
+ 定位经度
+ */
+@property (strong, nonatomic) NSString *lng;
 
 + (instancetype)modelWithPath:(NSString *)path;
 - (instancetype)initWithPath:(NSString *)path;

@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, AEDevicePerformanceType) {
 @interface AoEDeviceInfoUtil : NSObject
 
 + (AEDevicePerformanceType)devicePerformanceType;
-
++ (NSString *)deviceType;
++ (NSString *)deviceSN;
 @end
 
