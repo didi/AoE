@@ -24,4 +24,8 @@
         android:id="@+id/navigation_mnn"
         android:title="@string/navi_title_mnn" />
 
+    <item
+        android:id="@+id/navigation_pytorch"
+        android:title="@string/navi_title_pytorch" />
+
 </menu>
