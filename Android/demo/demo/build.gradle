@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 apply from: "../tools/download-models.gradle"
 
@@ -50,7 +51,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'androidx.navigation:navigation-fragment:2.2.0-beta01'
+    implementation 'androidx.navigation:navigation-fragment:2.2.0-rc01'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -69,6 +70,8 @@ dependencies {
     implementation project(':features-mnist')
     implementation project(':features-squeeze')
     implementation project(':features-recognize')
+    implementation project(':features-pytorch')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -31,6 +32,7 @@ dependencies {
     } else {
         implementation 'com.didi.aoe:library-common:1.0.3.1'
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 ext {

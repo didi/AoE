@@ -16,6 +16,10 @@ def models = [
         // recognize
         '../features/recognize/src/main/assets': [
                 'https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip' // recognize
+        ],
+        // pytorch
+        '../features/pytorch/src/main/assets': [
+                'https://img0.didiglobal.com/static/starfile/node20191028/895f1e95e30aba5dd56d6f2ccf768b57/dLq1wk2V2n1572257128485.zip' // pytorch
         ]
 
 ]

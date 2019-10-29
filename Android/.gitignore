@@ -10,5 +10,6 @@
 *.bin
 *.tflite
 *.param
+*.pt
 
 /dev_settings.gradle

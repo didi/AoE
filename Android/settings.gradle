@@ -1,8 +1,10 @@
+include ':pytorch'
 module('examples', 'demo')
 
 module('features', 'mnist')
 module('features', 'squeeze')
 module('features', 'recognize')
+module('features', 'pytorch')
 
 module('library', 'core')
 module('library', 'api')
