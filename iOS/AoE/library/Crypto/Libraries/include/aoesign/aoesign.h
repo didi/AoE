@@ -12,9 +12,15 @@
 #include "aoedict.h"
 
 
-/// dictType Functions
-unsigned int aoedictHashFunction(const void *key);
-int aoekeyCompare(void *privdata, const void *key1, const void *key2);
+/// 生成签名dict
+aoe_dict * generalSignDict(void);
+
+/// dict添加元素
+/// @param ht dict对象
+/// @param key key
+/// @param keyLen 长度
+/// @param val value
+int aoe_generalDictAdd (aoe_dict *ht,const char *key, int keyLen, const char *val);
 
 /// aoe生成通用签名
 /// @param paramDict dict 实例
@@ -22,7 +28,7 @@ int aoekeyCompare(void *privdata, const void *key1, const void *key2);
 /// @param appKeyLenght appkey长度
 /// @param method 签名方法 （暂时没有使用）
 /// @param signedStr 回调
-int aoe_generalSignDict(const dict *paramDict,const char *appKey , const unsigned long appKeyLenght, int method, char **signedStr);
+int aoe_generalSignDict(const aoe_dict *paramDict,const char *appKey , const unsigned long appKeyLenght, int method, char **signedStr);
 
 /// aoe生成通用签名
 /// @param paramStr 要加密的参数拼接的string

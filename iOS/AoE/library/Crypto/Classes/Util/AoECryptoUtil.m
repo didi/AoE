@@ -160,21 +160,13 @@
 
 + (NSString *)aoe_encryptAoEReqParams:(NSDictionary <NSString *,NSString *> *)params
                            encryptKey:(NSString *)key {
-    dictType type = {
-        aoedictHashFunction,
-        NULL,
-        NULL,
-        aoekeyCompare,
-        NULL,
-        NULL
-    };
-    dict *paramsDict = dictCreate(&type, NULL);
+    aoe_dict *paramsDict = generalSignDict();
     for (NSString *paramskey in params.allKeys) {
         NSString *valueStr = [params objectForKey:paramskey];
         if ([valueStr isKindOfClass:[NSNumber class]]) {
             valueStr = ((NSNumber *)valueStr).stringValue;
         }
-        int res = dictAdd(paramsDict, (void *)[paramskey cStringUsingEncoding:NSUTF8StringEncoding], (void *)[valueStr cStringUsingEncoding:NSUTF8StringEncoding]);
+        int res = aoe_generalDictAdd(paramsDict, [paramskey cStringUsingEncoding:NSUTF8StringEncoding], (int)paramskey.length, [valueStr cStringUsingEncoding:NSUTF8StringEncoding]);
         if (res != DICT_OK) {
             break;
             return nil;
@@ -183,7 +175,8 @@
     const char *distDataBytes = NULL;
     aoe_generalSignDict(paramsDict, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
     NSString *sginedStr = [NSString stringWithUTF8String:distDataBytes];
-    dictRelease(paramsDict);
+    aoe_dictRelease(paramsDict);
+    free((void *)distDataBytes);
     return sginedStr;
 }
 @end

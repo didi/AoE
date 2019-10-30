@@ -15,35 +15,35 @@
 /* Unused arguments generate annoying warnings... */
 //#define DICT_NOTUSED(V) ((void) V)
 
-typedef struct dictEntry {
+typedef struct aoe_dictEntry {
     void *key;
     void *val;
-    struct dictEntry *next;
-} dictEntry;
+    struct aoe_dictEntry *next;
+} aoe_dictEntry;
 
-typedef struct dictType {
+typedef struct aoe_dictType {
     unsigned int (*hashFunction)(const void *key);
     void *(*keyDup)(void *privdata, const void *key);
     void *(*valDup)(void *privdata, const void *obj);
     int (*keyCompare)(void *privdata, const void *key1, const void *key2);
     void (*keyDestructor)(void *privdata, void *key);
     void (*valDestructor)(void *privdata, void *obj);
-} dictType;
+} aoe_dictType;
 
-typedef struct dict {
-    dictEntry **table;
-    dictType *type;
+typedef struct aoe_dict {
+    aoe_dictEntry **table;
+    aoe_dictType *type;
     unsigned long size;
     unsigned long sizemask;
     unsigned long used;
     void *privdata;
-} dict;
+} aoe_dict;
 
-typedef struct dictIterator {
-    dict *ht;
+typedef struct aoe_dictIterator {
+    aoe_dict *ht;
     int index;
-    dictEntry *entry, *nextEntry;
-} dictIterator;
+    aoe_dictEntry *entry, *nextEntry;
+} aoe_dictIterator;
 
 /* This is the initial size of every hash table */
 #define DICT_HT_INITIAL_SIZE     4
@@ -84,16 +84,16 @@ typedef struct dictIterator {
 #define dictSize(ht) ((ht)->used)
 
 /* API */
-unsigned int dictGenHashFunction(const unsigned char *buf, int len);
- dict *dictCreate(dictType *type, void *privDataPtr);
- int dictExpand(dict *ht, unsigned long size);
- int dictAdd(dict *ht, void *key, void *val);
- int dictReplace(dict *ht, void *key, void *val);
- int dictDelete(dict *ht, const void *key);
- void dictRelease(dict *ht);
- dictEntry * dictFind(dict *ht, const void *key);
- dictIterator *dictGetIterator(dict *ht);
- dictEntry *dictNext(dictIterator *iter);
- void dictReleaseIterator(dictIterator *iter);
+unsigned int aoe_dictGenHashFunction(const unsigned char *buf, int len);
+ aoe_dict *aoe_dictCreate(aoe_dictType *type, void *privDataPtr);
+ int aoe_dictExpand(aoe_dict *ht, unsigned long size);
+ int aoe_dictAdd(aoe_dict *ht, void *key, void *val);
+ int aoe_dictReplace(aoe_dict *ht, void *key, void *val);
+ int aoe_dictDelete(aoe_dict *ht, const void *key);
+ void aoe_dictRelease(aoe_dict *ht);
+ aoe_dictEntry * aoe_dictFind(aoe_dict *ht, const void *key);
+ aoe_dictIterator *aoe_dictGetIterator(aoe_dict *ht);
+ aoe_dictEntry *aoe_dictNext(aoe_dictIterator *iter);
+ void aoe_dictReleaseIterator(aoe_dictIterator *iter);
 
 #endif /* aoedict_h */
