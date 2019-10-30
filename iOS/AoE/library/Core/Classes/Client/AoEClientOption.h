@@ -34,6 +34,10 @@
  */
 @property (strong, nonatomic) NSString *lng;
 /**
+ 为升级模块提供经度
+ */
+@property (strong, nonatomic) NSString *appKey;
+/**
  升级模块需要使用appId
 */
 @property (assign, nonatomic) NSInteger appId;

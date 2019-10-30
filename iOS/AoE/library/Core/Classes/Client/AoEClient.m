@@ -196,7 +196,8 @@
         option = [modelLoader loadModelConfig:path ext:@{
             @"appId":@(self.clientOption.appId),
             @"lat":self.clientOption.lat,
-            @"lng":self.clientOption.lng
+            @"lng":self.clientOption.lng,
+            @"lng":self.clientOption.appKey,
         }];
     }
     return option;

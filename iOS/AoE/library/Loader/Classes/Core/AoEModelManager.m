@@ -58,6 +58,7 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     option.appId = ((NSNumber *)extension[@"appid"]).integerValue;
     option.lat = extension[@"lat"];
     option.lng = extension[@"lng"];
+    option.lng = extension[@"appkey"];
     [self checkUpgradeModelWithConfig:option];
     return option;
 }
@@ -166,9 +167,10 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
 
 - (void)checkUpgradeModelWithConfig:(AoEModelOption *)option {
     if ([option isValidOption] &&
-        option.appId > 0) {
+        option.appId > 0 &&
+        [AoEValidJudge isValidString:option.appKey]) {
         // 升级管理的key修改为{tag + 目录}的形式，支持单tag多模型的形式。
-        AoEUpgradeServiceInputModel *inputModel = [AoEUpgradeServiceInputModel initWithModuleOption:option appKey:option.appId  storagePath:[self getRemoteModelPathForTag:option.tag alias:option.modelDir]];
+        AoEUpgradeServiceInputModel *inputModel = [AoEUpgradeServiceInputModel initWithModuleOption:option appKey:option.appKey  storagePath:[self getRemoteModelPathForTag:option.tag alias:option.modelDir]];
         inputModel.checkUpgradeModel = [self checkUpgradeClass];
         inputModel.needDownloadImmediately = (![self isInternalModelReady:option] &&
                                               ![self isValidJudgeModelExist:option]);

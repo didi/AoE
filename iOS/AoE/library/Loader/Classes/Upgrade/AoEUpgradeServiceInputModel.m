@@ -36,18 +36,18 @@
     return model;
 }
 
-+ (instancetype)initWithModuleOption:(AoEModelOption *)option appKey:(NSInteger)appKey storagePath:(NSString *)path {
++ (instancetype)initWithModuleOption:(AoEModelOption *)option appKey:(NSString *)appKey storagePath:(NSString *)path {
     NSString *url = [self getURLWithOption:option appKey:appKey];
     NSDictionary *params = [self requestParamsWithOption:option appKey:appKey];
     return [AoEUpgradeServiceInputModel initWithName:[option.tag stringByAppendingFormat:@"_%@",option.modelDir] version:option.version url:url params:params storagePath:path];
 }
 
-+ (NSDictionary *)requestParamsWithOption:(AoEModelOption *)option appKey:(NSInteger)appKey {
++ (NSDictionary *)requestParamsWithOption:(AoEModelOption *)option appKey:(NSString *)appKey {
     if (appKey > 0) {
         return nil;
     }
     
-    NSMutableDictionary *requestParams = [NSMutableDictionary dictionaryWithDictionary:@{@"appId":@(appKey),
+    NSMutableDictionary *requestParams = [NSMutableDictionary dictionaryWithDictionary:@{@"appId":@(option.appId),
              @"modelId":@(option.modelId),
              @"modelVersionCode":option.version,
              @"timeStamp":@([NSDate date].timeIntervalSince1970),
@@ -56,14 +56,14 @@
                                                                                          @"kLng":option.lng,
     }];
     
-    NSString *sgin = [AoECryptoUtil aoe_encryptAoEReqParams:requestParams.copy encryptKey:@(appKey).stringValue];
+    NSString *sgin = [AoECryptoUtil aoe_encryptAoEReqParams:requestParams.copy encryptKey:appKey];
     [requestParams addEntriesFromDictionary:@{@"sign":sgin}];
     return requestParams.copy;
     
     // kLat kLng sign
 }
 
-+ (NSString *)getURLWithOption:(AoEModelOption *)option appKey:(NSInteger)appKey {
++ (NSString *)getURLWithOption:(AoEModelOption *)option appKey:(NSString *)appKey {
     NSString *host = @"https://aoe-test.xiaojukeji.com";
     NSString *method = @"upgradeModel";
     return [host stringByAppendingPathComponent:method];

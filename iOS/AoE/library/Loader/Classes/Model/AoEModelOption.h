@@ -60,6 +60,10 @@
  */
 @property (assign, nonatomic) NSInteger appId;
 /**
+ appKey
+ */
+@property (strong, nonatomic) NSString *appKey;
+/**
  定位纬度
  */
 @property (strong, nonatomic) NSString *lat;
