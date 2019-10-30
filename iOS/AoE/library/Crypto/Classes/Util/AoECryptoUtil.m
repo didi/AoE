@@ -160,23 +160,29 @@
 
 + (NSString *)aoe_encryptAoEReqParams:(NSDictionary <NSString *,NSString *> *)params
                            encryptKey:(NSString *)key {
-    aoe_dict *paramsDict = generalSignDict();
+    dictFake *fakes = createDictFake((int)params.allKeys.count);
+//    aoe_dict *paramsDict = generalSignDict();
+    int index = 0;
     for (NSString *paramskey in params.allKeys) {
         NSString *valueStr = [params objectForKey:paramskey];
         if ([valueStr isKindOfClass:[NSNumber class]]) {
             valueStr = ((NSNumber *)valueStr).stringValue;
         }
-        int res = aoe_generalDictAdd(paramsDict, [paramskey cStringUsingEncoding:NSUTF8StringEncoding], (int)paramskey.length, [valueStr cStringUsingEncoding:NSUTF8StringEncoding]);
-        if (res != DICT_OK) {
-            break;
-            return nil;
-        }
+        addDictEntryFake(fakes, [paramskey cStringUsingEncoding:NSUTF8StringEncoding], [valueStr cStringUsingEncoding:NSUTF8StringEncoding], index++);
+//        int res = aoe_generalDictAdd(paramsDict, [paramskey cStringUsingEncoding:NSUTF8StringEncoding], (int)paramskey.length, [valueStr cStringUsingEncoding:NSUTF8StringEncoding]);
+//        if (res != DICT_OK) {
+//            break;
+//            return nil;
+//        }
     }
     const char *distDataBytes = NULL;
-    aoe_generalSignDict(paramsDict, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
+    aoe_generalSignDictFake(fakes,[key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
+
+//    aoe_generalSignDict(paramsDict, [key cStringUsingEncoding:NSUTF8StringEncoding], key.length, 0, (char **)&distDataBytes);
     NSString *sginedStr = [NSString stringWithUTF8String:distDataBytes];
-    aoe_dictRelease(paramsDict);
-    free((void *)distDataBytes);
+//    aoe_dictRelease(paramsDict);
+    releaseDictFake(fakes);
+//    free((void *)distDataBytes);
     return sginedStr;
 }
 @end

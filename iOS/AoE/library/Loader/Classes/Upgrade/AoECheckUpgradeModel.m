@@ -19,10 +19,8 @@
         return nil;
     }
     
-    NSString *modelKey = dictionary.allKeys.firstObject;
-    NSDictionary *modelDic = dictionary[modelKey];
     AoECheckUpgradeModel *model = [AoECheckUpgradeModel new];
-    model.dic = modelDic;
+    model.dic = dictionary;
     return model;
 }
 - (NSString *)version {

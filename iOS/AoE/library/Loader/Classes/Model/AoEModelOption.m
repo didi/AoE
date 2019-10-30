@@ -116,8 +116,7 @@
 }
 
 - (BOOL)isValidOption {
-    return ([AoEValidJudge isValidString:self.tag] &&
-            [AoEValidJudge isValidString:self.modelDir] &&
+    return ([AoEValidJudge isValidString:self.modelDir] &&
             [AoEValidJudge isValidString:self.version] &&
             [AoEValidJudge isValidString:self.modelPath]);
 }

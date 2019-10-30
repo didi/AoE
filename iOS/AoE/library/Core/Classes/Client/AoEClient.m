@@ -194,10 +194,10 @@
     id<AoEModelOptionProtocol> option = nil;
     if ([modelLoader respondsToSelector:@selector(loadModelConfig:ext:)]) {
         option = [modelLoader loadModelConfig:path ext:@{
-            @"appId":@(self.clientOption.appId),
-            @"lat":self.clientOption.lat,
-            @"lng":self.clientOption.lng,
-            @"lng":self.clientOption.appKey,
+            @"appid":@(self.clientOption.appId),
+            @"lat":self.clientOption.lat?:@"",
+            @"lng":self.clientOption.lng?:@"",
+            @"appkey":self.clientOption.appKey?:@"",
         }];
     }
     return option;

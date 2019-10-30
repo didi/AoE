@@ -43,7 +43,7 @@
 }
 
 + (NSDictionary *)requestParamsWithOption:(AoEModelOption *)option appKey:(NSString *)appKey {
-    if (appKey > 0) {
+    if (![AoEValidJudge isValidString:appKey]) {
         return nil;
     }
     

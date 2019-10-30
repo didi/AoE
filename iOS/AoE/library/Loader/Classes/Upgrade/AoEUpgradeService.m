@@ -67,7 +67,7 @@ static NSString *const AoEUpgradeLockObj = @"AoEUpgradeLockObj";
     
     //4 获取服务端最新版本配置，检测是否有新版本，有则开启下载
     __weak typeof(self) weakSelf = self;
-    [AoEUpgradeRequest requestUpgradePlistWithUrl:model.url successBlock:^(NSDictionary *response) {
+    [AoEUpgradeRequest requestUpgradePlistWithUrl:model.url params:model.requestParams successBlock:^(NSDictionary *response) {
         __strong typeof(weakSelf) strongifySelf = weakSelf;
         id <AoECheckUpgradeProtocol> downloadModel = [strongifySelf getDownloadModelWithRespone:response checkUpgradeClass:model.checkUpgradeModel];
         NSString *newerVersion = downloadModel.version;
@@ -115,15 +115,15 @@ static NSString *const AoEUpgradeLockObj = @"AoEUpgradeLockObj";
         NSString *zipMd5 = downloadModel.sign;
         NSData *data = [NSData dataWithContentsOfFile:cachePath];
         BOOL needValidJudge = NO;
-        if (zipSize &&
-            [zipSize isKindOfClass:[NSNumber class]] &&
+        if ((zipSize &&
+            [zipSize isKindOfClass:[NSNumber class]]) ||
             [AoEValidJudge isValidString:zipMd5]) {
             needValidJudge = YES;
         }
         
         if (needValidJudge &&
-            zipSize.longLongValue == data.length &&
-            [[AoECryptoUtil aoe_encryptMD5Data:data] isEqualToString:zipMd5]) {
+            (zipSize.longLongValue == data.length ||
+            [[AoECryptoUtil aoe_encryptMD5Data:data] isEqualToString:zipMd5])) {
             [strongifySelf storeDownloadDataWithModel:model downloadModel:downloadModel cachePath:cachePath];
         }else {
             [strongifySelf markStopUpgrade:model.name success:NO];

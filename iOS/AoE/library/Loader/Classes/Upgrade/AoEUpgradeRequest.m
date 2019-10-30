@@ -10,6 +10,7 @@
 @implementation AoEUpgradeRequest
 
 + (void)requestUpgradePlistWithUrl:(NSString *)urlString
+                            params:(NSDictionary *)params
                       successBlock:(AoEUpgradeReqSucceedBlock)successBlock
                       failureBlock:(AoEUpgradeReqFailureBlock)failureBlock {
     NSURL *url = [NSURL URLWithString:urlString];
@@ -24,7 +25,12 @@
     NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
+    NSError *error = nil;
+    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params   options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) {
+        if (failureBlock) failureBlock(error);
+        return;
+    }
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];

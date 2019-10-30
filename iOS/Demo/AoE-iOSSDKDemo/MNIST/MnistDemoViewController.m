@@ -25,7 +25,10 @@
     // AoEClient 初始化
     AoEClientOption *clientOption = [AoEClientOption new];
     clientOption.interpreterClassName = @"ABMnistInterceptor";
-    
+    clientOption.appKey = @"FKuABwKYV18bwT";
+    clientOption.lat = @"39.92";
+    clientOption.lng = @"116.46";
+    clientOption.appId = 164;
     NSString *dir = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"AoEBiz-mnist.bundle/mnist"];
     AoEClient *client = [[AoEClient alloc] initWithClientOption:clientOption modelDir:dir subDir:nil];
     __weak typeof(self) weak_self = self;

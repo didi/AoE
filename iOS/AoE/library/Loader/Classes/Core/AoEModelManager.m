@@ -58,7 +58,7 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     option.appId = ((NSNumber *)extension[@"appid"]).integerValue;
     option.lat = extension[@"lat"];
     option.lng = extension[@"lng"];
-    option.lng = extension[@"appkey"];
+    option.appKey = extension[@"appkey"];
     [self checkUpgradeModelWithConfig:option];
     return option;
 }
@@ -154,7 +154,7 @@ static NSString *const AEModelManagerLocker = @"AEModelManagerLockObj";
     modelOption.version = lastVersion;
     modelOption.modelPath = modelPath;
     
-    if ([AoEValidJudge isValidString:option.modelPath]) {
+    if (![AoEValidJudge isValidString:option.modelPath]) {
         [[self loggerComponent] errorLog:[NSString stringWithFormat:@"model path can't be nil %@",modelOption.modelPath]];
         NSAssert([AoEValidJudge isValidString:option.modelPath], @"model path can't be nil");
         return nil;

@@ -13,6 +13,7 @@ typedef void (^AoEUpgradeReqFailureBlock)(NSError *error);
 @interface AoEUpgradeRequest : NSObject
 
 + (void)requestUpgradePlistWithUrl:(NSString *)urlString
+                            params:(NSDictionary *)params
                       successBlock:(AoEUpgradeReqSucceedBlock)successBlock
                       failureBlock:(AoEUpgradeReqFailureBlock)failureBlock;
 
