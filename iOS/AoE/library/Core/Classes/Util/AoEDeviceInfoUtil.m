@@ -10,6 +10,7 @@
 #import <AdSupport/AdSupport.h>
 
 static NSString *__AEDeviceType = nil;
+static NSString *__AEIDFAUUIDString = nil;
 @implementation AoEDeviceInfoUtil
 
 + (AEDevicePerformanceType)devicePerformanceType {
@@ -35,7 +36,10 @@ static NSString *__AEDeviceType = nil;
 }
 
 + (NSString *)deviceSN {
-    return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    if (!__AEIDFAUUIDString) {
+        __AEIDFAUUIDString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    }
+    return __AEIDFAUUIDString;
 }
 
 + (BOOL)lowPerformanceDevice:(NSString *)platform {

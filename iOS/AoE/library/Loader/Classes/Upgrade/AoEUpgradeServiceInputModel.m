@@ -51,16 +51,14 @@
              @"modelId":@(option.modelId),
              @"modelVersionCode":option.version,
              @"timeStamp":@([NSDate date].timeIntervalSince1970),
-             @"deviceSN":[AoEDeviceInfoUtil deviceType],
-                                                                                         @"deviceType":[AoEDeviceInfoUtil deviceSN], @"kLat":option.lat,
+             @"deviceSN":[AoEDeviceInfoUtil deviceSN],
+                                                                                         @"deviceType": [AoEDeviceInfoUtil deviceType], @"kLat":option.lat,
                                                                                          @"kLng":option.lng,
     }];
     
     NSString *sgin = [AoECryptoUtil aoe_encryptAoEReqParams:requestParams.copy encryptKey:appKey];
-    [requestParams addEntriesFromDictionary:@{@"sign":sgin}];
+    [requestParams addEntriesFromDictionary:@{@"sign":sgin?:@""}];
     return requestParams.copy;
-    
-    // kLat kLng sign
 }
 
 + (NSString *)getURLWithOption:(AoEModelOption *)option appKey:(NSString *)appKey {

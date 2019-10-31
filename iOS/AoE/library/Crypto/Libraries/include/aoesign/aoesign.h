@@ -10,15 +10,21 @@
 
 #include <stdio.h>
 #include "aoedict.h"
+
 typedef struct dictEntryFake {
     aoe_dictEntry *real; /* simple singly linked list */
     int index;
-    int len;
 } dictEntryFake;
-void releaseDictFakes(dictEntryFake *fakes);
-dictEntryFake *createDictFakes(int len);
-void addDictFake(dictEntryFake *fakes, const char *key, const char *val , int indx);
-int aoe_generalSignFakeDict(const dictEntryFake *fakes,const unsigned long fakesLenght,const char *appKey , const unsigned long appKeyLenght, int method, char **signedStr);
+
+typedef struct dictFake {
+    dictEntryFake **table;
+    unsigned long size;
+} dictFake;
+
+void releaseDictFake(dictFake *fakes);
+dictFake *createDictFake(int len);
+void addDictEntryFake(dictFake *fakes, const char *key, const char *val , int indx);
+int aoe_generalSignDictFake(const dictFake *fakes,const char *appKey , const unsigned long appKeyLenght, int method, char **signedStr);
 /// 生成签名dict
 aoe_dict * generalSignDict(void);
 
