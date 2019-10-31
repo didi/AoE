@@ -60,7 +60,7 @@ class ClassificationFeartureFragment : BaseFeartureFragment() {
         imageView = view.findViewById(R.id.iv_sketch)
 
         val buttonImage = view.findViewById<Button>(R.id.btn_image_pick)
-        buttonImage.setOnClickListener { arg0 ->
+        buttonImage.setOnClickListener {
             val i = Intent(Intent.ACTION_PICK)
             i.type = "image/*"
             startActivityForResult(i, SELECT_IMAGE)

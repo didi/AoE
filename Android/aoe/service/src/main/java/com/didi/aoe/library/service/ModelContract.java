@@ -116,7 +116,7 @@ public final class ModelContract {
     public static ModelResult fetchModel(@NonNull Context context, @NonNull ModelRequest request) {
         Map<String, Object> bodyMap = buildBodyMap(request);
 
-        try (Response response = HttpManager.getInstance().performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
+        try (Response response = HttpManager.Companion.getInstance().performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
             mLogger.debug("fetchModel: " + request);
 
             if (!response.isSuccessful() || response.body() == null) {

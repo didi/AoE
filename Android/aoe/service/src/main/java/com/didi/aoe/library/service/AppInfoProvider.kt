@@ -40,7 +40,7 @@ class AppInfoProvider(context: Context) {
     /**
      * 获取设备唯一标识码
      */
-    val deviceSN: String? by lazy {
+    val deviceSN: String by lazy {
         getDeviceId(context)
     }
     /**

@@ -47,7 +47,7 @@ public final class Aoe {
             applicationContext = context.getApplicationContext();
         }
 
-        HttpManager.init(applicationContext);
+        HttpManager.Companion.init(applicationContext);
     }
 
     public static void init(@NonNull Context context, @NonNull AoeDataProvider provider) {

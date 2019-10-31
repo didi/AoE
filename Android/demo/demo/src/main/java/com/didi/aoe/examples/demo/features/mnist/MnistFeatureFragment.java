@@ -17,6 +17,7 @@ import com.didi.aoe.features.mnist.model.SketchModel;
 import com.didi.aoe.features.mnist.render.SketchRenderer;
 import com.didi.aoe.features.mnist.widget.SketchView;
 import com.didi.aoe.library.core.AoeClient;
+import com.didi.aoe.library.service.AoeModelOptionLoader;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -34,9 +35,10 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mClient = new AoeClient(requireContext(),
                 new AoeClient.Options()
-//                        .setModelOptionLoader(AoeModelOptionLoader.class)// TODO wait library-service
+                        .setModelOptionLoader(AoeModelOptionLoader.class)// TODO wait library-service
                         .setInterpreter(MnistInterpreter.class)
                         .useRemoteService(false),
                 "mnist");

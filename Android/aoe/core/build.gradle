@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.0.3"
+        versionCode aoe_version_code
+        versionName aoe_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,10 +45,10 @@ dependencies {
 
         api project(":library-common")
     } else {
-        api 'com.didi.aoe:library-api:1.0.3.1'
-        api 'com.didi.aoe:library-model-option-loader:1.0.2.4'
+        api "com.didi.aoe:library-api:$aoe_version_name"
+        api "com.didi.aoe:library-model-option-loader:$aoe_version_name"
 
-        implementation 'com.didi.aoe:library-common:1.0.3.1'
+        implementation "com.didi.aoe:library-common:$aoe_version_name"
 
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -58,6 +58,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-core'
     releaseDescription = 'The AoE core library'
-    releaseVersion = '1.0.3'
+    releaseVersion = aoe_version_name
 }
 apply from: '../../publish.gradle'
