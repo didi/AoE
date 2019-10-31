@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'AoEBiz'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'AoE Biz pods'
   s.description      = <<-DESC
         this pod is a demo for Biz
