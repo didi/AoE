@@ -18,7 +18,7 @@ jobs:
     - name: lint Cocoapods
       run: |
         set -eo pipefail
-        pod lib lint --allow-warning
+        pod lib lint --allow-warnings
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         
