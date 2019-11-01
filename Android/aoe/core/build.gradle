@@ -48,7 +48,7 @@ dependencies {
         api "com.didi.aoe:library-api:$aoe_version_name"
         api "com.didi.aoe:library-model-option-loader:$aoe_version_name"
 
-        implementation "com.didi.aoe:library-common:$aoe_version_name"
+        api "com.didi.aoe:library-common:$aoe_version_name"
 
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
