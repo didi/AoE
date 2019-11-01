@@ -175,9 +175,11 @@
     NSString *sginedStr = @"";
     if (distDataBytes != NULL) {
         sginedStr = [NSString stringWithUTF8String:distDataBytes];
-
     }
     releaseDictFake(fakes);
+    if (distDataBytes != NULL) {
+        free((void *)distDataBytes);
+    }
     return sginedStr;
 }
 @end
