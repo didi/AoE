@@ -25,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode aoe_version_code
+        versionName aoe_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -55,9 +55,9 @@ dependencies {
         implementation project(":library-common")
         api project(":runtime-pytorch")
     } else {
-        implementation 'com.didi.aoe:library-api:1.0.3.1'
-        implementation "com.didi.aoe:library-logging:1.0.1"
-        api project(":runtime-pytorch")
+        implementation "com.didi.aoe:library-api:$aoe_version_name"
+        implementation "com.didi.aoe:library-logging:$aoe_version_name"
+        api "com.didi.aoe:runtime-pytorch:$aoe_version_name"
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

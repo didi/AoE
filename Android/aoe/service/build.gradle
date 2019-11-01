@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0.2.3"
+        versionCode aoe_version_code
+        versionName aoe_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -33,7 +33,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+//    implementation 'androidx.core:core-ktx:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -43,21 +43,23 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    implementation 'com.didi.aoe:extensions-service-signer:1.0.2'
+
     if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         implementation project(':extensions-downloadmanager')
         implementation project(':library-core')
         implementation project(':library-common')
     } else {
-        implementation 'com.didi.aoe:extensions-downloadmanager:1.0.2'
-        implementation 'com.didi.aoe:library-core:1.0.2.3'
-        implementation 'com.didi.aoe:library-common:1.0.3.1'
+        implementation "com.didi.aoe:extensions-downloadmanager:$aoe_version_name"
+        implementation "com.didi.aoe:library-core:$aoe_version_name"
+        implementation "com.didi.aoe:library-common:$aoe_version_name"
     }
 
 }
 
 ext {
-    releaseArtifact = 'extensions-service'
+    releaseArtifact = 'library-service'
     releaseDescription = 'The AoE service extensions'
-    releaseVersion = '1.0.2.3'
+    releaseVersion = aoe_version_name
 }
 apply from: '../../publish.gradle'

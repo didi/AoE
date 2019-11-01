@@ -92,7 +92,7 @@ abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<
         if (isReady) {
             val inputTensor = preProcess(o)
             if (inputTensor != null) {
-                val outputTensor = mInterpreter!!.forward(IValue.from(inputTensor)).toTensor()
+                val outputTensor = mInterpreter?.forward(IValue.from(inputTensor))?.toTensor()
                 return postProcess(outputTensor)
             }
         }
@@ -102,7 +102,7 @@ abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<
 
     override fun release() {
         if (mInterpreter != null) {
-            mInterpreter!!.destroy()
+            mInterpreter?.destroy()
         }
     }
 

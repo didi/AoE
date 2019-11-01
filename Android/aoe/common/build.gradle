@@ -25,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0.3.1"
+        versionCode aoe_version_code
+        versionName aoe_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -57,7 +57,7 @@ dependencies {
     if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
         api project(":library-logging")
     } else {
-        api "com.didi.aoe:library-logging:1.0.1"
+        api "com.didi.aoe:library-logging:$aoe_version_name"
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
@@ -65,6 +65,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-common'
     releaseDescription = 'The AoE common library'
-    releaseVersion = '1.0.3.1'
+    releaseVersion = aoe_version_name
 }
 apply from: '../../publish.gradle'

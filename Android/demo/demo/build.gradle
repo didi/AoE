@@ -11,8 +11,8 @@ android {
         applicationId "com.didi.aoe.examples.demo"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.0.2"
+        versionCode aoe_version_code
+        versionName aoe_version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -63,8 +63,8 @@ dependencies {
         implementation project(':library-service')
         implementation project(':library-core')
     } else {
-        implementation 'com.didi.aoe:library-core:1.0.2.3'
-        implementation 'com.didi.aoe:extensions-service:1.0.2.3'
+        implementation "com.didi.aoe:library-core:$aoe_version_name"
+        implementation "com.didi.aoe:library-service:$aoe_version_name"
     }
 
     implementation project(':features-mnist')

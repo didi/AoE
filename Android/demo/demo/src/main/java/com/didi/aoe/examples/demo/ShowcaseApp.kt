@@ -3,6 +3,8 @@ package com.didi.aoe.examples.demo
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import com.didi.aoe.library.service.Aoe
+import com.didi.aoe.library.service.AoeDataProvider
 
 /**
  * @author noctis
@@ -13,22 +15,20 @@ class ShowcaseApp : Application() {
         super.onCreate()
         context = applicationContext
 
-        //        Aoe.init(getContext(), new AoeDataProvider() {
-        //            @Override
-        //            public long appId() {
-        //                return 164;
-        //            }
-        //
-        //            @Override
-        //            public double latitude() {
-        //                return 39.92;
-        //            }
-        //
-        //            @Override
-        //            public double longitude() {
-        //                return 116.46;
-        //            }
-        //        });
+        Aoe.init(applicationContext, object : AoeDataProvider {
+            override fun appId(): Long {
+                return 164
+            }
+
+            override fun latitude(): Double {
+                return 39.92
+            }
+
+            override fun longitude(): Double {
+                return 116.46
+            }
+        })
+
     }
 
     companion object {
