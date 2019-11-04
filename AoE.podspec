@@ -65,9 +65,8 @@ Pod::Spec.new do |s|
 
   s.subspec 'Crypto' do |ss|
     ss.ios.deployment_target = '8.0'
-    ss.source_files = "iOS/#{s.name}/library/Crypto/Classes/**/*"
-    ss.public_header_files = "iOS/#{s.name}/library/Crypto/Classes/**/*.h", "iOS/#{s.name}/library/Crypto/Libraries/include/**/*.h"
-    ss.private_header_files = "iOS/#{s.name}/library/Crypto/Libraries/include/**/*.h"
+    ss.source_files = "iOS/#{s.name}/library/Crypto/Classes/**/*","iOS/#{s.name}/library/Crypto/Libraries/include/**/*.h"
+    ss.public_header_files = "iOS/#{s.name}/library/Crypto/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
     ss.preserve_paths = "iOS/#{s.name}/library/Crypto/Libraries/lib/libaoesign.a"
     ss.vendored_libraries = "iOS/#{s.name}/library/Crypto/Libraries/lib/libaoesign.a"
