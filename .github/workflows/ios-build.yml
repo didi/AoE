@@ -3,7 +3,8 @@ name: iOS CI
 on: 
   push:
     paths:
-    - 'iOS/*'  
+    - 'iOS/*'
+    - '!**/*.md'
 
 jobs:
   build:
@@ -22,9 +23,9 @@ jobs:
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         
-    - name: build example
-      run: |
-        pod install --project-directory=iOS/Demo
-        xcodebuild -workspace iOS/Demo/AoEOpenSDKDemo.xcworkspace -scheme AoEOpenSDKDemo -configuration Debug
+    # - name: build example
+    #  run: |
+    #    pod install --project-directory=iOS/Demo
+    #    xcodebuild -workspace iOS/Demo/AoEOpenSDKDemo.xcworkspace -scheme AoEOpenSDKDemo -configuration Debug
     
     
