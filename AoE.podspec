@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/didi/aoe/'
   s.license          = { :type => 'Apache', :file => 'LICENSE' }
   s.author           = { 'dingc' => 'dc328466990@163.com' }  
-  s.source           = { :git => "git@github.com:didi/aoe.git", :tag => s.version.to_s }
+  s.source           = { :git => "git@github.com:didi/aoe.git", :tag => "v1.1.0-alpha01" }
 
   s.prefix_header_file = false
   s.default_subspec = 'Loader'
