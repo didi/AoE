@@ -56,6 +56,17 @@
                                                                                          @"kLng":option.lng,
     }];
     
+    requestParams = [NSMutableDictionary dictionaryWithDictionary:@{@"deviceType":@"MI 8",
+                             @"timeStamp":@(1572343795540),
+                             @"modelId":@(75),
+                             @"modelVersionCode":@"0.0",
+                             @"appId":@(164),
+                             @"deviceSN":@"22127ac14c2fa687",
+                             @"kLat":@(39.92).stringValue,
+                             @"kLng":@(116.46).stringValue,
+    }];
+    appKey = @"FKuABwKYV18bwT";
+    
     NSString *sgin = [AoECryptoUtil aoe_encryptAoEReqParams:requestParams.copy encryptKey:appKey];
     [requestParams addEntriesFromDictionary:@{@"sign":sgin?:@""}];
     return requestParams.copy;

@@ -18,6 +18,7 @@
 		6B85A8C822D48E830032ABBE /* SqueezeDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85A8C722D48E830032ABBE /* SqueezeDemoViewController.m */; };
 		6B85A8E622D71ACA0032ABBE /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B85A8E522D71AC90032ABBE /* CoreServices.framework */; };
 		6B96C51D2327522000F89632 /* SqueezeMNNDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B96C51C2327522000F89632 /* SqueezeMNNDemoViewController.m */; };
+		6B96C539232F6F2700F89632 /* testcat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B96C538232F6F2700F89632 /* testcat.jpg */; };
 		6BCB23FA22E5B4FF00E52536 /* squeeze.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23F922E5B4FE00E52536 /* squeeze.jpg */; };
 		6BCB23FC22E5B51A00E52536 /* mnist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB23FB22E5B51A00E52536 /* mnist.jpg */; };
 		6BDF2A4922BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF2A4822BB92D100A21FC3 /* AoE_iOSSDKDemoTests.m */; };
@@ -56,6 +57,7 @@
 		6B85A8E522D71AC90032ABBE /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		6B96C51B2327522000F89632 /* SqueezeMNNDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqueezeMNNDemoViewController.h; sourceTree = "<group>"; };
 		6B96C51C2327522000F89632 /* SqueezeMNNDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqueezeMNNDemoViewController.m; sourceTree = "<group>"; };
+		6B96C538232F6F2700F89632 /* testcat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = testcat.jpg; path = "../../../../Android/samples/demo/features/recognize/src/main/assets/recognize-mnn/testcat.jpg"; sourceTree = "<group>"; };
 		6BCB23F922E5B4FE00E52536 /* squeeze.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = squeeze.jpg; sourceTree = "<group>"; };
 		6BCB23FB22E5B51A00E52536 /* mnist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mnist.jpg; sourceTree = "<group>"; };
 		6BDF2A4622BB92D000A21FC3 /* AoEOpenSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AoEOpenSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +176,7 @@
 		6BEFC109224B661200402E94 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B96C538232F6F2700F89632 /* testcat.jpg */,
 				6BEFC10A224B663B00402E94 /* AoEDemoMenuViewCell.h */,
 				6BEFC10B224B663B00402E94 /* AoEDemoMenuViewCell.m */,
 			);
@@ -302,6 +305,7 @@
 			files = (
 				12E807A52239114E0037CB00 /* LaunchScreen.storyboard in Resources */,
 				6BCB23FA22E5B4FF00E52536 /* squeeze.jpg in Resources */,
+				6B96C539232F6F2700F89632 /* testcat.jpg in Resources */,
 				12E807A22239114E0037CB00 /* Assets.xcassets in Resources */,
 				6BCB23FC22E5B51A00E52536 /* mnist.jpg in Resources */,
 				12E807A02239114D0037CB00 /* Main.storyboard in Resources */,
@@ -631,9 +635,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMPILER_INDEX_STORE_ENABLE = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M7U5NWHU79;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/AoE-iOSSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -655,9 +659,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMPILER_INDEX_STORE_ENABLE = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M7U5NWHU79;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/AoE-iOSSDKDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
