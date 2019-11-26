@@ -34,9 +34,9 @@
 * `欢迎直接提交 issues 和 PRs`  [>>>🔥PR激励活动进行中～](https://github.com/didi/AoE/issues/14)
 
 
-| QQ群号： 815254379 | 加微信入群：xKuloud（备注*AoE*） |
+| QQ群号： 815254379 | 加微信入群：qianfeifei1998（备注*AoE*） |
 |---|---|
-|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="xKuloud" src="https://img0.didiglobal.com/static/gstar/img/eSO6tSjbsB1568173760427.jpeg" width="196">|
+|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="xKuloud" src="https://img0.didiglobal.com/static/gstar/img/HEPRyPJc4S1574756381435.png" width="196">|
     
 
 
