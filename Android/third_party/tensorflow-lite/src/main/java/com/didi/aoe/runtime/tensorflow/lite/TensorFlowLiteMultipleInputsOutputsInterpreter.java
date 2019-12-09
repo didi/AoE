@@ -3,8 +3,8 @@ package com.didi.aoe.runtime.tensorflow.lite;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.domain.ModelSource;
@@ -161,7 +161,9 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
     }
 
     private ByteBuffer loadFromAssets(Context context, String modelFilePath) {
-        try (InputStream is = context.getAssets().open(modelFilePath)) {
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(modelFilePath);
             byte[] bytes = FileUtils.read(is);
             if (bytes == null) {
                 return null;
@@ -173,6 +175,14 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
             return bf;
         } catch (IOException e) {
             mLogger.error("loadFromAssets error", e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
         }
 
         return null;

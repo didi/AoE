@@ -3,13 +3,15 @@ package com.didi.aoe.examples.demo
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
 import com.didi.aoe.library.service.Aoe
 import com.didi.aoe.library.service.AoeDataProvider
 
 /**
  * @author noctis
  */
-class ShowcaseApp : Application() {
+class ShowcaseApp : Application(), CameraXConfig.Provider {
 
     override fun onCreate() {
         super.onCreate()
@@ -35,5 +37,9 @@ class ShowcaseApp : Application() {
         @SuppressLint("StaticFieldLeak")
         var context: Context? = null
             private set
+    }
+
+    override fun getCameraXConfig(): CameraXConfig {
+        return Camera2Config.defaultConfig(this)
     }
 }

@@ -1,11 +1,9 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
-
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
@@ -19,9 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.didi.aoe.library.api.StatusCode.STATUS_MODEL_DOWNLOAD_WAITING;
-import static com.didi.aoe.library.api.StatusCode.STATUS_OK;
-import static com.didi.aoe.library.api.StatusCode.STATUS_UNDEFINE;
+import static com.didi.aoe.library.api.StatusCode.*;
 
 /**
  * AoE业务交互终端。

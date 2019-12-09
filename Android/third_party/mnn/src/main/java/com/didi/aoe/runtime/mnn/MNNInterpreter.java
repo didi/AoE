@@ -2,8 +2,8 @@ package com.didi.aoe.runtime.mnn;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.StatusCode;
@@ -67,9 +67,7 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
     @Override
     @Nullable
     public TOutput run(@NonNull TInput input) {
-        mLogger.debug("===run444444444444");
         if (isReady()) {
-            mLogger.debug("===run444444444444isReady");
             mInputTensor = preProcess(input);
 
             if (mInputTensor != null) {
@@ -93,36 +91,6 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
     @Override
     public boolean isReady() {
         return mSession != null;
-    }
-
-    //TODO the same with TensorFlowLiteMultipleInputsOutputsInterpreter, need refactor
-    private ByteBuffer loadFromAssets(Context context, String modelFilePath) {
-        InputStream is = null;
-        try {
-            is = context.getAssets().open(modelFilePath);
-            byte[] bytes = read(is);
-            if (bytes == null) {
-                return null;
-            }
-            ByteBuffer bf = ByteBuffer.allocateDirect(bytes.length);
-            bf.order(ByteOrder.nativeOrder());
-            bf.put(bytes);
-
-            return bf;
-        } catch (IOException e) {
-            mLogger.error("loadFromAssets error", e);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-        }
-
-        return null;
-
     }
 
     private byte[] read(InputStream is) {

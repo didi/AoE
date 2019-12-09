@@ -1,8 +1,8 @@
 package com.didi.aoe.features.mnist;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.didi.aoe.runtime.tensorflow.lite.TensorFlowLiteInterpreter;
 
 /**

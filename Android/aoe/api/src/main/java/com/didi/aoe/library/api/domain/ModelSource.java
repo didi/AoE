@@ -16,7 +16,7 @@
 
 package com.didi.aoe.library.api.domain;
 
-import androidx.annotation.StringDef;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.didi.aoe.examples.demo.R;
 import com.didi.aoe.examples.demo.features.BaseFeartureFragment;
 import com.didi.aoe.features.mnist.MnistInterpreter;

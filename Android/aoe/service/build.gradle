@@ -1,18 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
+apply from: '../../upload.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
-
+    compileSdkVersion aoe_compile_sdk_version
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 29
+        minSdkVersion aoe_min_sdk_version
+        targetSdkVersion aoe_target_sdk_version
         versionCode aoe_version_code
         versionName aoe_version_name
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -31,29 +28,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-//    implementation 'androidx.core:core-ktx:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    //noinspection GradleDependency
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation deps.gson
 
-    implementation 'com.didi.aoe:extensions-service-signer:1.0.2'
-
-    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-        implementation project(':extensions-downloadmanager')
-        implementation project(':library-core')
-        implementation project(':library-common')
-    } else {
-        implementation "com.didi.aoe:extensions-downloadmanager:$aoe_version_name"
-        implementation "com.didi.aoe:library-core:$aoe_version_name"
-        implementation "com.didi.aoe:library-common:$aoe_version_name"
+    implementation "com.didi.aoe:extensions-service-signer:1.1.1.4"
+    implementation ("com.didi.aoe:extensions-downloadmanager:1.1.1.4") {
+        exclude group:'com.didi.aoe', module: 'library-logging'
     }
+
+    implementation deps.support.annotation
+
+    api deps.aoe.library.core
+    api deps.aoe.library.common
+
+    implementation deps.kotlin
 
 }
 

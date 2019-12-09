@@ -4,22 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.Log;
-
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 import com.didi.aoe.runtime.mnn.MNNImageProcess;
 import com.didi.aoe.runtime.mnn.MNNInterpreter;
 import com.didi.aoe.runtime.mnn.MNNNetInstance;
-import com.taobao.android.utils.Common;
 import com.taobao.android.utils.TxtFileReader;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RecognizeMnnInterpreter extends MNNInterpreter<Bitmap, String> {
     private final Logger mLogger = LoggerFactory.getLogger("MnistMnnInterpreter");
@@ -67,7 +59,7 @@ public class RecognizeMnnInterpreter extends MNNInterpreter<Bitmap, String> {
                 maybes.add(new AbstractMap.SimpleEntry<Integer, Float>(i, confidence));
             }
         }
-        Log.i(Common.TAG, "Inference result size=" + result.length + ", maybe=" + maybes.size());
+        mLogger.info("Inference result size=" + result.length + ", maybe=" + maybes.size());
 
         Collections.sort(maybes, new Comparator<Map.Entry<Integer, Float>>() {
             @Override

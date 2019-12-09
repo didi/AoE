@@ -22,6 +22,12 @@ object FeatureContents {
                 R.drawable.bg_mnist))
 
         FEATURES.add(Feature(
+                R.id.action_featuresFragment_to_pfldFeatureFragment,
+                ShowcaseApp.context?.getString(R.string.title_pfld),
+                ShowcaseApp.context?.getString(R.string.description_pfld),
+                R.drawable.bg_mnist))
+
+        FEATURES.add(Feature(
                 R.id.action_featuresFragment_to_classificationFeartureFragment,
                 ShowcaseApp.context?.getString(R.string.title_classification),
                 ShowcaseApp.context?.getString(R.string.description_classification),

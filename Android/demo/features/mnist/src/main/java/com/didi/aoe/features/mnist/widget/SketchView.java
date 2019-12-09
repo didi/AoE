@@ -1,19 +1,18 @@
 package com.didi.aoe.features.mnist.widget;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-
 import com.didi.aoe.features.mnist.render.SketchRenderer;
 
 /**

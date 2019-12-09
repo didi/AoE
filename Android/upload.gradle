@@ -1,0 +1,22 @@
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.project {
+                groupId project.GROUP_ID
+                artifactId project.ARTIFACT_ID
+                version project.VERSION
+            }
+
+            repository(url: project.RELEASE_REPOSITORY_URL) {
+                authentication(userName: project.USERNAME, password: project.PASSWORD)
+            }
+            snapshotRepository(url: project.SNAPSHOT_REPOSITORY_URL) {
+                authentication(userName: project.USERNAME, password: project.PASSWORD)
+            }
+
+
+        }
+    }
+}

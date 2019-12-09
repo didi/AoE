@@ -18,11 +18,11 @@ package com.didi.aoe.library.service;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.WorkerThread;
 import android.util.LruCache;
 
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.WorkerThread;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 
 import com.didi.aoe.extensions.downloadmanager.DownloadRequest;
 import com.didi.aoe.library.service.pojos.ModelOption;

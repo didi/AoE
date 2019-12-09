@@ -16,8 +16,8 @@
 
 package com.didi.aoe.features.squeeze.utils;
 
-import androidx.annotation.RestrictTo;
 
+import androidx.annotation.RestrictTo;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 

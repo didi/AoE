@@ -1,17 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply from: '../../upload.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion = '29.0.2'
-
+    compileSdkVersion aoe_compile_sdk_version
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 29
+        minSdkVersion aoe_min_sdk_version
+        targetSdkVersion aoe_target_sdk_version
         versionCode aoe_version_code
         versionName aoe_version_name
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -21,37 +18,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation deps.support.annotation
 
-    implementation 'androidx.annotation:annotation:1.1.0'
+    api deps.aoe.library.api
+    api deps.aoe.library.model_option_loader
+    api deps.aoe.library.common
 
-    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-        api project(':library-api')
-        api project(":library-model-option-loader")
-
-        api project(":library-common")
-    } else {
-        api "com.didi.aoe:library-api:$aoe_version_name"
-        api "com.didi.aoe:library-model-option-loader:$aoe_version_name"
-
-        api "com.didi.aoe:library-common:$aoe_version_name"
-
-    }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation deps.kotlin
 
 }
 

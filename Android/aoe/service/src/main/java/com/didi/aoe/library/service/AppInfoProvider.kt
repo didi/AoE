@@ -19,11 +19,11 @@ package com.didi.aoe.library.service
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import androidx.core.content.PermissionChecker
 
 /**
  * 应用信息提供者
@@ -59,22 +59,21 @@ class AppInfoProvider(context: Context) {
     @Synchronized
     private fun getDeviceId(context: Context): String {
         var deviceId: String? = null
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            val permissionGranted = PermissionChecker.checkCallingOrSelfPermission(context, "android.permission.READ_PHONE_STATE") == PermissionChecker.PERMISSION_GRANTED
-            if (permissionGranted) {
-                var imei: String? = null
+        val permissionGranted =
+                context.checkCallingOrSelfPermission("android.permission.READ_PHONE_STATE") == PERMISSION_GRANTED
+        if (permissionGranted) {
+            var imei: String? = null
 
-                try {
-                    val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
-                    @Suppress("DEPRECATION")
-                    imei = telephonyManager?.deviceId
-                } catch (e: Exception) {
-                    // ignore
-                }
+            try {
+                val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
+                @Suppress("DEPRECATION")
+                imei = telephonyManager?.deviceId
+            } catch (e: Exception) {
+                // ignore
+            }
 
-                if (isValidDeviceId(imei)) {
-                    deviceId = imei!!
-                }
+            if (isValidDeviceId(imei)) {
+                deviceId = imei!!
             }
         }
 

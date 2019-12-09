@@ -3,8 +3,6 @@ package com.taobao.android.mnn;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.taobao.android.utils.Common;
-
 public class MNNNetNative {
     // load libraries
     static {
@@ -14,7 +12,7 @@ public class MNNNetNative {
             System.loadLibrary("MNN_GL");
             System.loadLibrary("MNN_Vulkan");
         } catch (Throwable ce) {
-            Log.w(Common.TAG, "load MNN GPU so exception=%s", ce);
+            Log.w("MNN", "load MNN GPU so exception=%s", ce);
         }
         System.loadLibrary("mnncore");
     }

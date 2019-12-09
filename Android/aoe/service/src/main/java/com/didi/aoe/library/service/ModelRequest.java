@@ -16,7 +16,7 @@
 
 package com.didi.aoe.library.service;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.didi.aoe.library.service.pojos.ModelOption;
 

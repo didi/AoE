@@ -4,12 +4,10 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode aoe_version_code
         versionName aoe_version_name
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -26,22 +24,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-        implementation project(':library-api')
-        implementation project(":library-logging")
-        api project(":runtime-tensorflow-lite")
-    } else {
-        implementation "com.didi.aoe:library-api:$aoe_version_name"
-        implementation "com.didi.aoe:library-logging:$aoe_version_name"
-        api "com.didi.aoe:runtime-tensorflow-lite:$aoe_version_name"
-    }
+    implementation deps.aoe.library.api
+    implementation deps.aoe.library.common
+    api deps.aoe.runtime.tensorflow
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation deps.kotlin
 
 }
 

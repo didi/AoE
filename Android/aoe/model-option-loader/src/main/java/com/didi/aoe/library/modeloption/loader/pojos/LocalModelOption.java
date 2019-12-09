@@ -1,10 +1,11 @@
 package com.didi.aoe.library.modeloption.loader.pojos;
 
+import android.support.annotation.Keep;
 import android.text.TextUtils;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.domain.ModelSource;

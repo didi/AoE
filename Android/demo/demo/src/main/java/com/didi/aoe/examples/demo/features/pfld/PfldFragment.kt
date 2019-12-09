@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 The AoE Authors.
+ * Copyright 2019 The AoE Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.library.api.domain;
+package com.didi.aoe.examples.demo.features.pfld
 
-import android.support.annotation.StringDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import static com.didi.aoe.library.api.domain.DeviceType.CPU;
-import static com.didi.aoe.library.api.domain.DeviceType.GPU;
+import androidx.camera.core.ImageProxy
+import com.didi.aoe.examples.demo.features.CameraFragment
 
 /**
+ *
+ *
  * @author noctis
  * @since 1.1.0
  */
-@Retention(RetentionPolicy.SOURCE)
-@StringDef({CPU, GPU})
-public @interface DeviceType {
-    String CPU = "cpu";
-    String GPU = "gpu";
+class PfldFragment() : CameraFragment() {
+
+    override fun analyze(image: ImageProxy, rotationDegrees: Int) {
+
+    }
 }

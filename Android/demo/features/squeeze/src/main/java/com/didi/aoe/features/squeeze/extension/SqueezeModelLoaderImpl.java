@@ -2,8 +2,8 @@ package com.didi.aoe.features.squeeze.extension;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import com.didi.aoe.features.squeeze.utils.FileUtil;
 import com.didi.aoe.features.squeeze.utils.JsonUtil;
 import com.didi.aoe.library.api.AoeModelOption;

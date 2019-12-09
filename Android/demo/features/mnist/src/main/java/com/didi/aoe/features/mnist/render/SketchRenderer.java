@@ -7,9 +7,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
 import com.didi.aoe.features.mnist.model.SketchModel;
 
 /**
