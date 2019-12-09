@@ -37,7 +37,6 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
 
         mClient = new AoeClient(requireContext(),
                 new AoeClient.Options()
-                        .setModelOptionLoader(AoeModelOptionLoader.class)// TODO wait library-service
                         .setInterpreter(MnistInterpreter.class)
                         .useRemoteService(false),
                 "mnist");

@@ -5,12 +5,12 @@ project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
 
 // 下载模型的 target路径：下载地址
 def models = [
-//        // mnist
-//        '../features/mnist/src/main/assets'  : [
-//                'https://img0.didiglobal.com/static/starfile/node20190926/895f1e95e30aba5dd56d6f2ccf768b57/APWmDl1XCf1569496524271.zip', // mnist
-//        ],
+        // mnist
+        '../features/mnist/src/main/assets'    : [
+                'https://img0.didiglobal.com/static/starfile/node20190926/895f1e95e30aba5dd56d6f2ccf768b57/APWmDl1XCf1569496524271.zip', // mnist
+        ],
         // squeeze
-        '../features/squeeze/src/main/assets': [
+        '../features/squeeze/src/main/assets'  : [
                 'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip' // squeeze
         ],
         // recognize
@@ -18,14 +18,17 @@ def models = [
                 'https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip' // recognize
         ],
         // pytorch
-        '../features/pytorch/src/main/assets': [
+        '../features/pytorch/src/main/assets'  : [
                 'https://img0.didiglobal.com/static/starfile/node20191028/895f1e95e30aba5dd56d6f2ccf768b57/dLq1wk2V2n1572257128485.zip' // pytorch
+        ],
+        // pfld
+        '../features/pfld/src/main/assets'     : [
+                'https://img0.didiglobal.com/static/starfile/node20191209/895f1e95e30aba5dd56d6f2ccf768b57/zPZhZIG42j1575881451886.zip' // pytorch
         ]
 
 ]
 
-
-task downloadFiles() {
+task downloadFiles(dependsOn: assemble) {
     def tmpDir = new File(project.ext.TMP_DIR)
     if (!tmpDir.exists()) {
         tmpDir.mkdirs()
@@ -49,7 +52,7 @@ task downloadFiles() {
 task extractModels(dependsOn: downloadFiles) {
     models.each { path, urls ->
 
-        println "extractModels ${path} ${urls}"
+        println "extract models ${urls} into ${path}"
 
         copy {
             for (f in urls) {
@@ -62,7 +65,6 @@ task extractModels(dependsOn: downloadFiles) {
                 }
             }
 
-            println "into " + projectDir.toString() + '/' + path
             into file(projectDir.toString() + '/' + path)
             fileMode 0644
             exclude '**/LICENSE'
