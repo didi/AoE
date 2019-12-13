@@ -1,4 +1,6 @@
 name: Android CI
+author: Noctis
+description: Android CI action for AoE project.
 
 on:
   push:
