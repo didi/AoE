@@ -21,6 +21,10 @@
         <action
             android:id="@+id/action_featuresFragment_to_classificationFeartureFragment"
             app:destination="@+id/classificationFeartureFragment" />
+
+        <action
+            android:id="@+id/action_featuresFragment_to_cameraFeatureFragment"
+            app:destination="@+id/cameraFeatureFragment" />
     </fragment>
 
     <fragment
@@ -40,5 +44,11 @@
         android:name="com.didi.aoe.examples.demo.features.classification.ClassificationFeartureFragment"
         android:label="@string/title_classification"
         tools:layout="@layout/fragment_classification" />
+
+    <fragment
+        android:id="@+id/cameraFeatureFragment"
+        android:name="com.didi.aoe.examples.demo.features.classification.Camera2BasicFragment"
+        android:label="@string/title_classification"
+        tools:layout="@layout/fragment_camera2_basic" />
 
 </navigation>

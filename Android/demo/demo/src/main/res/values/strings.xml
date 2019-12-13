@@ -22,4 +22,20 @@
     <string name="hint_result">结果</string>
     <string name="title_recognize">recognize</string>
     <string name="description_recognize">MNN官方提供的图像识别示例。</string>
+
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="toggle_turn_on">NN:On</string>
+    <string name="toggle_turn_off">NN:Off</string>
+    <string name="toggle">Use NNAPI</string>
+    <string name="tflite">tflite</string>
+    <string name="nnapi">NNAPI</string>
+    <string name="gpu">GPU</string>
+    <string name="cpu">CPU</string>
+    <string name="modelLabel">Model</string>
+    <string name="deviceLabel">Device</string>
+    <string name="mobilenetV1Quant">mobilenet v1 quant</string>
+    <string name="mobilenetV1Float">mobilenet v1 float</string>
 </resources>

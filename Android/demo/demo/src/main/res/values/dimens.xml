@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_common">8dp</dimen>
-    <dimen name="margin_large">16dp</dimen>
 </resources>

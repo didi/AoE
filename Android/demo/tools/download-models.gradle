@@ -22,8 +22,12 @@ def models = [
                 'https://img0.didiglobal.com/static/starfile/node20191028/895f1e95e30aba5dd56d6f2ccf768b57/dLq1wk2V2n1572257128485.zip' // pytorch
         ],
         // pfld
-        '../features/pfld/src/main/assets'     : [
-                'https://img0.didiglobal.com/static/starfile/node20191209/895f1e95e30aba5dd56d6f2ccf768b57/zPZhZIG42j1575881451886.zip' // pfld
+//        '../features/pfld/src/main/assets'     : [
+//                'https://img0.didiglobal.com/static/starfile/node20191209/895f1e95e30aba5dd56d6f2ccf768b57/zPZhZIG42j1575881451886.zip' // pfld
+//        ]
+        '../demo/src/main/assets'     : [
+                'https://img0.didiglobal.com/static/starfile/node20191213/895f1e95e30aba5dd56d6f2ccf768b57/PbYPEg4htg1576230133015.zip', // mobilenet_v1_1.0_224_quant.zip
+                'https://img0.didiglobal.com/static/starfile/node20191213/895f1e95e30aba5dd56d6f2ccf768b57/DmgvCkxKxE1576230200176.zip' // mobilenet_v1_1.0_224.zip
         ]
 
 ]

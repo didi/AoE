@@ -9,4 +9,10 @@
 
     </style>
 
+    <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+
+    <style name="AppTheme.Picker" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
 </resources>

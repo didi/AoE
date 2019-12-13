@@ -41,6 +41,10 @@ android {
         pickFirst 'lib/*/libc++_shared.so'
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
 }
 
 dependencies {
@@ -72,6 +76,9 @@ dependencies {
     implementation project(':features-pfld')
 
     implementation 'com.didi.aoe:extensions-support:1.1.1.1'
+
+    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:1.14.0'
 
 
 }

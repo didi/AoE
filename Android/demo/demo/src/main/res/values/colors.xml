@@ -8,4 +8,9 @@
 
     <color name="bg_aoe_page">#f3f4f5</color>
     <color name="bg_aoe_panel">#ffffff</color>
+
+    <color name="control_background">#cc4285f4</color>
+    <color name="selection_highlight">#aaaaaa</color>
+    <color name="selection_focus">#eeaa55</color>
+    <color name="item_normal">#eeeeee</color>
 </resources>
