@@ -27,16 +27,12 @@
 - [iOS用户指南](./iOS/README.md)
 - [Android Demo](./Android/demo)
 - [iOS Demo](./iOS/Demo)
-- [更多内容请移步 aoe-open](https://github.com/aoe-open)
 
 ## 三、Q&A
 
-* `欢迎直接提交 issues 和 PRs`  [>>>🔥PR激励活动进行中～](https://github.com/didi/AoE/issues/14)
+加微信入群：*普惠出行产品技术*（备注 `AoE`）
 
-
-| QQ群号： 815254379 | 加微信入群：qianfeifei1998（备注*AoE*） |
-|---|---|
-|  <img alt="AoE QQ交流群" src="./images/aoe_qq.jpeg" width="196"> |<img alt="xKuloud" src="https://img0.didiglobal.com/static/gstar/img/HEPRyPJc4S1574756381435.png" width="196">|
+<img alt="普惠出行产品技术" src="https://img0.didiglobal.com/static/gstar/img/P8X9qN1d1B1576217775521.jpeg" width="196">
     
 
 

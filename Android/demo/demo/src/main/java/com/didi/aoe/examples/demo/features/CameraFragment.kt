@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.didi.aoe.examples.demo.R
 import com.google.common.util.concurrent.ListenableFuture
+import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
 /**
@@ -60,4 +61,11 @@ abstract class CameraFragment() : Fragment(R.layout.fragment_camera), ImageAnaly
         previewView = view.findViewById(R.id.preview_view)
     }
 
+
+    protected fun ByteBuffer.toByteArray(): ByteArray {
+        rewind()    // Rewind the buffer to zero
+        val data = ByteArray(remaining())
+        get(data)   // Copy the buffer into a byte array
+        return data // Return the byte array
+    }
 }

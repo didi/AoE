@@ -46,7 +46,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.navigation:navigation-fragment:2.2.0-rc02'
+    implementation 'androidx.navigation:navigation-fragment:2.2.0-rc03'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -70,6 +70,8 @@ dependencies {
     implementation project(':features-recognize')
     implementation project(':features-pytorch')
     implementation project(':features-pfld')
+
+    implementation 'com.didi.aoe:extensions-support:1.1.1.1'
 
 
 }

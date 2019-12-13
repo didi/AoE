@@ -16,8 +16,14 @@
 
 package com.didi.aoe.examples.demo.features.pfld
 
+import android.graphics.BitmapFactory
+import android.os.Bundle
+import android.util.Log
 import androidx.camera.core.ImageProxy
 import com.didi.aoe.examples.demo.features.CameraFragment
+import com.didi.aoe.extensions.support.image.AoeSupport
+import com.didi.aoe.features.pfld.PFLDInterpreter
+import com.didi.aoe.library.core.AoeClient
 
 /**
  *
@@ -26,8 +32,40 @@ import com.didi.aoe.examples.demo.features.CameraFragment
  * @since 1.1.0
  */
 class PfldFragment() : CameraFragment() {
+    private var mClient: AoeClient? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mClient = AoeClient(context!!, "pfld-mnn",
+                AoeClient.Options()
+                        .setInterpreter(PFLDInterpreter::class.java)
+                        .useRemoteService(false),
+                "pfld")
+        mClient?.init(object : AoeClient.OnInitListener() {
+            override fun onSuccess() {
+                super.onSuccess()
+                Log.d("pfld", "init success")
+            }
+
+            override fun onFailed(code: Int, msg: String?) {
+                super.onFailed(code, msg)
+                Log.d("pfld", "init code $code")
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mClient?.release()
+    }
 
     override fun analyze(image: ImageProxy, rotationDegrees: Int) {
+        Log.d("pfld", "analyze $rotationDegrees ${image.width} * ${image.height}")
+        val yuvData = image.planes[0].buffer.toByteArray()
+        val rgbData = AoeSupport.convertNV21ToARGB8888(yuvData, image.width, image.height)
+        val bitmap = BitmapFactory.decodeByteArray(rgbData, 0, rgbData.size)
+        val result = mClient?.process(bitmap)
 
+        Log.d("pfld", "analyze $result")
     }
 }

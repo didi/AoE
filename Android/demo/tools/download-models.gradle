@@ -23,7 +23,7 @@ def models = [
         ],
         // pfld
         '../features/pfld/src/main/assets'     : [
-                'https://img0.didiglobal.com/static/starfile/node20191209/895f1e95e30aba5dd56d6f2ccf768b57/zPZhZIG42j1575881451886.zip' // pytorch
+                'https://img0.didiglobal.com/static/starfile/node20191209/895f1e95e30aba5dd56d6f2ccf768b57/zPZhZIG42j1575881451886.zip' // pfld
         ]
 
 ]

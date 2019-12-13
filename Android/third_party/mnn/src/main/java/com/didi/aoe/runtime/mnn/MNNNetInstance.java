@@ -5,7 +5,7 @@ import android.util.Log;
 import com.taobao.android.mnn.MNNNetNative;
 
 public class MNNNetInstance {
-    private static final String TAG = "MNNDemo";
+    private static final String TAG = "MNN";
 
     public static MNNNetInstance createFromFile(String fileName) {
         long instance = MNNNetNative.nativeCreateNetFromFile(fileName);
@@ -19,7 +19,7 @@ public class MNNNetInstance {
 
     public static MNNNetInstance createFromBuffer(byte[]buf,int size) {
         long instance = MNNNetNative.nativeCreateNetFromBuffer(buf,size);
-        Log.e(TAG, "Create Net Failed from buf size: " + instance);
+        Log.e(TAG, "Create Net Failed from buf: " + instance);
         if (0 == instance) {
             Log.e(TAG, "Create Net Failed from buf size: " + size);
             return null;
