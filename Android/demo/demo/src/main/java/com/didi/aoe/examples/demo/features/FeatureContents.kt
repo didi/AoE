@@ -21,11 +21,11 @@ object FeatureContents {
                 ShowcaseApp.context?.getString(R.string.description_mnist),
                 R.drawable.bg_mnist))
 
-        FEATURES.add(Feature(
-                R.id.action_featuresFragment_to_pfldFeatureFragment,
-                ShowcaseApp.context?.getString(R.string.title_pfld),
-                ShowcaseApp.context?.getString(R.string.description_pfld),
-                R.drawable.bg_mnist))
+        //FEATURES.add(Feature(
+        //        R.id.action_featuresFragment_to_pfldFeatureFragment,
+        //        ShowcaseApp.context?.getString(R.string.title_pfld),
+        //        ShowcaseApp.context?.getString(R.string.description_pfld),
+        //        R.drawable.bg_mnist))
 
         FEATURES.add(Feature(
                 R.id.action_featuresFragment_to_classificationFeartureFragment,
