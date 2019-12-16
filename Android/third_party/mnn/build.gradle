@@ -1,11 +1,18 @@
 apply plugin: 'com.android.library'
+
+ext {
+    releaseArtifact = 'runtime-mnn'
+    releaseDescription = 'The AoE MNN runtime library'
+    releaseVersion = '0.2.1.5.0'
+}
+apply from: rootProject.file('gradle/release.gradle')
+
 android {
     compileSdkVersion aoe_compile_sdk_version
     defaultConfig {
         minSdkVersion aoe_min_sdk_version
         targetSdkVersion aoe_target_sdk_version
-        versionCode aoe_version_code
-        versionName aoe_version_name
+        versionName releaseVersion
 
         externalNativeBuild {
             cmake {
@@ -45,9 +52,3 @@ dependencies {
     implementation deps.aoe.library.api
     implementation deps.aoe.library.logging
 }
-ext {
-    releaseArtifact = 'runtime-mnn'
-    releaseDescription = 'The AoE MNN runtime library'
-    releaseVersion = aoe_version_name
-}
-apply from: '../../publish.gradle'

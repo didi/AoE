@@ -26,7 +26,7 @@
         android:id="@+id/iv_sketch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_large"
+        android:layout_margin="@dimen/margin_medium"
         android:background="@color/bg_aoe_panel"
         android:clickable="true"
         android:focusable="true"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:divider="@drawable/divider"
         android:orientation="vertical"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/margin_medium"
         android:showDividers="beginning|middle|end"
         app:layout_constraintTop_toBottomOf="@+id/iv_sketch">
 
