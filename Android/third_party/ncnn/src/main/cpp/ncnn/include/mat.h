@@ -23,11 +23,19 @@
 #endif
 #include "platform.h"
 #include "allocator.h"
+#include "option.h"
 #include "gpu.h"
 
 #if NCNN_VULKAN
 #include <vulkan/vulkan.h>
 #endif // NCNN_VULKAN
+
+#if NCNN_PIXEL
+#if __ANDROID_API__ >= 9
+#include <jni.h>
+#include <android/bitmap.h>
+#endif // __ANDROID_API__ >= 9
+#endif // NCNN_PIXEL
 
 namespace ncnn {
 
@@ -144,18 +152,21 @@ public:
         PIXEL_CONVERT_MASK = 0xffff0000,
 
         PIXEL_RGB       = 1,
-        PIXEL_BGR       = (1 << 1),
-        PIXEL_GRAY      = (1 << 2),
-        PIXEL_RGBA      = (1 << 3),
+        PIXEL_BGR       = 2,
+        PIXEL_GRAY      = 3,
+        PIXEL_RGBA      = 4,
 
         PIXEL_RGB2BGR   = PIXEL_RGB | (PIXEL_BGR << PIXEL_CONVERT_SHIFT),
         PIXEL_RGB2GRAY  = PIXEL_RGB | (PIXEL_GRAY << PIXEL_CONVERT_SHIFT),
+        PIXEL_RGB2RGBA  = PIXEL_RGB | (PIXEL_RGBA << PIXEL_CONVERT_SHIFT),
 
         PIXEL_BGR2RGB   = PIXEL_BGR | (PIXEL_RGB << PIXEL_CONVERT_SHIFT),
         PIXEL_BGR2GRAY  = PIXEL_BGR | (PIXEL_GRAY << PIXEL_CONVERT_SHIFT),
+        PIXEL_BGR2RGBA  = PIXEL_BGR | (PIXEL_RGBA << PIXEL_CONVERT_SHIFT),
 
         PIXEL_GRAY2RGB  = PIXEL_GRAY | (PIXEL_RGB << PIXEL_CONVERT_SHIFT),
         PIXEL_GRAY2BGR  = PIXEL_GRAY | (PIXEL_BGR << PIXEL_CONVERT_SHIFT),
+        PIXEL_GRAY2RGBA = PIXEL_GRAY | (PIXEL_RGBA << PIXEL_CONVERT_SHIFT),
 
         PIXEL_RGBA2RGB  = PIXEL_RGBA | (PIXEL_RGB << PIXEL_CONVERT_SHIFT),
         PIXEL_RGBA2BGR  = PIXEL_RGBA | (PIXEL_BGR << PIXEL_CONVERT_SHIFT),
@@ -170,6 +181,15 @@ public:
     void to_pixels(unsigned char* pixels, int type) const;
     // convenient export to pixel data and resize to specific size
     void to_pixels_resize(unsigned char* pixels, int type, int target_width, int target_height) const;
+
+#if __ANDROID_API__ >= 9
+    // convenient construct from android Bitmap
+    static Mat from_android_bitmap(JNIEnv* env, jobject bitmap, int type_to, Allocator* allocator = 0);
+    // convenient construct from android Bitmap and resize to specific size
+    static Mat from_android_bitmap_resize(JNIEnv* env, jobject bitmap, int type_to, int target_width, int target_height, Allocator* allocator = 0);
+    // convenient export to android Bitmap and resize to the android Bitmap size
+    void to_android_bitmap(JNIEnv* env, jobject bitmap, int type_from) const;
+#endif // __ANDROID_API__ >= 9
 #endif // NCNN_PIXEL
 
     // substract channel-wise mean values, then multiply by normalize values, pass 0 to skip
@@ -368,13 +388,13 @@ enum
     BORDER_CONSTANT = 0,
     BORDER_REPLICATE = 1,
 };
-void copy_make_border(const Mat& src, Mat& dst, int top, int bottom, int left, int right, int type, float v, Allocator* allocator = 0, int num_threads = 1);
-void copy_cut_border(const Mat& src, Mat& dst, int top, int bottom, int left, int right, Allocator* allocator = 0, int num_threads = 1);
-void resize_bilinear(const Mat& src, Mat& dst, int w, int h, Allocator* allocator = 0, int num_threads = 1);
-void resize_bicubic(const Mat& src, Mat& dst, int w, int h, Allocator* allocator = 0, int num_threads = 1);
-void convert_packing(const Mat& src, Mat& dst, int elempack, Allocator* allocator = 0, int num_threads = 1);
-void cast_float32_to_float16(const Mat& src, Mat& dst, Allocator* allocator = 0, int num_threads = 1);
-void cast_float16_to_float32(const Mat& src, Mat& dst, Allocator* allocator = 0, int num_threads = 1);
+void copy_make_border(const Mat& src, Mat& dst, int top, int bottom, int left, int right, int type, float v, const Option& opt = Option());
+void copy_cut_border(const Mat& src, Mat& dst, int top, int bottom, int left, int right, const Option& opt = Option());
+void resize_bilinear(const Mat& src, Mat& dst, int w, int h, const Option& opt = Option());
+void resize_bicubic(const Mat& src, Mat& dst, int w, int h, const Option& opt = Option());
+void convert_packing(const Mat& src, Mat& dst, int elempack, const Option& opt = Option());
+void cast_float32_to_float16(const Mat& src, Mat& dst, const Option& opt = Option());
+void cast_float16_to_float32(const Mat& src, Mat& dst, const Option& opt = Option());
 
 inline Mat::Mat()
     : data(0), refcount(0), elemsize(0), elempack(0), allocator(0), dims(0), w(0), h(0), c(0), cstep(0)

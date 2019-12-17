@@ -20,7 +20,7 @@
 #define NCNN_OPENCV 0
 #define NCNN_BENCHMARK 0
 #define NCNN_PIXEL 1
-#define NCNN_PIXEL_ROTATE 0
+#define NCNN_PIXEL_ROTATE 1
 #define NCNN_VULKAN 0
 #define NCNN_REQUANT 0
 #define NCNN_AVX2 0
@@ -106,18 +106,17 @@ public:
     ~Thread() {}
     void join() { WaitForSingleObject(handle, INFINITE); CloseHandle(handle); }
 private:
-    friend static unsigned __stdcall start_wrapper(void* arg);
+    friend unsigned __stdcall start_wrapper(void* args)
+    {
+        Thread* t = (Thread*)args;
+        t->_start(t->_args);
+        return 0;
+    }
     HANDLE handle;
     void* (*_start)(void*);
     void* _args;
 };
 
-static unsigned __stdcall start_wrapper(void* args)
-{
-    Thread* t = (Thread*)args;
-    t->_start(t->_args);
-    return 0;
-}
 #else // _WIN32
 class Thread
 {

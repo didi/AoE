@@ -69,4 +69,6 @@ Requantize = 63,
 Cast = 64,
 HardSigmoid = 65,
 SELU = 66,
+HardSwish = 67,
+Noop = 68,
 
