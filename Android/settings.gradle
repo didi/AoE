@@ -1,11 +1,5 @@
 module('examples', 'demo')
 
-module('features', 'mnist')
-module('features', 'squeeze')
-module('features', 'recognize')
-module('features', 'pytorch')
-module('features', 'pfld')
-
 module('library', 'core')
 module('library', 'api')
 module('library', 'logging')
@@ -43,9 +37,7 @@ def module(String group, String name) {
 String getTemplateModuleDir(String group) {
     switch (group) {
         case 'examples':
-            return 'demo'
-        case 'features':
-            return 'demo/features'
+            return 'examples'
         case 'library':
             return 'aoe'
         case 'runtime':
