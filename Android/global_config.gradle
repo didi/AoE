@@ -38,10 +38,10 @@ ext {
                             model_option_loader: isDebug() ? project(':library-model-option-loader') : "com.didi.aoe:library-model-option-loader:$aoe_version_name"
                     ],
                     runtime: [
-                            tensorflow: isDebug() ? project(':runtime-tensorflow-lite') : "com.didi.aoe:runtime-tensorflow-lite:$aoe_version_name",
-                            pytorch: isDebug() ? project(':runtime-pytorch') : "com.didi.aoe:runtime-pytorch:$aoe_version_name",
+                            tensorflow: isDebug() ? project(':runtime-tensorflow-lite') : "com.didi.aoe:runtime-tensorflow-lite:2.0.0.0",
+                            pytorch: isDebug() ? project(':runtime-pytorch') : "com.didi.aoe:runtime-pytorch:1.3.1.0",
                             ncnn: isDebug() ? project(':runtime-ncnn') : "com.didi.aoe:runtime-ncnn:$aoe_version_name",
-                            mnn: isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:$aoe_version_name",
+                            mnn: isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:0.2.1.5.0",
                     ]
             ],
             support: [

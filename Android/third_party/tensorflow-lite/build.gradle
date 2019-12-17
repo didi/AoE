@@ -1,13 +1,20 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+
+ext {
+    releaseArtifact = 'runtime-tensorflow-lite'
+    releaseDescription = 'The AoE tensorflow lite runtime library'
+    releaseVersion = '2.0.0.0'
+}
+apply from: rootProject.file('gradle/release.gradle')
+
 android {
     compileSdkVersion aoe_compile_sdk_version
     defaultConfig {
         minSdkVersion aoe_min_sdk_version
         targetSdkVersion aoe_target_sdk_version
-        versionCode aoe_version_code
-        versionName aoe_version_name
+        versionName releaseVersion
     }
 
     buildTypes {
@@ -29,13 +36,7 @@ dependencies {
 
     implementation deps.kotlin
 
-    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.0.0'
 
 }
 
-ext {
-    releaseArtifact = 'runtime-tensorflow-lite'
-    releaseDescription = 'The AoE tensorflow lite runtime library'
-    releaseVersion = aoe_version_name
-}
-apply from: '../../publish.gradle'

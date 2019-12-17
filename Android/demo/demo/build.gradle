@@ -77,8 +77,8 @@ dependencies {
 
     implementation 'com.didi.aoe:extensions-support:1.1.1.1'
 
-    implementation 'org.tensorflow:tensorflow-lite:1.14.0'
-    implementation 'org.tensorflow:tensorflow-lite-gpu:1.14.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.0.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.0.0'
 
 
 }

@@ -22,9 +22,6 @@ module('runtime', 'pytorch')
 
 // NOTE：全局设置开发模式，AoE内部开发使用工程依赖管理
 gradle.ext.aoeDevEnabled = false
-if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-    apply from: 'dev_settings.gradle'
-}
 
 /**
  * 模组定义函数
