@@ -19,7 +19,9 @@ package com.didi.aoe.examples.demo.features.classification
 import android.content.Context
 import android.graphics.Bitmap
 import com.didi.aoe.features.pytorch.ClassifierPyTorchInterpreter
+import com.didi.aoe.library.api.Aoe
 import com.didi.aoe.library.core.AoeClient
+import com.didi.aoe.pytorch.createAoeClient
 
 /**
  *
@@ -28,11 +30,12 @@ import com.didi.aoe.library.core.AoeClient
  * @since 1.1.0
  */
 class PyTorchClassifier constructor(context: Context) : Classifier {
-    private val mClient: AoeClient = AoeClient(context,
-            AoeClient.Options()
-                    .setInterpreter(ClassifierPyTorchInterpreter::class.java)
-                    .useRemoteService(false),
-            "pytorch");
+    private val mClient: AoeClient = Aoe.createAoeClient(context, "pytorch", ClassifierPyTorchInterpreter())
+    //AoeClient(context,
+    //        AoeClient.Options()
+    //                .setInterpreter(ClassifierPyTorchInterpreter::class.java)
+    //                .useRemoteService(false),
+    //        "pytorch");
 
     override fun init(listener: AoeClient.OnInitListener) {
         mClient.init(listener)

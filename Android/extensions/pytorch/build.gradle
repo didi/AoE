@@ -1,0 +1,55 @@
+/*
+ * Copyright 2019 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+ext {
+    releaseArtifact = 'extensions-pytorch'
+    releaseDescription = 'The AoE PyTorch extensions'
+    releaseVersion = aoe_version_name
+}
+apply from: rootProject.file('gradle/release.gradle')
+
+android {
+    compileSdkVersion aoe_compile_sdk_version
+    defaultConfig {
+        minSdkVersion aoe_min_sdk_version
+        targetSdkVersion aoe_target_sdk_version
+        versionName releaseVersion
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin
+
+    implementation deps.aoe.library.core
+    implementation deps.aoe.runtime.pytorch
+}

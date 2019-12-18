@@ -23,13 +23,14 @@ ext {
     aoe_target_sdk_version = 26
 
     aoe_version_code = 2
-    aoe_version_name = '1.1.1.4'
+    aoe_version_name = '1.1.1.5'
 
     kotlin_version = '1.3.61'
 
     deps = [
             aoe    : [
-                    library: [
+                    // aoe 核心库统一版本管理
+                    library   : [
                             api                : isDebug() ? project(':library-api') : "com.didi.aoe:library-api:$aoe_version_name",
                             logging            : isDebug() ? project(":library-logging") : "com.didi.aoe:library-logging:$aoe_version_name",
                             core               : isDebug() ? project(':library-core') : "com.didi.aoe:library-core:$aoe_version_name",
@@ -37,13 +38,19 @@ ext {
                             service            : isDebug() ? project(':library-service') : "com.didi.aoe:library-service:$aoe_version_name",
                             model_option_loader: isDebug() ? project(':library-model-option-loader') : "com.didi.aoe:library-model-option-loader:$aoe_version_name"
                     ],
-                    runtime: [
+                    // 第三方推理框架的适配，版本以对应框架版本命名同步，最后加一位小版本号，如TensorFlow 版本2.0.0，AoE 对应的适配版本为2.0.0.x
+                    runtime   : [
                             tensorflow: isDebug() ? project(':runtime-tensorflow-lite') : "com.didi.aoe:runtime-tensorflow-lite:2.0.0.0",
-                            pytorch: isDebug() ? project(':runtime-pytorch') : "com.didi.aoe:runtime-pytorch:1.3.1.0",
-                            ncnn: isDebug() ? project(':runtime-ncnn') : "com.didi.aoe:runtime-ncnn:$aoe_version_name",
-                            mnn: isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:0.2.1.5.0",
+                            pytorch   : isDebug() ? project(':runtime-pytorch') : "com.didi.aoe:runtime-pytorch:1.3.1.0",
+                            ncnn      : isDebug() ? project(':runtime-ncnn') : "com.didi.aoe:runtime-ncnn:20191113.0",
+                            mnn       : isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:0.2.1.5.0",
+                    ],
+                    // 拓展插件的版本跟随 aoe 当前版本，不随框架同步更新
+                    extensions: [
+                            pytorch: isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:1.1.1.5"
                     ]
             ],
+            // aoe 计划后续实现全量使用 kotlin，注解依赖暂时使用较低的 26.x 以保证最小的适配成本
             support: [
                     annotation: 'com.android.support:support-annotations:26.1.0'
             ],
@@ -52,12 +59,16 @@ ext {
     ]
 }
 
+/**
+ * 内部开发使用工程依赖，降低开发成本
+ * @return
+ */
 private boolean isDebug() {
     return gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled
 }
 
 /**
- * 显示所有定义的全局依赖组件
+ * 显示所有定义的依赖组件
  */
 task showAllDeps() {
     showDepsWithPrefex('', deps)

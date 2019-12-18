@@ -1,3 +1,5 @@
+//include ':aoe-pytorch'
+
 module('examples', 'demo')
 
 module('library', 'core')
@@ -11,6 +13,8 @@ module('runtime', 'tensorflow-lite')
 module('runtime', 'mnn')
 module('runtime', 'ncnn')
 module('runtime', 'pytorch')
+
+module('extensions', 'pytorch')
 
 // -------------------------------------------------------------------------------------------------
 
@@ -42,5 +46,7 @@ String getTemplateModuleDir(String group) {
             return 'aoe'
         case 'runtime':
             return 'third_party'
+        case 'extensions':
+            return 'extensions'
     }
 }

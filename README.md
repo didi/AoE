@@ -25,7 +25,7 @@
 ## 二、使用文档&示例
 - [Android用户指南](./Android/README.md)
 - [iOS用户指南](./iOS/README.md)
-- [Android Demo](./Android/demo)
+- [Android Demo](./Android/examples/demo)
 - [iOS Demo](./iOS/Demo)
 
 ## 三、Q&A

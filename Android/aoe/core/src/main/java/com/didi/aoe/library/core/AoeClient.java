@@ -44,8 +44,8 @@ public final class AoeClient {
      * @param mainModelDir 模型配置目录
      */
     public AoeClient(@NonNull Context context,
-                     @NonNull Options options,
-                     @NonNull String mainModelDir) {
+            @NonNull Options options,
+            @NonNull String mainModelDir) {
         this(context, mainModelDir, options, mainModelDir);
     }
 
@@ -57,18 +57,20 @@ public final class AoeClient {
      * @param subsequentModelDirs 子模型配置目录（用于多模型融合场景）
      */
     public AoeClient(@NonNull Context context,
-                     @NonNull String clientId,
-                     @NonNull Options options,
-                     @NonNull String mainModelDir,
-                     @Nullable String... subsequentModelDirs) {
+            @NonNull String clientId,
+            @NonNull Options options,
+            @NonNull String mainModelDir,
+            @Nullable String... subsequentModelDirs) {
         mContext = context;
 
-        AoeProcessor.ModelOptionLoaderComponent modelLoader = ComponentProvider.getModelLoader(options.modelOptionLoaderClassName);
+        AoeProcessor.ModelOptionLoaderComponent modelLoader =
+                ComponentProvider.getModelLoader(options.modelOptionLoaderClassName);
 
         try {
             tryLoadModelOptions(context, modelLoader, mainModelDir, subsequentModelDirs);
         } catch (AoeIOException e) {
-            mStatusResult = InterpreterInitResult.create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: " + e.getMessage());
+            mStatusResult = InterpreterInitResult
+                    .create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: " + e.getMessage());
         }
 
         mProcessor = new AoeProcessorImpl(context, options);
@@ -88,9 +90,9 @@ public final class AoeClient {
     }
 
     private void tryLoadModelOptions(@NonNull Context context,
-                                     @NonNull AoeProcessor.ModelOptionLoaderComponent modelLoader,
-                                     String mainModelDir,
-                                     String... subsequentModelDirs) throws AoeIOException {
+            @NonNull AoeProcessor.ModelOptionLoaderComponent modelLoader,
+            String mainModelDir,
+            String... subsequentModelDirs) throws AoeIOException {
         AoeModelOption modelOption = modelLoader.load(context, mainModelDir);
         mLogger.debug("[tryLoadModelOptions] ModelOption: " + modelOption);
 
@@ -204,21 +206,33 @@ public final class AoeClient {
         String modelOptionLoaderClassName;
         String interpreterClassName;
         String parcelerClassName;
+
         /**
          * 使用独立进程进行模型加载和推理, 默认true
          */
         boolean useRemoteService = true;
 
+        /**
+         * 当{@link #useRemoteService} = false 时，优先应用 interpreter 实例，当未指定时，使用
+         */
+        AoeProcessor.InterpreterComponent interpreter;
+
         @IntRange(from = 1, to = 16)
         int threadNum = 1;
 
-        public Options setModelOptionLoader(@NonNull Class<? extends AoeProcessor.ModelOptionLoaderComponent> modelOptionLoader) {
+        public Options setModelOptionLoader(
+                @NonNull Class<? extends AoeProcessor.ModelOptionLoaderComponent> modelOptionLoader) {
             this.modelOptionLoaderClassName = modelOptionLoader.getName();
             return this;
         }
 
         public Options setInterpreter(@NonNull Class<? extends AoeProcessor.InterpreterComponent> interpreter) {
             this.interpreterClassName = interpreter.getName();
+            return this;
+        }
+
+        public Options setInterpreter(@NonNull AoeProcessor.InterpreterComponent interpreter) {
+            this.interpreter = interpreter;
             return this;
         }
 

@@ -67,11 +67,6 @@ dependencies {
     implementation deps.aoe.library.core
     implementation deps.aoe.library.service
 
-    implementation deps.kotlin
-
-    implementation deps.aoe.library.api
-    implementation deps.aoe.library.common
-
     implementation deps.aoe.runtime.tensorflow
     implementation deps.aoe.runtime.pytorch
     implementation deps.aoe.runtime.mnn
@@ -85,6 +80,8 @@ dependencies {
 
     implementation 'org.tensorflow:tensorflow-lite:2.0.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.0.0'
+
+    implementation project(':extensions-pytorch')
 
 
 }

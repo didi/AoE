@@ -1,5 +1,6 @@
 package com.didi.aoe.examples.demo.features
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -50,6 +51,7 @@ open class BaseFeartureFragment : BaseFragment() {
         Log.d(TAG, "[onDestroyView]")
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "[onDestroy]")
