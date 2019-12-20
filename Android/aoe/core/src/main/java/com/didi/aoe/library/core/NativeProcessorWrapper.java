@@ -1,11 +1,10 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
+import com.didi.aoe.library.api.ParcelComponent;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 
 import java.util.List;
@@ -28,8 +27,11 @@ final class NativeProcessorWrapper extends AbsProcessorWrapper {
     }
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
-        mInterpreter.init(context, modelOptions, listener);
+    public void init(@NonNull Context context,
+            @Nullable InterpreterComponent.Options interpreterOptions,
+            @NonNull List<AoeModelOption> modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
+        mInterpreter.init(context, interpreterOptions, modelOptions, listener);
     }
 
     @Override

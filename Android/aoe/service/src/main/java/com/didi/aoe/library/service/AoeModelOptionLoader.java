@@ -83,7 +83,7 @@ public class AoeModelOptionLoader implements AoeProcessor.ModelOptionLoaderCompo
         }
 
         // 请求新的版本模型
-        ModelRequest modelRequest = new ModelRequest(Aoe.getInstance().getDataProvider().appId(), option);
+        ModelRequest modelRequest = new ModelRequest(AoeService.getInstance().getDataProvider().appId(), option);
         ModelContract.requestModel(context, modelRequest, mModelRequestHandler, new ModelContract.ModelRequestCallback() {
             @Override
             public void onModelRetrieved(UpgradeModelResult model) {

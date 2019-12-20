@@ -2,8 +2,8 @@ package com.didi.aoe.library.core;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.ParcelComponent;
 
 /**
  * AoE 推理执行委托

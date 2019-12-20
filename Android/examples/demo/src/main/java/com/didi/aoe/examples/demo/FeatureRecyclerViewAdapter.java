@@ -35,7 +35,6 @@ public class FeatureRecyclerViewAdapter extends RecyclerView.Adapter<FeatureRecy
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Feature feature = mValues.get(position);
         holder.item = feature;
-        holder.bgView.setImageResource(feature.getBackgroundId());
         holder.titleView.setText(feature.getTitle());
         holder.contentView.setText(feature.getContent());
 
@@ -49,14 +48,12 @@ public class FeatureRecyclerViewAdapter extends RecyclerView.Adapter<FeatureRecy
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final ImageView bgView;
         final TextView titleView;
         final TextView contentView;
         Feature item;
 
         ViewHolder(View view) {
             super(view);
-            bgView = view.findViewById(R.id.iv_bg);
             titleView = view.findViewById(R.id.tv_title);
             contentView = view.findViewById(R.id.tv_content);
         }

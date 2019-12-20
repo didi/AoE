@@ -17,10 +17,8 @@
 package com.didi.aoe.library.api.interpreter;
 
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
@@ -38,14 +36,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @param <TOutput>
  * @author noctis
  */
-public abstract class MultiInterpreterComponent<TInput, TOutput> implements AoeProcessor.InterpreterComponent<TInput, TOutput> {
+public abstract class MultiInterpreterComponent<TInput, TOutput> implements
+        AoeProcessor.InterpreterComponent<TInput, TOutput> {
     private List<SingleInterpreterComponent> mSubInterpreters;
 
     @NonNull
     public abstract List<SingleInterpreterComponent> provideSubInterpreters();
 
     @Override
-    final public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
+    final public void init(@NonNull Context context,
+            @Nullable AoeProcessor.InterpreterComponent.Options interpreterOptions,
+            @NonNull List<AoeModelOption> modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
         mSubInterpreters = provideSubInterpreters();
 
         if (mSubInterpreters.size() != modelOptions.size()) {
@@ -56,7 +58,7 @@ public abstract class MultiInterpreterComponent<TInput, TOutput> implements AoeP
 
         final AtomicInteger statusCode = new AtomicInteger(StatusCode.STATUS_OK);
         for (SingleInterpreterComponent interpreter : mSubInterpreters) {
-            interpreter.init(context, modelOptions, new OnInterpreterInitListener() {
+            interpreter.init(context, interpreterOptions, modelOptions, new OnInterpreterInitListener() {
                 @Override
                 public void onInitResult(@NonNull InterpreterInitResult result) {
                     if (StatusCode.STATUS_OK != result.getCode()) {

@@ -1,10 +1,24 @@
+/*
+ * Copyright 2019 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.didi.aoe.library.api;
 
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.lang.AoeIOException;
 
@@ -29,9 +43,6 @@ public interface AoeProcessor {
     @Nullable
     ParcelComponent getParcelComponent();
 
-    interface Component {
-    }
-
     /**
      * 模型配置加载组件
      */
@@ -51,7 +62,10 @@ public interface AoeProcessor {
          * @param modelOptions 模型配置列表
          * @return 推理框架加载
          */
-        void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener);
+        void init(@NonNull Context context,
+                @Nullable InterpreterComponent.Options interpreterOptions,
+                @NonNull List<AoeModelOption> modelOptions,
+                @Nullable OnInterpreterInitListener listener);
 
         /**
          * 执行推理操作
@@ -74,26 +88,24 @@ public interface AoeProcessor {
          */
         boolean isReady();
 
+        /**
+         * Interpreter 配置项
+         */
+        class Options {
+            private int numThreads = -1;
+
+            public Options() {
+            }
+
+            public Options setNumThreads(int numThreads) {
+                this.numThreads = numThreads;
+                return this;
+            }
+
+            public int getNumThreads() {
+                return numThreads;
+            }
+        }
     }
 
-    /**
-     * 序列化组件，用于跨进程通信的对象序列化与反序列化
-     */
-    interface ParcelComponent extends Component {
-        /**
-         * 对象序列化为字节数组
-         *
-         * @param obj 待序列化对象，依赖序列化方案
-         * @return 序列化数据
-         */
-        byte[] obj2Byte(@NonNull Object obj);
-
-        /**
-         * 字节数组反序列化为对象实例
-         *
-         * @param bytes 反序列化需要的字节数组信息
-         * @return 数据对象实例
-         */
-        Object byte2Obj(@NonNull byte[] bytes);
-    }
 }

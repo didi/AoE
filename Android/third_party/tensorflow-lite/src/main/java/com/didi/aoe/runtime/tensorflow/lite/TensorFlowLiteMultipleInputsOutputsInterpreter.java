@@ -2,21 +2,19 @@ package com.didi.aoe.runtime.tensorflow.lite;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.domain.ModelSource;
+import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.convertor.MultiConvertor;
+import com.didi.aoe.library.api.domain.ModelSource;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
 import com.didi.aoe.library.api.interpreter.SingleInterpreterComponent;
 import com.didi.aoe.library.common.util.FileUtils;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
-
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
 
@@ -41,18 +39,25 @@ import java.util.Map;
  * @author noctis
  */
 public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOutput, TModelInput, TModelOutput>
-        extends SingleInterpreterComponent<TInput, TOutput> implements MultiConvertor<TInput, TOutput, Object, TModelOutput> {
+        extends SingleInterpreterComponent<TInput, TOutput> implements
+        MultiConvertor<TInput, TOutput, Object, TModelOutput> {
     private final Logger mLogger = LoggerFactory.getLogger("TFLite.Interpreter");
     private Interpreter mInterpreter;
     private Map<Integer, Object> mOutputPlaceholder;
 
     @Override
-    public void init(@NonNull Context context, @NonNull AoeModelOption modelOptions, @Nullable OnInterpreterInitListener listener) {
+    public void init(@NonNull Context context,
+            @Nullable AoeProcessor.InterpreterComponent.Options interpreterOptions,
+            @NonNull AoeModelOption modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
 
-        @ModelSource String modelSource = modelOptions.getModelSource();
+        @ModelSource
+        String modelSource = modelOptions.getModelSource();
         ByteBuffer bb = null;
         if (ModelSource.CLOUD.equals(modelSource)) {
-            String modelFilePath = modelOptions.getModelDir() + "_" + modelOptions.getVersion() + File.separator + modelOptions.getModelName();
+            String modelFilePath =
+                    modelOptions.getModelDir() + "_" + modelOptions.getVersion() + File.separator + modelOptions
+                            .getModelName();
             File modelFile = new File(FileUtils.getFilesDir(context), modelFilePath);
             if (modelFile.exists()) {
                 try {
@@ -76,7 +81,11 @@ public abstract class TensorFlowLiteMultipleInputsOutputsInterpreter<TInput, TOu
         }
 
         if (bb != null) {
-            mInterpreter = new Interpreter(bb);
+            Interpreter.Options options = null;
+            if (interpreterOptions != null) {
+                options = new Interpreter.Options().setNumThreads(interpreterOptions.getNumThreads());
+            }
+            mInterpreter = new Interpreter(bb, options);
 
             mOutputPlaceholder = generalOutputPlaceholder(mInterpreter);
             if (listener != null) {

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.didi.aoe.library.core;
 
 import android.content.Context;
@@ -6,12 +22,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.didi.aoe.library.api.AoeModelOption;
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.ParcelComponent;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
+import com.didi.aoe.library.common.stat.StatInfo;
+import com.didi.aoe.library.common.stat.TimeStat;
 import com.didi.aoe.library.lang.AoeIOException;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
+import com.didi.aoe.library.modeloption.loader.pojos.LocalModelOption;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,12 +45,15 @@ import static com.didi.aoe.library.api.StatusCode.*;
  * @author noctis
  */
 public final class AoeClient {
-
     private final Logger mLogger = LoggerFactory.getLogger("AoeClient");
 
     private final Context mContext;
 
+    private String mClientId;
+
     private final AoeProcessor mProcessor;
+
+    private final Options mOptions;
 
     private final List<AoeModelOption> mModelOptions = new ArrayList<>();
 
@@ -50,6 +73,37 @@ public final class AoeClient {
     }
 
     /**
+     * 对于单一模型，提供简化调用方式
+     *
+     * @param context
+     * @param interpreter
+     * @param assetsModelPath assets模型文件全路径
+     */
+    public AoeClient(@NonNull Context context,
+            @NonNull AoeProcessor.InterpreterComponent interpreter,
+            @NonNull String assetsModelPath) {
+        mContext = context;
+        mClientId = assetsModelPath;
+
+        final List<AoeModelOption> options = new ArrayList<>();
+        int index = assetsModelPath.lastIndexOf('/');
+        String dir = assetsModelPath.substring(0, (index < 0) ? 0 : index);
+        String fileName = assetsModelPath.substring((index < 0) ? 0 : index + 1);
+
+        options.add(new LocalModelOption(dir, fileName));
+
+        mModelOptions.clear();
+        mModelOptions.addAll(options);
+
+        mOptions = new Options()
+                .setInterpreter(interpreter)
+                .useRemoteService(false);
+
+        mProcessor = new AoeProcessorImpl(context, mOptions);
+        mProcessor.setId(mClientId);
+    }
+
+    /**
      * @param context             全局上下文
      * @param clientId            区分业务实现的ID（自定义）
      * @param options             Client配置，用来指定组件实例和运行模式
@@ -62,6 +116,8 @@ public final class AoeClient {
             @NonNull String mainModelDir,
             @Nullable String... subsequentModelDirs) {
         mContext = context;
+        mClientId = clientId;
+        mOptions = options;
 
         AoeProcessor.ModelOptionLoaderComponent modelLoader =
                 ComponentProvider.getModelLoader(options.modelOptionLoaderClassName);
@@ -74,8 +130,7 @@ public final class AoeClient {
         }
 
         mProcessor = new AoeProcessorImpl(context, options);
-        mProcessor.setId(clientId);
-
+        mProcessor.setId(mClientId);
     }
 
     /**
@@ -84,6 +139,8 @@ public final class AoeClient {
      * @param listener
      */
     public void init(@Nullable OnInitListener listener) {
+
+        mLogger.debug("[init]");
 
         initInternal(listener);
 
@@ -129,16 +186,20 @@ public final class AoeClient {
         }
 
         if (isModelOptionReady()) {
+            AoeProcessor.InterpreterComponent.Options interpreterOptions =
+                    new AoeProcessor.InterpreterComponent.Options();
+            interpreterOptions.setNumThreads(mOptions.threadNum);
+            mProcessor.getInterpreterComponent()
+                    .init(mContext, interpreterOptions, mModelOptions, new OnInterpreterInitListener() {
+                        @Override
+                        public void onInitResult(@NonNull InterpreterInitResult result) {
+                            mStatusResult = result;
+                            mLogger.debug("onInitResult %d", result.getCode());
 
-            mProcessor.getInterpreterComponent().init(mContext, mModelOptions, new OnInterpreterInitListener() {
-                @Override
-                public void onInitResult(@NonNull InterpreterInitResult result) {
-                    mStatusResult = result;
+                            dispatchInitResult(result, listener);
+                        }
 
-                    dispatchInitResult(result, listener);
-                }
-
-            });
+                    });
         } else {
             dispatchInitResult(mStatusResult, listener);
         }
@@ -189,14 +250,33 @@ public final class AoeClient {
         }
 
         //noinspection unchecked
-        return mProcessor.getInterpreterComponent().run(input);
+        TimeStat.setStart(generalClientKey("process"), System.currentTimeMillis());
+        Object result = mProcessor.getInterpreterComponent().run(input);
+        TimeStat.setEnd(generalClientKey("process"), System.currentTimeMillis());
+        return result;
     }
 
     /**
      * 释放资源
      */
     public void release() {
+        mLogger.debug("[release]");
         mProcessor.getInterpreterComponent().release();
+    }
+
+    /**
+     * 获取最新的统计信息
+     *
+     * @return
+     */
+    public StatInfo acquireLatestStatInfo() {
+        return new StatInfo(
+                TimeStat.getCostTime(generalClientKey("process"))
+        );
+    }
+
+    private String generalClientKey(String key) {
+        return key + mClientId;
     }
 
     /**
@@ -217,7 +297,7 @@ public final class AoeClient {
          */
         AoeProcessor.InterpreterComponent interpreter;
 
-        @IntRange(from = 1, to = 16)
+        @IntRange(from = 1, to = 9)
         int threadNum = 1;
 
         public Options setModelOptionLoader(
@@ -236,7 +316,7 @@ public final class AoeClient {
             return this;
         }
 
-        public Options setParceler(@NonNull Class<? extends AoeProcessor.ParcelComponent> parceler) {
+        public Options setParceler(@NonNull Class<? extends ParcelComponent> parceler) {
             this.parcelerClassName = parceler.getName();
             return this;
         }
@@ -246,7 +326,7 @@ public final class AoeClient {
             return this;
         }
 
-        public Options setThreadNum(@IntRange(from = 1, to = 16) int threadNum) {
+        public Options setThreadNum(@IntRange(from = 1, to = 9) int threadNum) {
             this.threadNum = threadNum;
             return this;
         }

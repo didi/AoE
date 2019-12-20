@@ -5,7 +5,6 @@ module('examples', 'demo')
 module('library', 'core')
 module('library', 'api')
 module('library', 'logging')
-module('library', 'model-option-loader')
 module('library', 'common')
 module('library', 'service')
 

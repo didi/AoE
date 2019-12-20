@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply from: '../../upload.gradle'
 
 android {
     compileSdkVersion aoe_compile_sdk_version
@@ -27,11 +26,10 @@ dependencies {
     implementation deps.support.annotation
 
     api deps.aoe.library.api
-    api deps.aoe.library.model_option_loader
     api deps.aoe.library.common
 
     implementation deps.kotlin
-
+    implementation deps.gson
 }
 
 ext {

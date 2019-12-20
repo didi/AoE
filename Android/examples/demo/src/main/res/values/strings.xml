@@ -5,7 +5,11 @@
     <string name="title_pfld">PFLD</string>
     <string name="title_squeeze">Squeeze</string>
     <string name="title_classification">Classification</string>
+    <string name="title_seesaw">SeesawNet</string>
 
+    <string name="title_camera">图像识别</string>
+
+    <string name="navi_title_switch_lens_facing">LensFacing</string>
     <string name="navi_title_ncnn">NCNN</string>
     <string name="navi_title_mnn">MNN</string>
     <string name="navi_title_pytorch">PyTorch</string>
@@ -14,6 +18,9 @@
     <string name="description_pfld">人脸检测算法, A Practical Facial Landmark Detector.</string>
     <string name="description_squeeze">NCNN 官方提供的 SqueezeNet 物体图像识别示例。</string>
     <string name="description_classification">图像分类 Demo，提供 NCNN / MNN / PyTorch的使用实例。</string>
+    <string name="description_seesaw">人脸识别Seesaw</string>
+
+    <string name="description_camera">基于相机实时预览</string>
 
     <string name="action_clear">清空</string>
     <string name="action_recognize">识别</string>
@@ -38,4 +45,20 @@
     <string name="deviceLabel">Device</string>
     <string name="mobilenetV1Quant">mobilenet v1 quant</string>
     <string name="mobilenetV1Float">mobilenet v1 float</string>
+
+    <string name="threads">Threads:</string>
+
+    <string name="model">Model:</string>
+    <!-- 驼峰式命名，UI上会与Model枚举做映射, " " -> "_"-->
+    <string-array name="models">
+        <item>NCNN Squeeze</item>
+    </string-array>
+
+    <string name="device">Device:</string>
+    <!-- 驼峰式命名，UI上会与Device枚举做映射-->
+    <string-array name="devices">
+        <item>CPU</item>
+        <item>GPU</item>
+        <item>NNAPI</item>
+    </string-array>
 </resources>

@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author noctis
@@ -40,7 +41,10 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
     private List<String> lableList = new ArrayList();
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
+    public void init(@NonNull Context context,
+            @Nullable AoeProcessor.InterpreterComponent.Options interpreterOptions,
+            @NonNull List<AoeModelOption> modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
         if (modelOptions.size() != 1) {
             if (listener != null) {
                 listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED));
@@ -56,13 +60,19 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
         if (option instanceof SqueezeModelOption) {
             SqueezeModelOption modelOption = (SqueezeModelOption) option;
 
-            squeeze = new Interpreter(null);
+            Interpreter.Options ncnnOptions = new Interpreter.Options();
+            if (interpreterOptions != null) {
+                ncnnOptions.setNumberThreads(interpreterOptions.getNumThreads());
+            }
+
+            squeeze = new Interpreter(ncnnOptions);
             squeeze.loadModelAndParam(context.getAssets(), option.getModelDir(),
                     modelOption.getModelFileName(), modelOption.getModelParamFileName(),
                     1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX);
 
             if (listener != null) {
                 if (squeeze.isLoadModelSuccess()) {
+                    mLogger.debug("model loaded success");
                     listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK));
                 } else {
                     listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED));
@@ -79,6 +89,9 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
 
     @Override
     public String run(@NonNull Bitmap input) {
+        if (squeeze == null) {
+            return null;
+        }
         int size = input.getByteCount();
         ByteBuffer bmpBuffer = ByteBuffer.allocate(size);
         input.copyPixelsToBuffer(bmpBuffer);
@@ -104,7 +117,7 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
             }
         }
 
-        return String.format("%s = %.3f", lableList.get(top_class).substring(10), max_score);
+        return String.format(Locale.ENGLISH, "%s = %.3f", lableList.get(top_class).substring(10), max_score);
     }
 
     @Override
@@ -118,7 +131,7 @@ public class SqueezeInterpreter implements AoeProcessor.InterpreterComponent<Bit
     //TODO why return false
     @Override
     public boolean isReady() {
-        return false;
+        return squeeze != null && squeeze.isLoadModelSuccess();
     }
 
     private void readLableFileOnce(Context context, String fileName) {

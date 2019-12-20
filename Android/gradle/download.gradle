@@ -1,18 +1,30 @@
 apply plugin: 'de.undercouch.download'
 
+/*
+ * Copyright 2019 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // 下载文件临时文件夹
 project.ext.TMP_DIR = project.buildDir.toString() + '/downloads/'
 
 // 下载模型的 target路径：下载地址
 def models = [
         // mnist
-        '../demo/src/main/assets'    : [
+        '../demo/src/main/assets': [
                 'https://img0.didiglobal.com/static/starfile/node20190926/895f1e95e30aba5dd56d6f2ccf768b57/APWmDl1XCf1569496524271.zip', // mnist
                 'https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip', // squeeze
-                'https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip', // recognize
-                'https://img0.didiglobal.com/static/starfile/node20191028/895f1e95e30aba5dd56d6f2ccf768b57/dLq1wk2V2n1572257128485.zip', // pytorch
-                'https://img0.didiglobal.com/static/starfile/node20191213/895f1e95e30aba5dd56d6f2ccf768b57/PbYPEg4htg1576230133015.zip', // mobilenet_v1_1.0_224_quant.zip
-                'https://img0.didiglobal.com/static/starfile/node20191213/895f1e95e30aba5dd56d6f2ccf768b57/DmgvCkxKxE1576230200176.zip' // mobilenet_v1_1.0_224.zip
         ]
 
 ]

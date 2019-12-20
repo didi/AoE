@@ -15,16 +15,9 @@
             app:destination="@+id/mnistFeatureFragment" />
 
         <action
-            android:id="@+id/action_featuresFragment_to_pfldFeatureFragment"
-            app:destination="@+id/pfldFeatureFragment" />
-
-        <action
-            android:id="@+id/action_featuresFragment_to_classificationFeartureFragment"
-            app:destination="@+id/classificationFeartureFragment" />
-
-        <action
             android:id="@+id/action_featuresFragment_to_cameraFeatureFragment"
             app:destination="@+id/cameraFeatureFragment" />
+
     </fragment>
 
     <fragment
@@ -34,21 +27,8 @@
         tools:layout="@layout/fragment_mnist" />
 
     <fragment
-        android:id="@+id/pfldFeatureFragment"
-        android:name="com.didi.aoe.examples.demo.features.pfld.PfldFragment"
-        android:label="@string/title_pfld"
-        tools:layout="@layout/fragment_camera" />
-
-    <fragment
-        android:id="@+id/classificationFeartureFragment"
-        android:name="com.didi.aoe.examples.demo.features.classification.ClassificationFeartureFragment"
-        android:label="@string/title_classification"
-        tools:layout="@layout/fragment_classification" />
-
-    <fragment
         android:id="@+id/cameraFeatureFragment"
-        android:name="com.didi.aoe.examples.demo.features.classification.Camera2BasicFragment"
-        android:label="@string/title_classification"
-        tools:layout="@layout/fragment_camera2_basic" />
+        android:name="com.didi.aoe.examples.demo.features.vision.InferenceByVideoFragment"
+        tools:layout="@layout/fragment_camera" />
 
 </navigation>

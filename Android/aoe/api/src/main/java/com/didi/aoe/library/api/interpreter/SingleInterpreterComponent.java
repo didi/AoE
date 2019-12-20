@@ -17,11 +17,10 @@
 package com.didi.aoe.library.api.interpreter;
 
 import android.content.Context;
-
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.AoeProcessor.InterpreterComponent;
 import com.didi.aoe.library.api.StatusCode;
 
 import java.util.List;
@@ -33,17 +32,24 @@ import java.util.List;
  * @param <TOutput>
  * @author noctis
  */
-public abstract class SingleInterpreterComponent<TInput, TOutput> implements AoeProcessor.InterpreterComponent<TInput, TOutput> {
+public abstract class SingleInterpreterComponent<TInput, TOutput> implements
+        InterpreterComponent<TInput, TOutput> {
     @Override
-    final public void init(Context context, List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
+    final public void init(@NonNull Context context,
+            @Nullable InterpreterComponent.Options interpreterOptions,
+            @NonNull List<AoeModelOption> modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
         if (modelOptions.size() != 1) {
             listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR));
             return;
         }
 
-        init(context, modelOptions.get(0), listener);
+        init(context, interpreterOptions, modelOptions.get(0), listener);
     }
 
-    public abstract void init(Context context, AoeModelOption modelOptions, @Nullable OnInterpreterInitListener listener);
+    public abstract void init(@NonNull Context context,
+            @Nullable InterpreterComponent.Options interpreterOptions,
+            @NonNull AoeModelOption modelOptions,
+            @Nullable OnInterpreterInitListener listener);
 
 }

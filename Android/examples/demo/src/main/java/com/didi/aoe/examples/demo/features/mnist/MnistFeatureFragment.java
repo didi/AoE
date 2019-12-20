@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.didi.aoe.examples.demo.R;
@@ -16,7 +15,6 @@ import com.didi.aoe.features.mnist.model.SketchModel;
 import com.didi.aoe.features.mnist.render.SketchRenderer;
 import com.didi.aoe.features.mnist.widget.SketchView;
 import com.didi.aoe.library.core.AoeClient;
-import com.didi.aoe.library.service.AoeModelOptionLoader;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -58,7 +56,7 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_mnist, container, false);
     }
 
@@ -78,12 +76,8 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
                 if (result instanceof Integer) {
                     int num = (int) result;
                     Log.d(TAG, "num: " + num);
-                    mResultTextView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num));
-                        }
-                    });
+                    mResultTextView.post(
+                            () -> mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num)));
                 }
 
             }

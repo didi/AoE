@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
-import com.didi.aoe.library.service.Aoe
+import com.didi.aoe.library.service.AoeService
 import com.didi.aoe.library.service.AoeDataProvider
 
 /**
@@ -17,7 +17,7 @@ class ShowcaseApp : Application(), CameraXConfig.Provider {
         super.onCreate()
         context = applicationContext
 
-        Aoe.init(applicationContext, object : AoeDataProvider {
+        AoeService.init(applicationContext, object : AoeDataProvider {
             override fun appId(): Long {
                 return 164
             }
@@ -40,6 +40,6 @@ class ShowcaseApp : Application(), CameraXConfig.Provider {
     }
 
     override fun getCameraXConfig(): CameraXConfig {
-        return Camera2Config.defaultConfig(this)
+        return Camera2Config.defaultConfig()
     }
 }

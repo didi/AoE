@@ -1,6 +1,6 @@
 package com.didi.aoe.library.core.io
 
-import com.didi.aoe.library.api.AoeProcessor.ParcelComponent
+import com.didi.aoe.library.api.ParcelComponent
 import java.io.*
 
 /**

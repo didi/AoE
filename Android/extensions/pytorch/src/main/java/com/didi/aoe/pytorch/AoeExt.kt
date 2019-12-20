@@ -29,12 +29,6 @@ import com.didi.aoe.library.core.AoeClient
 
 fun <Input, Output> Aoe.Companion.createAoeClient(context: Context, modelPath: String,
         convertor: PytorchConvertor<Input, Output>): AoeClient {
-    val client = AoeClient(context,
-            AoeClient.Options()
-                    .setInterpreter(PyTorchInterpreterWrapper(convertor))
-                    .useRemoteService(false),
-            modelPath)
-    client.init(null)
-
+    val client = AoeClient(context, PyTorchInterpreterWrapper(convertor), modelPath)
     return client
 }

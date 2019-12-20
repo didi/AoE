@@ -18,25 +18,11 @@ object FeatureContents {
         FEATURES.add(Feature(
                 R.id.action_featuresFragment_to_mnistFeatureFragment,
                 ShowcaseApp.context?.getString(R.string.title_mnist),
-                ShowcaseApp.context?.getString(R.string.description_mnist),
-                R.drawable.bg_mnist))
-
-        //FEATURES.add(Feature(
-        //        R.id.action_featuresFragment_to_pfldFeatureFragment,
-        //        ShowcaseApp.context?.getString(R.string.title_pfld),
-        //        ShowcaseApp.context?.getString(R.string.description_pfld),
-        //        R.drawable.bg_mnist))
-
-        FEATURES.add(Feature(
-                R.id.action_featuresFragment_to_classificationFeartureFragment,
-                ShowcaseApp.context?.getString(R.string.title_classification),
-                ShowcaseApp.context?.getString(R.string.description_classification),
-                R.drawable.bg_squeeze))
+                ShowcaseApp.context?.getString(R.string.description_mnist)))
 
         FEATURES.add(Feature(
                 R.id.action_featuresFragment_to_cameraFeatureFragment,
-                ShowcaseApp.context?.getString(R.string.title_classification),
-                ShowcaseApp.context?.getString(R.string.description_classification),
-                R.drawable.bg_mnist))
+                ShowcaseApp.context?.getString(R.string.title_camera),
+                ShowcaseApp.context?.getString(R.string.description_camera)))
     }
 }
