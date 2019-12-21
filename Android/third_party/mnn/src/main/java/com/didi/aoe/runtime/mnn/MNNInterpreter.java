@@ -71,7 +71,6 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
 
                 mSession.run();
 
-                //noinspection unchecked
                 return postProcess(mSession.getOutput(null));
             }
 

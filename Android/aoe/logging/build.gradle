@@ -33,4 +33,4 @@ ext {
     releaseDescription = 'The AoE logging library'
     releaseVersion = aoe_version_name
 }
-apply from: '../../publish.gradle'
+apply from: rootProject.file('gradle/release.gradle')

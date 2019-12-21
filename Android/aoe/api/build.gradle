@@ -36,5 +36,5 @@ ext {
     releaseDescription = 'The AoE API library'
     releaseVersion = aoe_version_name
 }
-apply from: '../../publish.gradle'
+apply from: rootProject.file('gradle/release.gradle')
 

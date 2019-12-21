@@ -52,6 +52,7 @@
     <!-- 驼峰式命名，UI上会与Model枚举做映射, " " -> "_"-->
     <string-array name="models">
         <item>NCNN Squeeze</item>
+        <item>Pytorch Seesaw</item>
     </string-array>
 
     <string name="device">Device:</string>

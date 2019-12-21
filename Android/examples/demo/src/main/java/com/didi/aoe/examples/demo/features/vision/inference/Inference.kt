@@ -17,6 +17,7 @@
 package com.didi.aoe.examples.demo.features.vision.inference
 
 import android.content.Context
+import android.view.View
 import androidx.camera.core.ImageProxy
 import com.didi.aoe.library.api.domain.Device
 import com.didi.aoe.library.core.AoeClient
@@ -29,19 +30,16 @@ import java.nio.ByteBuffer
  * @since 1.1.0
  */
 abstract class Inference constructor(val context: Context, val device: Device, val numThreads: Int) {
-    protected var aoeClient: AoeClient = createClient()
-
-    abstract fun createClient(): AoeClient
-
-    fun isRunning(): Boolean {
-        return aoeClient.isRunning
-    }
 
     abstract fun process(image: ImageProxy): Any?
 
-    fun release() {
-        aoeClient.release()
-    }
+    abstract fun createView(): View?
+
+    abstract fun bindView(result: Any?)
+
+    abstract fun release()
+
+    abstract fun isRunning(): Boolean
 
     protected fun ByteBuffer.toByteArray(): ByteArray {
         rewind()    // Rewind the buffer to zero
@@ -49,4 +47,6 @@ abstract class Inference constructor(val context: Context, val device: Device, v
         get(data)   // Copy the buffer into a byte array
         return data // Return the byte array
     }
+
+    open class ViewHolder constructor(val itemView: View)
 }

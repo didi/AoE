@@ -249,8 +249,8 @@ public final class AoeClient {
             return null;
         }
 
-        //noinspection unchecked
         TimeStat.setStart(generalClientKey("process"), System.currentTimeMillis());
+        //noinspection unchecked
         Object result = mProcessor.getInterpreterComponent().run(input);
         TimeStat.setEnd(generalClientKey("process"), System.currentTimeMillis());
         return result;

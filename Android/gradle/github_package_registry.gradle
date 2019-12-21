@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.examples.demo.features
-
-/**
- *
- *
- * @author noctis
- * @since 1.1.0
- */
-enum class Model {
-    NCNN_SQUEEZE,
-    PYTORCH_SEESAW
+apply plugin: 'digital.wup.android-maven-publish'
+publishing {
+    repositories {
+        maven {
+            url 'https://maven.pkg.github.com/didi/AoE'
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            version releaseVersion
+            groupId = 'com.didi.aoe'
+            artifactId = releaseArtifact
+            from(components.android)
+        }
+    }
 }

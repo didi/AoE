@@ -16,3 +16,6 @@
 
 // https://bintray.com/aoe/maven
 apply from: rootProject.file('gradle/bintray.gradle')
+// https://maven.pkg.github.com/didi/AoE
+apply from: rootProject.file('gradle/github_package_registry.gradle')
+

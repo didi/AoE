@@ -22,6 +22,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'de.undercouch:gradle-download-task:4.0.0'
         classpath 'com.novoda:bintray-release:0.9.1'
+        classpath 'digital.wup:android-maven-publish:3.6.2'
 
     }
 }

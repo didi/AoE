@@ -23,6 +23,10 @@ import com.didi.aoe.examples.demo.features.Model
 import com.didi.aoe.examples.demo.features.vision.inference.Inference
 import com.didi.aoe.examples.demo.features.vision.inference.SqueezeInference
 import com.didi.aoe.library.api.domain.Device
+import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -35,16 +39,19 @@ class InferenceByVideoFragment : CameraFeatureFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recreateAoeClient(currentModel, currentDevice, currentNumThreads)
+        onInferenceConfigurationChanged()
     }
 
     override fun runInBackground(image: ImageProxy) {
-        inference?.process(image)
-
+        val result = inference?.process(image)
+        CoroutineScope(Dispatchers.Main).launch {
+            inference?.bindView(result)
+        }
     }
 
     override fun onInferenceConfigurationChanged() {
         recreateAoeClient(currentModel, currentDevice, currentNumThreads)
+        replaceOverlayView(inference?.createView())
     }
 
     private fun recreateAoeClient(model: Model, device: Device, numThreads: Int) {
@@ -52,7 +59,16 @@ class InferenceByVideoFragment : CameraFeatureFragment() {
 
         inference = when (model) {
             Model.NCNN_SQUEEZE -> SqueezeInference(context!!.applicationContext, device, numThreads)
+            else -> SqueezeInference(context!!.applicationContext, device, numThreads)
         }
 
     }
+
+    private fun replaceOverlayView(overlayView: View?) {
+        overlay_container.removeAllViews()
+        if (overlayView != null) {
+            overlay_container.addView(overlayView)
+        }
+    }
+
 }

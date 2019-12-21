@@ -40,6 +40,7 @@ android {
     }
     packagingOptions {
         pickFirst 'lib/*/libc++_shared.so'
+        exclude 'META-INF/proguard/coroutines.pro'
     }
 
 }
@@ -54,6 +55,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
 
     def camerax_version = '1.0.0-alpha08'
     implementation "androidx.camera:camera-core:${camerax_version}"

@@ -19,13 +19,13 @@ apply plugin: 'com.novoda.bintray-release'
 Properties properties = new Properties()
 File propertiesFile = project.rootProject.file('local.properties')
 if (propertiesFile.exists()) {
-    InputStream inputStream = propertiesFile.newDataInputStream();
+    InputStream inputStream = propertiesFile.newDataInputStream()
     properties.load(inputStream)
 }
 
 publish {
-    bintrayUser = properties.getProperty("bintray.user")
-    bintrayKey = properties.getProperty("bintray.apikey")
+    bintrayUser = properties.getProperty("bintray.user") ?: System.getenv("GPR_USER")
+    bintrayKey = properties.getProperty("bintray.apikey") ?: System.getenv("GPR_API_KEY")
     artifactId = releaseArtifact
     desc = releaseDescription
     publishVersion = releaseVersion

@@ -65,9 +65,9 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
                 when (newState) {
                     in arrayOf(BottomSheetBehavior.STATE_SETTLING,
                             BottomSheetBehavior.STATE_COLLAPSED) -> bottom_sheet_arrow.setImageResource(
-                            R.drawable.icn_chevron_up)
+                            R.drawable.ic_arrow_drop_up_black_24dp)
                     BottomSheetBehavior.STATE_EXPANDED -> bottom_sheet_arrow.setImageResource(
-                            R.drawable.icn_chevron_down)
+                            R.drawable.ic_arrow_drop_down_black_24dp)
                     else -> {
                     }
 

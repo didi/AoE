@@ -37,7 +37,7 @@ def module(String group, String name) {
  * @param group
  * @return
  */
-String getTemplateModuleDir(String group) {
+static String getTemplateModuleDir(String group) {
     switch (group) {
         case 'examples':
             return 'examples'
