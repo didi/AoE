@@ -1,11 +1,8 @@
 name: publish aoe
 
 on:
-  push:
-    branches: 
-      - master
-    tags:
-      - '*'
+  release:
+    type: [published]
 env:
   GPR_USER: ${{ secrets.GPR_USER }}
   GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
