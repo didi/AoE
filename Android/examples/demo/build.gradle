@@ -81,8 +81,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.0.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.0.0'
 
-    implementation project(':extensions-pytorch')
+    implementation deps.aoe.extensions.pytorch
 
-
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

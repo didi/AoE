@@ -2,7 +2,6 @@
     <string name="app_name">AoE Demo</string>
 
     <string name="title_mnist">MNIST</string>
-    <string name="title_pfld">PFLD</string>
     <string name="title_squeeze">Squeeze</string>
     <string name="title_classification">Classification</string>
     <string name="title_seesaw">SeesawNet</string>
@@ -15,7 +14,6 @@
     <string name="navi_title_pytorch">PyTorch</string>
 
     <string name="description_mnist">基于TensorFlow Lite实现手写数字识别，其中数字的范围从 0 到 9 。</string>
-    <string name="description_pfld">人脸检测算法, A Practical Facial Landmark Detector.</string>
     <string name="description_squeeze">NCNN 官方提供的 SqueezeNet 物体图像识别示例。</string>
     <string name="description_classification">图像分类 Demo，提供 NCNN / MNN / PyTorch的使用实例。</string>
     <string name="description_seesaw">人脸识别Seesaw</string>

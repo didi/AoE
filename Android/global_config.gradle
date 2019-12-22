@@ -46,7 +46,7 @@ ext {
                     ],
                     // 拓展插件的版本跟随 aoe 当前版本，不随框架同步更新
                     extensions: [
-                            pytorch: isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:1.1.1.5"
+                            pytorch: isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:1.1.1.6"
                     ]
             ],
             // aoe 计划后续实现全量使用 kotlin，注解依赖暂时使用较低的 26.x 以保证最小的适配成本
@@ -86,3 +86,28 @@ private void showDepsWithPrefex(String prefex, Object parent) {
     }
 
 }
+
+
+def addRepos(RepositoryHandler handler) {
+    Properties properties = new Properties()
+    File propertiesFile = project.rootProject.file('local.properties')
+    if (propertiesFile.exists()) {
+        InputStream inputStream = propertiesFile.newDataInputStream()
+        properties.load(inputStream)
+    }
+
+    handler.jcenter()
+    handler.google()
+    handler.maven {
+        url 'https://maven.pkg.github.com/didi/aoe'
+        credentials {
+            username = properties.getProperty("gpr.user") ?: System.getenv("GPR_USER")
+            password = properties.getProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+        }
+    }
+    handler.maven {
+        url 'https://dl.bintray.com/aoe/maven'
+    }
+}
+
+ext.addRepos = this.&addRepos

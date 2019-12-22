@@ -15,13 +15,21 @@
  */
 
 apply plugin: 'digital.wup.android-maven-publish'
+
+Properties properties = new Properties()
+File propertiesFile = project.rootProject.file('local.properties')
+if (propertiesFile.exists()) {
+    InputStream inputStream = propertiesFile.newDataInputStream()
+    properties.load(inputStream)
+}
+
 publishing {
     repositories {
         maven {
             url 'https://maven.pkg.github.com/didi/AoE'
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
-                password = project.findProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+                username = properties.getProperty("gpr.user") ?: System.getenv("GPR_USER")
+                password = properties.getProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
             }
         }
     }

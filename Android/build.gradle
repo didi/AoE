@@ -4,13 +4,7 @@ buildscript {
 
     apply from: 'global_config.gradle'
 
-    repositories {
-        maven {
-            url 'https://dl.bintray.com/aoe/maven'
-        }
-        google()
-        jcenter()
-    }
+    addRepos(repositories)
 
     dependencies {
         //noinspection GradleDependency
@@ -22,22 +16,16 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'de.undercouch:gradle-download-task:4.0.0'
         classpath 'com.novoda:bintray-release:0.9.1'
-        classpath 'digital.wup:android-maven-publish:3.6.2'
+        classpath 'digital.wup:android-maven-publish:3.6.3'
 
     }
 }
 
 allprojects {
-    repositories {
-        maven {
-            url 'https://dl.bintray.com/aoe/maven'
-        }
-        google()
-        jcenter()
-    }
-
+    addRepos(repositories)
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
