@@ -1,8 +1,11 @@
 name: Generate changelog
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - master
+    paths:
+      - 'Android/version.gradle'
 
 jobs:
   generate_changelog:

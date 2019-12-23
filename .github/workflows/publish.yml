@@ -1,8 +1,11 @@
 name: publish aoe
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - master
+    paths:
+      - 'Android/version.gradle'
 env:
   GPR_USER: ${{ secrets.GPR_USER }}
   GPR_API_KEY: ${{ secrets.GPR_API_KEY }}

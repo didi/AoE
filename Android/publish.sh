@@ -41,16 +41,16 @@ do
     ./gradlew :runtime-${name}:${task}
 done
 
-# -------------- publish extensions
-extensions=(pytorch)
-
-echo extensions: ${extensions}
-
-for name in ${extensions}
-do
-    echo :extensions-${name}:${task}
-    ./gradlew :extensions-${name}:${task}
-done
+## -------------- publish extensions
+#extensions=(pytorch)
+#
+#echo extensions: ${extensions}
+#
+#for name in ${extensions}
+#do
+#    echo :extensions-${name}:${task}
+#    ./gradlew :extensions-${name}:${task}
+#done
 
 echo aoe published
 echo done.
