@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 ext {
     releaseArtifact = 'runtime-ncnn'
     releaseDescription = 'The AoE NCNN runtime library'
-    releaseVersion = '20191113.1'
+    releaseVersion = '20191113.' + aoe_suffix_version
 }
 apply from: rootProject.file('gradle/release.gradle')
 

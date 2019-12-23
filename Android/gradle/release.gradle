@@ -15,24 +15,14 @@
  */
 
 
-// release 版本后，自动化发布到 Github & Bintray，内部 maven 本地发布。
+// https://maven.pkg.github.com/didi/AoE
+apply from: rootProject.file('gradle/release_github_package_registry.gradle')
 
-if ("github".equalsIgnoreCase(System.getenv("GPR_REPO"))) {
+// https://bintray.com/aoe/maven
+apply from: rootProject.file('gradle/release_bintray.gradle')
 
-    // https://maven.pkg.github.com/didi/AoE
-    apply from: rootProject.file('gradle/release_github_package_registry.gradle')
-
-} else if ("bintray".equalsIgnoreCase(System.getenv("GPR_REPO"))) {
-
-    // https://bintray.com/aoe/maven
-    apply from: rootProject.file('gradle/release_bintray.gradle')
-
-} else {
-
-    // didi
-    apply from: rootProject.file('gradle/release_didi.gradle')
-
-}
+// didi
+apply from: rootProject.file('gradle/release_didi.gradle')
 
 
 

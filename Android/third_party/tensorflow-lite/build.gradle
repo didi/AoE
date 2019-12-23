@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android'
 ext {
     releaseArtifact = 'runtime-tensorflow-lite'
     releaseDescription = 'The AoE tensorflow lite runtime library'
-    releaseVersion = '2.0.0.1'
+    releaseVersion = '2.0.0.' + aoe_suffix_version
 }
 apply from: rootProject.file('gradle/release.gradle')
 

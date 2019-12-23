@@ -6,7 +6,6 @@ on:
       - master
     paths:
       - 'Android/**'
-      - '!Android/version.gradle'
   schedule:
       - cron: "0 2 * * 1-5"
 

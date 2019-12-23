@@ -16,5 +16,6 @@
 
 
 ext {
-    aoe_version_name = '1.1.1.7'
+    aoe_major_version = '1.1.1'
+    aoe_suffix_version = 9
 }
