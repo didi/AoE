@@ -20,7 +20,7 @@ apply plugin: 'kotlin-android'
 ext {
     releaseArtifact = 'runtime-pytorch'
     releaseDescription = 'The AoE PyTorch runtime library'
-    releaseVersion = '1.3.1.' + aoe_suffix_version
+    releaseVersion = aoe_version_name
 }
 apply from: rootProject.file('gradle/release.gradle')
 

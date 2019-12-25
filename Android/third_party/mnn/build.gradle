@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     releaseArtifact = 'runtime-mnn'
     releaseDescription = 'The AoE MNN runtime library'
-    releaseVersion = '0.2.1.5.' + aoe_suffix_version
+    releaseVersion = aoe_version_name
 }
 apply from: rootProject.file('gradle/release.gradle')
 

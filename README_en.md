@@ -1,5 +1,5 @@
 <div align="middle">
-    <img alt="AoE Logo" src="./images/aoe_logo_01.png" width="320" align="middle">
+    <img alt="AoE Logo" src="https://img0.didiglobal.com/static/gstar/img/AwRPnWCJkW1577246025490.png" width="320" align="middle">
 </div>
 
 [![Build Status](https://travis-ci.org/didi/AoE.svg?branch=master)](https://travis-ci.org/didi/AoE)
