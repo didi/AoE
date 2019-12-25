@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- publish packages automated [\#21](https://github.com/didi/AoE/issues/21)
 - PyTorch backend support [\#18](https://github.com/didi/AoE/issues/18)
 - Linux SDK V1.0 [\#8](https://github.com/didi/AoE/issues/8)
 
