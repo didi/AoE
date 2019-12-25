@@ -7,7 +7,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'AoE'
-  s.version          = '1.1.0'
+  s.version          = '1.1.2'
   s.summary          = 'AoE'
 
 # This description is used to generate tags and improve search results.
