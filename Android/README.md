@@ -5,14 +5,6 @@
 
 # AoE Android 用户指南
 
-## 简介
-**AoE** 提供终端侧机器学习集成运行环境（IRE），实现方便拓展支持各种AI推理框架的运
-行，对上层业务提供统一的、轻量级、解藕的接口。
-
-
-## 示例Demo
-[Demo](./demo/demo) 通过几个简单的例子，演示了如何集成 AoE SDK，使用不同的推理框架和组件实现进行业务应用。
-
 ### 环境要求
 * 如果尚未安装，请按照网站上的说明安装 [Android Studio 3.5](https://developer.android.com/studio/index.html) 或更高版本。
 
@@ -29,26 +21,8 @@
 
 * 另外，您需要插入一个启用了开发人员选项的 Android 设备。有关设置开发者设备的更多详细信息，请参见 [此处](https://developer.android.com/studio/run/device)。
 
-### Demo 模型介绍
-|模型|推理框架|拓展组件|加载方式|
-|:-|:-|:-|:-|
-|MNIST|TensorFlow Lite| -[x]runtime-tensorflow-lite -[x]extensions-service|云端加载|
-|Squeeze|NCNN|-[x]runtime-ncnn|内置模型|
-|MobileNet V1|MNN|-[x]runtime-mnn|内置模型|
-
 ### 使用模型
-Demo 项目中 `MNIST` 使用了云端加载方式从 AoE 后台同步/下载模型（请确保授予应用网络访问权限），而 `recognize` 和 `squeeze` 则直接使用脚本 `download-models.gradle` 自动下载解压模型文件到指定目录供本地离线使用。
-
-如果您想直接下载模型和配置文件，可直接访问下载：
-
-[recognize](https://img0.didiglobal.com/static/starfile/node20190826/895f1e95e30aba5dd56d6f2ccf768b57/eraqUlJwtE1566819400795.zip)
-｜
-[squeeze](https://img0.didiglobal.com/static/starfile/node20190805/895f1e95e30aba5dd56d6f2ccf768b57/fm2gKZ37I11565012061785.zip)
-
-
-
-### 附加说明
-请不要删除 `assets` 文件夹内容。如果您删除了文件，请从菜单中选择 `Build` > `Rebuild`，以将已删除的模型文件重新下载到 `assets` 文件夹中。
+Demo 项目中使用的模型会通过 gradle/download.gradle 自动下载解压模型文件到对应  `assets` 目录。
 
 ## 集成使用
 ### 1. 引用依赖
@@ -57,22 +31,68 @@ AoE Android SDK 适用于 `API 15+`
 该库在JCenter公开托管，您可以在其中下载 AAR 包。要通过 Gradle 引用依赖，请确保根
 项目 build.gradle 文件中添加JCenter存储库：
 
-```
+```gradle
 allprojects {
   repositories {
+    // aoe maven 私仓[可选]
     maven {
       url 'https://dl.bintray.com/aoe/maven'
     }
+
     jcenter()
   }
 }
 ```
 在组件 build.gradle 中添加依赖即可：
 
-```
+```gradle
 implementation 'com.didi.aoe:library-core:latest'
 implementation 'com.didi.aoe:runtime-xxx:latest' // 依赖于选择的推理框架运行时
 ```
+
+<table>
+    <tr>
+        <th>AoE 版本</th>
+        <th>推理框架</th>
+        <th>依赖信息</th>
+        <th>推理框架版本</th>
+    </tr>
+    <tr>
+        <td rowspan="4">
+        <center>
+        1.1.2 <br>
+        （2019/12/25）
+        </center>
+        </td>
+        <td>TensorFlow Lite</td>
+        <td>
+        com.didi.aoe.runtime-tensorflow-lite:1.1.2
+        </td>
+        <td>2.0.0</td>
+    </tr>
+    <tr>
+        <td>PyTorch</td>
+        <td>
+        com.didi.aoe.runtime-pytorch:1.1.2
+        </td>
+        <td>1.3.1</td>
+    </tr>
+    <tr>
+        <td>MNN</td>
+        <td>
+        com.didi.aoe.runtime-mnn:1.1.2
+        </td>
+        <td>0.2.1.5</td>
+    </tr>
+    <tr>
+        <td>NCNN</td>
+        <td>
+        com.didi.aoe.runtime-ncnn:1.1.2
+        </td>
+        <td>20191113</td>
+    </tr>
+</table>
+
 ### 2. 添加模型和描述文件
 AoE 标准模型配置规范是在 assets 模型目录下定义模型描述文件 `model.config`，指明
 模型加载方式和路径：
@@ -127,7 +147,7 @@ public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer
 }
 ```
 
-> 具体使用方法参见 [MNIST](./demo/features/mnist) 应用示例
+> 具体使用方法参见 [MNIST](./examples/demo/src/main/java/com/didi/aoe/features/mnist) 应用示例
 
 ### 4. 推理服务交互
 构造AoeClient实例，显式声明InterpreterComponent实例，进行推理操作。
