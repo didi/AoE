@@ -25,7 +25,7 @@ class AoeProcessorImpl implements AoeProcessor,
     private final AbsProcessorWrapper wrapper;
 
     public AoeProcessorImpl(@NonNull Context context, @NonNull AoeClient.Options options) {
-        if (options.useRemoteService) {
+        if (options.isUseRemoteService()) {
             wrapper = new RemoteProcessorWrapper(context, options);
         } else {
             wrapper = new NativeProcessorWrapper(context, options);

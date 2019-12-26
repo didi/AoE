@@ -18,12 +18,12 @@ final class NativeProcessorWrapper extends AbsProcessorWrapper {
 
     public NativeProcessorWrapper(@NonNull Context context, AoeClient.Options options) {
         super(context, options);
-        if (options.interpreter != null) {
-            mInterpreter = options.interpreter;
+        if (options.getInterpreter() != null) {
+            mInterpreter = options.getInterpreter();
         } else {
-            mInterpreter = ComponentProvider.getInterpreter(options.interpreterClassName);
+            mInterpreter = ComponentProvider.getInterpreter(options.getInterpreterClassName());
         }
-        mParceler = ComponentProvider.getParceler(options.parcelerClassName);
+        mParceler = ComponentProvider.getParceler(options.getParcelerClassName());
     }
 
     @Override

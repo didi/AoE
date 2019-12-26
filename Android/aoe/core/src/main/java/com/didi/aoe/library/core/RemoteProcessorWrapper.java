@@ -68,7 +68,7 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
 
     public RemoteProcessorWrapper(@NonNull Context context, AoeClient.Options options) {
         super(context, options);
-        mParceler = ComponentProvider.getParceler(options.parcelerClassName);
+        mParceler = ComponentProvider.getParceler(options.getParcelerClassName());
         mClientOptions = options;
 
         if (!isServiceRunning()) {

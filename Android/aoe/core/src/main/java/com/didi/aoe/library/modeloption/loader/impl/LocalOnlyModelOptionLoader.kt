@@ -16,8 +16,7 @@ import java.io.File
  * @author noctis
  */
 class LocalOnlyModelOptionLoader : ModelOptionLoaderComponent {
-    private val mLogger =
-            LoggerFactory.getLogger("LocalOnlyModelOptionLoader")
+    private val mLogger = LoggerFactory.getLogger("LocalOnlyModelOptionLoader")
 
     @Throws(AoeIOException::class)
     override fun load(context: Context,
