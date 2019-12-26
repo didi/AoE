@@ -38,14 +38,12 @@ ext {
                             common : isDebug() ? project(":library-common") : "com.didi.aoe:library-common:$aoe_version_name",
                             service: isDebug() ? project(':library-service') : "com.didi.aoe:library-service:$aoe_version_name",
                     ],
-                    // 第三方推理框架的适配，版本以对应框架版本命名同步，最后加一位小版本号，如TensorFlow 版本2.0.0，AoE 对应的适配版本为2.0.0.x
                     runtime   : [
                             tensorflow: isDebug() ? project(':runtime-tensorflow-lite') : "com.didi.aoe:runtime-tensorflow-lite:$aoe_version_name",
                             pytorch   : isDebug() ? project(':runtime-pytorch') : "com.didi.aoe:runtime-pytorch:$aoe_version_name",
                             ncnn      : isDebug() ? project(':runtime-ncnn') : "com.didi.aoe:runtime-ncnn:$aoe_version_name",
                             mnn       : isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:$aoe_version_name",
                     ],
-                    // 拓展插件的版本跟随 aoe 当前版本，不随框架同步更新
                     extensions: [
                             pytorch: isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:$aoe_version_name"
                     ]

@@ -23,6 +23,7 @@
 - [iOS Demo](./iOS/Demo)
 
 ## 三、适配信息
+
 <table>
     <tr>
         <th>AoE 版本</th>
@@ -31,7 +32,12 @@
         <th>推理框架版本</th>
     </tr>
     <tr>
-        <td rowspan="4">1.1.2</td>
+        <td rowspan="4">
+        <center>
+        1.1.2 <br>
+        （2019/12/25）
+        </center>
+        </td>
         <td>TensorFlow Lite</td>
         <td>
         [ Android ] com.didi.aoe.runtime-tensorflow-lite:1.1.2 <br>
