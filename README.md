@@ -16,11 +16,13 @@
 
 **AoE** (AI on Edge) 是一个开源的 **终端侧 AI 集成运行时环境 ( IRE )**。帮助开发者将不同框架的深度学习算法轻松部署到终端高效执行。
 
-## 二、使用文档&示例
+## 二、使用文档&示例&资源
 - [Android用户指南](./Android/README.md)
 - [iOS用户指南](./iOS/README.md)
 - [Android Demo](./Android/examples/demo)
 - [iOS Demo](./iOS/Demo)
+- 官方模型：
+    * [SeesawNet_pytorch](https://github.com/cvtower/seesawfacenet_pytorch) 人脸比对模型, https://arxiv.org/abs/1908.09124
 
 ## 三、适配信息
 
@@ -49,7 +51,7 @@
         <td>PyTorch</td>
         <td>
         [ Android ] com.didi.aoe.runtime-pytorch:1.1.2
-        </th>
+        </td>
         <td>1.3.1</td>
     </tr>
     <tr>
@@ -73,9 +75,9 @@
 
 ## 四、Q&A
 
-加微信入群：*普惠出行产品技术*（备注 `AoE`）
+* 加微信入群：*普惠出行产品技术*（备注 `AoE`）
 
-<img alt="普惠出行产品技术" src="https://img0.didiglobal.com/static/gstar/img/P8X9qN1d1B1576217775521.jpeg" width="196">
+    <img alt="普惠出行产品技术" src="https://img0.didiglobal.com/static/gstar/img/P8X9qN1d1B1576217775521.jpeg" width="196">
     
 
 ## 五、项目成员
@@ -84,7 +86,8 @@
 [kuloud](https://github.com/Kuloud)、
 [dingc](https://github.com/qtdc1229) 、
 [coleman.zou](https://github.com/zouyuefu) 、
-[yangke1120](https://github.com/yangke1120) 
+[yangke1120](https://github.com/yangke1120) 、
+[cvtower](https://github.com/cvtower) 
 
 ## 六、友情链接
 * [Dokit](https://github.com/didi/DoraemonKit)，一款功能齐全的客户端（ iOS 、Android ）研发助手，你值得拥有 :)
