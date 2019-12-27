@@ -1,5 +1,3 @@
-//include ':aoe-pytorch'
-
 module('examples', 'demo')
 
 module('library', 'core')
@@ -14,6 +12,7 @@ module('runtime', 'ncnn')
 module('runtime', 'pytorch')
 
 module('extensions', 'pytorch')
+module('extensions', 'tensorflow-lite')
 
 // -------------------------------------------------------------------------------------------------
 

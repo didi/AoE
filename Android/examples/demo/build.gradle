@@ -72,15 +72,14 @@ dependencies {
     implementation deps.aoe.runtime.mnn
     implementation deps.aoe.runtime.ncnn
 
+
     implementation deps.gson
 
     implementation deps.kotlin
 
     implementation 'com.didi.aoe:extensions-support:1.1.1.1'
 
-    implementation 'org.tensorflow:tensorflow-lite:2.0.0'
-    implementation 'org.tensorflow:tensorflow-lite-gpu:2.0.0'
-
+    implementation deps.aoe.extensions.tensorflow
     implementation deps.aoe.extensions.pytorch
 
 }

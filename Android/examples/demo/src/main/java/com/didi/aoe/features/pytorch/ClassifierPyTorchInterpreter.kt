@@ -17,8 +17,7 @@
 package com.didi.aoe.features.pytorch
 
 import android.graphics.Bitmap
-import com.didi.aoe.pytorch.PytorchConvertor
-import com.didi.aoe.runtime.pytorch.PyTorchInterpreter
+import com.didi.aoe.extensions.pytorch.PytorchConvertor
 import org.pytorch.Tensor
 import org.pytorch.torchvision.TensorImageUtils
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.pytorch
+package com.didi.aoe.extensions.pytorch
 
 import com.didi.aoe.library.api.convertor.Convertor
 import org.pytorch.Tensor

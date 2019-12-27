@@ -3,12 +3,12 @@ package com.didi.aoe.features.mnist;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.didi.aoe.runtime.tensorflow.lite.TensorFlowLiteInterpreter;
+import com.didi.aoe.runtime.tensorflow.lite.TensorFlowInterpreter;
 
 /**
  * @author noctis
  */
-public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer, float[], float[][]> {
+public class MnistInterpreter extends TensorFlowInterpreter<float[], Integer, float[], float[][]> {
 
     @Nullable
     @Override

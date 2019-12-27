@@ -45,7 +45,8 @@ ext {
                             mnn       : isDebug() ? project(':runtime-mnn') : "com.didi.aoe:runtime-mnn:$aoe_version_name",
                     ],
                     extensions: [
-                            pytorch: isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:$aoe_version_name"
+                            pytorch   : isDebug() ? project(':extensions-pytorch') : "com.didi.aoe:extensions-pytorch:$aoe_version_name",
+                            tensorflow: isDebug() ? project(':extensions-tensorflow-lite') : "com.didi.aoe:extensions-tensorflow-lite:$aoe_version_name",
                     ]
             ],
             // aoe 计划后续实现全量使用 kotlin，注解依赖暂时使用较低的 26.x 以保证最小的适配成本

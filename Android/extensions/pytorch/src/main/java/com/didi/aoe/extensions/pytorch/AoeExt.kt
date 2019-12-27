@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.didi.aoe.pytorch
+package com.didi.aoe.extensions.pytorch
 
-import com.didi.aoe.runtime.pytorch.PyTorchInterpreter
-import org.pytorch.Tensor
+import android.content.Context
+import com.didi.aoe.library.api.Aoe
+import com.didi.aoe.library.core.AoeClient
 
 /**
  *
@@ -25,13 +26,9 @@ import org.pytorch.Tensor
  * @author noctis
  * @since 1.1.0
  */
-class PyTorchInterpreterWrapper<Input, Output> constructor(private val convertor: PytorchConvertor<Input, Output>) :
-        PyTorchInterpreter<Input, Output>() {
-    override fun preProcess(input: Input): Tensor? {
-        return convertor.preProcess(input)
-    }
 
-    override fun postProcess(modelOutput: Tensor?): Output? {
-        return convertor.postProcess(modelOutput)
-    }
+fun <Input, Output> Aoe.Companion.createAoeClient(context: Context, modelPath: String,
+        convertor: PytorchConvertor<Input, Output>): AoeClient {
+    val client = AoeClient(context, PyTorchInterpreterWrapper(convertor), modelPath)
+    return client
 }

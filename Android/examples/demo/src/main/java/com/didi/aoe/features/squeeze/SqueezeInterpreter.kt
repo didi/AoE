@@ -70,11 +70,11 @@ class SqueezeInterpreter :
         val bmpBuffer = ByteBuffer.allocate(size)
         input.copyPixelsToBuffer(bmpBuffer)
         val rgba = bmpBuffer.array()
-        squeeze!!.inputRgba(rgba, input.width, input.height, INPUT_WIDTH,
+        squeeze?.inputRgba(rgba, input.width, input.height, INPUT_WIDTH,
                 INPUT_HEIGHT,
                 meanVals, norVals, 0)
         val buffer = ByteBuffer.allocate(4096)
-        squeeze!!.run(null, buffer)
+        squeeze?.run(null, buffer)
         buffer.order(ByteOrder.nativeOrder())
         buffer.flip()
         val shape = squeeze!!.getOutputTensor(0).shape()
