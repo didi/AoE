@@ -30,10 +30,10 @@ import org.tensorflow.lite.gpu.GpuDelegate
  */
 
 fun Aoe.Companion.createAoeClient(context: Context, modelPath: String,
-        convertor: TensorFlowMultipleInputsOutputsInterpreter<*, *, *, *>, useGpu: Boolean): AoeClient {
+        interpreter: TensorFlowMultipleInputsOutputsInterpreter<*, *, *, *>, useGpu: Boolean): AoeClient {
     if (useGpu) {
-        convertor.addDelegate(GpuDelegate())
+        interpreter.addDelegate(GpuDelegate())
     }
-    val client = AoeClient(context, convertor, modelPath)
+    val client = AoeClient(context, interpreter, modelPath)
     return client
 }

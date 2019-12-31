@@ -117,7 +117,9 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
                         return getParcelComponent().byte2Obj(outs);
                     }
                 } catch (RemoteException e) {
-                    mLogger.error("process error: ", e);
+                    mLogger.error("process RemoteException: ", e);
+                } catch (Exception e) {
+                    mLogger.error("process remote throw exception: ", e);
                 }
             }
 

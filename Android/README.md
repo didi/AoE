@@ -118,11 +118,11 @@ InterpreterComponent 用于完成模型加载和数据预处理、后处理；
 
 以下代码片段演示了如何基于 TensorFlow Lite 实现 MNIST 图像数字识别功能的 
 InterpreterComponent，我们提供TensorFlow的运行时组件，使用了抽象类 
-TensorFlowLiteInterpreter 对标准实现做了封装，只需实现数据处理接口即可完成组件
+TensorFlowInterpreter 对标准实现做了封装，只需实现数据处理接口即可完成组件
 定制。
 
 ```
-public class MnistInterpreter extends TensorFlowLiteInterpreter<float[], Integer, float[], float[][]> {
+public class MnistInterpreter extends TensorFlowInterpreter<float[], Integer, float[], float[][]> {
 
     @Nullable
     @Override
