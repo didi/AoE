@@ -17,7 +17,7 @@
 package com.didi.aoe.extensions.pytorch
 
 import com.didi.aoe.library.api.convertor.Convertor
-import org.pytorch.Tensor
+import org.pytorch.IValue
 
 /**
  *
@@ -25,4 +25,4 @@ import org.pytorch.Tensor
  * @author noctis
  * @since 1.1.0
  */
-interface PytorchConvertor<Input, Output> : Convertor<Input, Output, Tensor, Tensor>
+interface PytorchConvertor<Input, Output> : Convertor<Input, Output, IValue, IValue>

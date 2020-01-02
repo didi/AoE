@@ -47,7 +47,7 @@ class ChainingListenableFuture<I, O> constructor(
             // its value.  Therefore when get() returns we should then see
             // the mOutputFuture be created.
             val inputFuture = mInputFuture
-            inputFuture?.get()
+            inputFuture.get()
             mOutputCreated.await()
             val outputFuture = mOutputFuture
             outputFuture?.get()
@@ -78,7 +78,7 @@ class ChainingListenableFuture<I, O> constructor(
             // the mOutputFuture be created.
             val inputFuture = mInputFuture
             var start = System.nanoTime()
-            inputFuture?.get(timeout, unit)
+            inputFuture.get(timeout, unit)
             timeout -= Math.max(0, System.nanoTime() - start)
             // If our listener was scheduled to run on an executor we may
             // need to wait for our listener to finish running before the
@@ -148,11 +148,13 @@ class ChainingListenableFuture<I, O> constructor(
                 return
             }
             outputFuture?.addListener(Runnable {
-                try { // Here it would have been nice to have had an
+                try {
+                    // Here it would have been nice to have had an
                     // UninterruptibleListenableFuture, but we don't want to start a
                     // combinatorial explosion of interfaces, so we have to make do.
                     set(getUninterruptibly(outputFuture))
-                } catch (e: CancellationException) { // Cancel this future and return.
+                } catch (e: CancellationException) {
+                    // Cancel this future and return.
                     // At this point, mInputFuture and mOutputFuture are done, so the
                     // value of mayInterruptIfRunning is irrelevant.
                     cancel(false)

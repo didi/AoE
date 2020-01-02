@@ -29,7 +29,6 @@ import com.didi.aoe.library.common.util.FileUtils
 import com.didi.aoe.library.logging.LoggerFactory
 import org.pytorch.IValue
 import org.pytorch.Module
-import org.pytorch.Tensor
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -39,7 +38,7 @@ import java.io.IOException
  * @since 1.1.0
  */
 abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<TInput, TOutput>(),
-        Convertor<TInput, TOutput, Tensor, Tensor> {
+        Convertor<TInput, TOutput, IValue, IValue> {
     private val mLogger = LoggerFactory.getLogger("PyTorch.Interpreter")
 
     private var mInterpreter: Module? = null
@@ -97,10 +96,9 @@ abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<
 
     override fun run(o: TInput): TOutput? {
         if (isReady) {
-            val inputTensor = preProcess(o)
-            if (inputTensor != null) {
-                val outputTensor = mInterpreter?.forward(IValue.from(inputTensor))?.toTensor()
-                return postProcess(outputTensor)
+            val input = preProcess(o)
+            if (input != null) {
+                return postProcess(mInterpreter?.forward(input))
             }
         }
 

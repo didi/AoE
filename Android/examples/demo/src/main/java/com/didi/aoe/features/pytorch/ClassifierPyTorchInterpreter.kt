@@ -18,7 +18,7 @@ package com.didi.aoe.features.pytorch
 
 import android.graphics.Bitmap
 import com.didi.aoe.extensions.pytorch.PytorchConvertor
-import org.pytorch.Tensor
+import org.pytorch.IValue
 import org.pytorch.torchvision.TensorImageUtils
 
 /**
@@ -28,15 +28,15 @@ import org.pytorch.torchvision.TensorImageUtils
  * @since 1.1.0
  */
 class ClassifierPyTorchInterpreter : PytorchConvertor<Bitmap, String> {
-    override fun preProcess(input: Bitmap): Tensor? {
+    override fun preProcess(input: Bitmap): IValue? {
         val inputTensor = TensorImageUtils.bitmapToFloat32Tensor(input,
                 TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB)
-        return inputTensor
+        return IValue.from(inputTensor)
 
     }
 
-    override fun postProcess(modelOutput: Tensor?): String? {
-        val scores = modelOutput?.dataAsFloatArray
+    override fun postProcess(modelOutput: IValue?): String? {
+        val scores = modelOutput?.toTensor()?.dataAsFloatArray
 
         // searching for the index with maximum score
         var maxScore = -java.lang.Float.MAX_VALUE

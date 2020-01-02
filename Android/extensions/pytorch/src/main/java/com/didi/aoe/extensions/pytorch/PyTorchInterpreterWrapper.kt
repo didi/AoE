@@ -17,7 +17,7 @@
 package com.didi.aoe.extensions.pytorch
 
 import com.didi.aoe.runtime.pytorch.PyTorchInterpreter
-import org.pytorch.Tensor
+import org.pytorch.IValue
 
 /**
  *
@@ -27,11 +27,11 @@ import org.pytorch.Tensor
  */
 class PyTorchInterpreterWrapper<Input, Output> constructor(private val convertor: PytorchConvertor<Input, Output>) :
         PyTorchInterpreter<Input, Output>() {
-    override fun preProcess(input: Input): Tensor? {
+    override fun preProcess(input: Input): IValue? {
         return convertor.preProcess(input)
     }
 
-    override fun postProcess(modelOutput: Tensor?): Output? {
+    override fun postProcess(modelOutput: IValue?): Output? {
         return convertor.postProcess(modelOutput)
     }
 }
