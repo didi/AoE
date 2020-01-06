@@ -19,10 +19,7 @@ import org.tensorflow.lite.Delegate;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -170,6 +167,17 @@ public abstract class TensorFlowMultipleInputsOutputsInterpreter<TInput, TOutput
     public void release() {
         if (mInterpreter != null) {
             mInterpreter.close();
+        }
+        if (!mDelegates.isEmpty()) {
+            for (Delegate delegate : mDelegates) {
+                if (delegate instanceof Closeable) {
+                    try {
+                        ((Closeable) delegate).close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
