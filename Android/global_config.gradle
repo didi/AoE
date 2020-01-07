@@ -96,9 +96,9 @@ def addRepos(RepositoryHandler handler) {
         properties.load(inputStream)
     }
 
-    handler.maven {
-        url 'https://maven.aliyun.com/repository/jcenter'
-    }
+//    handler.maven {
+//        url 'https://maven.aliyun.com/repository/jcenter'
+//    }
     handler.jcenter()
     handler.google()
     handler.maven {
