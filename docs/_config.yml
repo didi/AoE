@@ -10,7 +10,7 @@ description: '一个开源的 终端侧 AI 集成运行时环境 ( IRE )。帮�
 github_repo: AoE
 github_version: 1.1.2
 github_branch: master
-baseurl: '' # Keep as an empty string if served up at the root
+baseurl: '/AoE' # Keep as an empty string if served up at the root
 collections:
   # about:
   #   name: 介绍
