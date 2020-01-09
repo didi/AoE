@@ -16,9 +16,11 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.camera.view.PreviewView
+    <com.noctis.cameraview.CameraView
+        android:keepScreenOn="true"
         android:id="@+id/preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

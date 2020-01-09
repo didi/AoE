@@ -3,15 +3,13 @@ package com.didi.aoe.examples.demo
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import androidx.camera.camera2.Camera2Config
-import androidx.camera.core.CameraXConfig
-import com.didi.aoe.library.service.AoeService
 import com.didi.aoe.library.service.AoeDataProvider
+import com.didi.aoe.library.service.AoeService
 
 /**
  * @author noctis
  */
-class ShowcaseApp : Application(), CameraXConfig.Provider {
+class ShowcaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -39,7 +37,4 @@ class ShowcaseApp : Application(), CameraXConfig.Provider {
             private set
     }
 
-    override fun getCameraXConfig(): CameraXConfig {
-        return Camera2Config.defaultConfig()
-    }
 }

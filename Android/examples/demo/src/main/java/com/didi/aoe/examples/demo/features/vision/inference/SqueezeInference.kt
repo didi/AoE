@@ -18,17 +18,21 @@ package com.didi.aoe.examples.demo.features.vision.inference
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.Image
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import androidx.camera.core.ImageProxy
 import com.didi.aoe.examples.demo.R
 import com.didi.aoe.extensions.support.image.AoeSupport
 import com.didi.aoe.features.squeeze.SqueezeInterpreter
 import com.didi.aoe.features.squeeze.extension.SqueezeModelLoaderImpl
 import com.didi.aoe.library.api.domain.Device
 import com.didi.aoe.library.core.AoeClient
+import com.noctis.cameraview.frame.Frame
+import com.noctis.cameraview.size.Size
 import java.nio.ByteBuffer
+
 
 /**
  *
@@ -46,9 +50,25 @@ class SqueezeInference(context: Context, device: Device, numThreads: Int) : Infe
                     .useRemoteService(false),
             "squeeze")
 
-    override fun process(image: ImageProxy): Any? {
-        val argb = AoeSupport.convertNV21ToARGB8888(image.planes[0].buffer.toByteArray(), image.width, image.height)
-        val bp = Bitmap.createBitmap(image.width, image.height, Bitmap.Config.ARGB_8888)
+    override fun process(image: Frame): Any? {
+        val rotation: Int = image.getRotation()
+        val time: Long = image.getTime()
+        val size: Size = image.getSize()
+        val format: Int = image.getFormat()
+
+        var data: ByteArray?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && image.dataClass == Image::class.java) {
+            //if (image.dataClass == Image::class.java) {
+            val i: Image = image.getData()
+            data = i.planes[0].buffer.toByteArray()
+
+            //}
+        } else {
+            data = image.getData()
+        }
+
+        val argb = AoeSupport.convertNV21ToARGB8888(data, size.width, size.height)
+        val bp = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
         bp.copyPixelsFromBuffer(ByteBuffer.wrap(argb))
         return aoeClient.process(Bitmap.createScaledBitmap(bp, 227, 227, false))
     }

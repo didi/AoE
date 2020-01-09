@@ -16,16 +16,17 @@
 
 package com.didi.aoe.examples.demo.features.vision
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.AdapterView
 import androidx.annotation.IntRange
-import androidx.camera.core.ImageProxy
 import com.didi.aoe.examples.demo.R
 import com.didi.aoe.examples.demo.features.Model
 import com.didi.aoe.library.api.domain.Device
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.noctis.cameraview.frame.Frame
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_model_config.*
 import java.util.*
 
@@ -49,7 +50,9 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
         gesture_layout.viewTreeObserver.addOnGlobalLayoutListener(object :
                 OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                gesture_layout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    gesture_layout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
                 sheetBehavior.peekHeight = gesture_layout.measuredHeight
             }
 
@@ -85,7 +88,7 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
 
     protected abstract fun onInferenceConfigurationChanged()
 
-    protected abstract fun runInBackground(image: ImageProxy)
+    protected abstract fun runInBackground(image: Frame)
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -150,9 +153,8 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
         }
     }
 
-    override fun analyze(image: ImageProxy) {
-        runInBackground(image)
-        image.close()
+    override fun process(frame: Frame) {
+        runInBackground(frame)
     }
 
 }

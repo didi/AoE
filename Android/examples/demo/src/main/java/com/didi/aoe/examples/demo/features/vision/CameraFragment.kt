@@ -21,16 +21,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.camera.core.AspectRatio
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.didi.aoe.examples.demo.R
-import com.google.common.util.concurrent.ListenableFuture
+import com.noctis.cameraview.controls.Facing
+import com.noctis.cameraview.frame.Frame
+import com.noctis.cameraview.frame.FrameProcessor
+import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.concurrent.Executors
 
 /**
@@ -39,27 +35,19 @@ import java.util.concurrent.Executors
  * @author noctis
  * @since 1.1.0
  */
-abstract class CameraFragment : Fragment(R.layout.fragment_camera), ImageAnalysis.Analyzer {
+abstract class CameraFragment : Fragment(R.layout.fragment_camera), FrameProcessor {
     private val executor = Executors.newSingleThreadExecutor()
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-    private lateinit var previewView: PreviewView
-    protected var lensFacing = CameraSelector.LENS_FACING_BACK
-    private var cameraProvider: ProcessCameraProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        cameraProviderFuture = ProcessCameraProvider.getInstance(context!!)
-        cameraProviderFuture.addListener(Runnable {
-            cameraProvider = cameraProviderFuture.get()
-            bindCameraUseCases()
-        }, ContextCompat.getMainExecutor(context))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        previewView = view.findViewById(R.id.preview_view)
+        preview_view.setLifecycleOwner(viewLifecycleOwner)
+        preview_view.addFrameProcessor(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,10 +59,9 @@ abstract class CameraFragment : Fragment(R.layout.fragment_camera), ImageAnalysi
         when (item.itemId) {
 
             R.id.navigation_switch_lens_facing -> {
-                lensFacing =
-                        if (CameraSelector.LENS_FACING_BACK == lensFacing) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
-                cameraProvider?.unbindAll()
-                bindCameraUseCases()
+                //lensFacing =
+                //        if (CameraSelector.LENS_FACING_BACK == lensFacing) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+                preview_view.facing = if (Facing.BACK == preview_view.facing) Facing.FRONT else Facing.BACK
             }
 
             else ->
@@ -83,13 +70,4 @@ abstract class CameraFragment : Fragment(R.layout.fragment_camera), ImageAnalysi
         return true
     }
 
-    private fun bindCameraUseCases() {
-        val preview = Preview.Builder().setTargetAspectRatio(AspectRatio.RATIO_16_9).build()
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
-        val analyzer = ImageAnalysis.Builder().build()
-        analyzer.setAnalyzer(executor, this)
-        preview.previewSurfaceProvider = previewView.previewSurfaceProvider
-        cameraProvider?.bindToLifecycle(this,
-                cameraSelector, preview, analyzer)
-    }
 }

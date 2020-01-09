@@ -18,15 +18,16 @@ package com.didi.aoe.examples.demo.features.vision
 
 import android.os.Bundle
 import android.view.View
-import androidx.camera.core.ImageProxy
 import com.didi.aoe.examples.demo.features.Model
 import com.didi.aoe.examples.demo.features.vision.inference.Inference
 import com.didi.aoe.examples.demo.features.vision.inference.SqueezeInference
 import com.didi.aoe.library.api.domain.Device
+import com.noctis.cameraview.frame.Frame
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
 
 /**
  *
@@ -42,7 +43,7 @@ class InferenceByVideoFragment : CameraFeatureFragment() {
         onInferenceConfigurationChanged()
     }
 
-    override fun runInBackground(image: ImageProxy) {
+    override fun runInBackground(image: Frame) {
         val result = inference?.process(image)
         CoroutineScope(Dispatchers.Main).launch {
             inference?.bindView(result)

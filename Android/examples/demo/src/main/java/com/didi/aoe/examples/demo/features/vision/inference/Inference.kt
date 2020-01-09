@@ -18,9 +18,8 @@ package com.didi.aoe.examples.demo.features.vision.inference
 
 import android.content.Context
 import android.view.View
-import androidx.camera.core.ImageProxy
 import com.didi.aoe.library.api.domain.Device
-import com.didi.aoe.library.core.AoeClient
+import com.noctis.cameraview.frame.Frame
 import java.nio.ByteBuffer
 
 /**
@@ -31,7 +30,7 @@ import java.nio.ByteBuffer
  */
 abstract class Inference constructor(val context: Context, val device: Device, val numThreads: Int) {
 
-    abstract fun process(image: ImageProxy): Any?
+    abstract fun process(image: Frame): Any?
 
     abstract fun createView(): View?
 
