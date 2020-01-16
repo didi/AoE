@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'AoERuntime'
-  s.version          = '1.1.2'
+  s.version          = '1.1.3'
   s.summary          = 'AoE runtime pods'
   s.description      = <<-DESC
         this pod is a demo for Biz
@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
     ss.source_files = "tensorFlowLite/Classes/**/*"
     ss.public_header_files = "tensorFlowLite/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    ss.dependency "TensorFlowLiteObjC", '~> 1.14.0'
+    ss.dependency "TensorFlowLiteObjC", '~> 2.1.0'
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {
