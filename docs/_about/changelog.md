@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "更新记录"
-order: 3
+order: 1
 ---
 
 ## [未发布](https://github.com/didi/AoE/tree/HEAD)
