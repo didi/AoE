@@ -9,9 +9,9 @@
 #ifndef ImageProcess_hpp
 #define ImageProcess_hpp
 
-#include "ErrorCode.hpp"
-#include "Matrix.h"
-#include "Tensor.hpp"
+#include <MNN/ErrorCode.hpp>
+#include <MNN/Matrix.h>
+#include <MNN/Tensor.hpp>
 
 namespace MNN {
 namespace CV {
@@ -22,6 +22,7 @@ enum ImageFormat {
     GRAY,
     BGRA,
     YUV_NV21 = 11,
+    YUV_NV12 = 12,
 };
 
 enum Filter { NEAREST = 0, BILINEAR = 1, BICUBIC = 2 };

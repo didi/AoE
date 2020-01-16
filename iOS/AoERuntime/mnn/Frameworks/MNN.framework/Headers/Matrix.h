@@ -26,7 +26,7 @@
 
 #include <string.h>
 #include <cstdint>
-#include "Rect.h"
+#include <MNN/Rect.h>
 
 namespace MNN {
 namespace CV {

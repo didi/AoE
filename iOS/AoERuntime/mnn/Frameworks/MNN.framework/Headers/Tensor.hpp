@@ -10,8 +10,8 @@
 #define Tensor_hpp
 
 #include <vector>
-#include "HalideRuntime.h"
-#include "MNNDefine.h"
+#include <MNN/HalideRuntime.h>
+#include <MNN/MNNDefine.h>
 
 namespace MNN {
 
@@ -221,7 +221,7 @@ public:
         if (getDimensionType() == TENSORFLOW) {
             return mBuffer.dim[2].extent;
         }
-        
+
         return mBuffer.dim[3].extent;
     }
     inline int height() const {
