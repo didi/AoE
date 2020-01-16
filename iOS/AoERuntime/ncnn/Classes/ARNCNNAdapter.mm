@@ -11,7 +11,7 @@
 #import <AoE/AoEValidJudge.h>
 #import "AoEGraphicUtil.h"
 #import "ARNCNNTensor.h"
-#import <ncnn/net.h>
+#import <ncnn/ncnn/net.h>
 
 #include <vector>
 #include <string>
