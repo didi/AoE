@@ -12,9 +12,6 @@ github_version: 1.1.2
 github_branch: master
 baseurl: '/AoE' # Keep as an empty string if served up at the root
 collections:
-  # about:
-  #   name: 介绍
-  #   output: true
   android:
     name: Android
     output: true
@@ -27,6 +24,9 @@ collections:
   # fqa:
   #   name: 常见问题
   #   output: true
+  other:
+    name: 其他内容
+    output: true
 
 # Jekyll specific stuff
 
