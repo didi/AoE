@@ -36,7 +36,7 @@ dependencies {
 
     implementation deps.kotlin
 
-    implementation 'org.tensorflow:tensorflow-lite:2.0.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.1.0'
 
 }
 
