@@ -48,18 +48,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.navigation:navigation-fragment:2.2.0-rc04'
+    implementation 'androidx.navigation:navigation-fragment:2.2.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
 
-    implementation "com.noctis:camera-view:1.0.0"
-    implementation "com.noctis:camera-view-common:1.0.0"
+    implementation ("com.noctis:camera-view:1.0.0") {
+        exclude group:'com.didi.aoe', module: 'library-logging'
+    }
+    implementation ("com.noctis:camera-view-common:1.0.0") {
+        exclude group:'com.didi.aoe', module: 'library-logging'
+    }
 
     implementation deps.aoe.library.core
     implementation deps.aoe.library.service
@@ -74,7 +78,9 @@ dependencies {
 
     implementation deps.kotlin
 
-    implementation 'com.didi.aoe:extensions-support:1.1.1.1'
+    implementation ("com.didi.aoe:extensions-support:1.1.1.1") {
+        exclude group:'com.didi.aoe', module: 'library-logging'
+    }
 
     implementation deps.aoe.extensions.tensorflow
     implementation deps.aoe.extensions.pytorch
