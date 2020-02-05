@@ -72,6 +72,8 @@
     </tr>
 </table>
 
+[_更多版本适配信息_](https://didi.github.io/AoE/other/compat)
+
 ## 四、Q&A
 
 * 加微信入群：*普惠出行产品技术*（备注 `AoE`）
