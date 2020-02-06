@@ -8,7 +8,7 @@ import sys
 
 from Crypto.Cipher import AES
 
-AES_SECRET_KEY = '0000000000000000'  # 此处16|24|32个字符
+AES_SECRET_KEY = '0000000000000000'  # 此处16个字符
 IV = "0101010101010101"
 
 # padding算法
@@ -20,11 +20,12 @@ pad_bytes = lambda bs: bs + (BS - len(bs) % BS) * b'\0'
 class AesEncrypt(object):
     def __init__(self):
         self.key = AES_SECRET_KEY
+        self.iv = IV
         self.mode = AES.MODE_CBC
 
     # 加密函数
     def encrypt_file(self, source_file, encrypt_file):
-        cryptor = AES.new(self.key.encode("utf8"), self.mode, IV.encode("utf8"))
+        cryptor = AES.new(self.key.encode("utf8"), self.mode, self.iv.encode("utf8"))
         fo = open(source_file, "rb")
         file_size = os.path.getsize(source_file)
         fw = open(encrypt_file, "wb")
@@ -60,7 +61,7 @@ class AesEncrypt(object):
 
     # 解密函数
     def decrypt_file(self, source_file, decrypt_file):
-        cryptor = AES.new(self.key.encode("utf8"), self.mode, IV.encode("utf8"))
+        cryptor = AES.new(self.key.encode("utf8"), self.mode, self.iv.encode("utf8"))
         fo = open(source_file, "rb")
         file_size = os.path.getsize(source_file)
         left_size = file_size
@@ -104,16 +105,22 @@ class AesEncrypt(object):
 def usage():
     print("Help document!")
     print("Samples:")
-    print("1. encrypt logo.png to logo.png.aoe")
-    print("  ./encrypt_helper.py -e -f logo.png -t logo.png.aoe")
-    print("2. decrypt logo.png.aoe to logo.png.aoe.png")
-    print("  ./encrypt_helper.py -d -f logo.png.aoe -t logo.png.aoe.png")
+    print("1. encrypt SRC_FILE to ENCODED_FILE")
+    print("  atenc -e -f SRC_FILE -t ENCODED_FILE")
+    print("2. encrypt SRC_FILE to ENCODED_FILE with specified KEY_VALUE and IV_VALUE")
+    print("  atenc -e -f SRC_FILE -t ENCODED_FILE -k 0000000000000000 -i 0101010101010101")
+    print("3. decrypt ENCODED_FILE to SRC_FILE")
+    print("  atenc -d -f ENCODED_FILE -t SRC_FILE")
+    print("4. decrypt ENCODED_FILE to SRC_FILE with specified KEY_VALUE and IV_VALUE")
+    print("  atenc -d -f ENCODED_FILE -t SRC_FILE -k 0000000000000000 -i 0101010101010101")
     print("Options:")
     print("  -h, --help,", "show help document.")
     print("  -e, --encrypt,", "encrypt file mode.")
     print("  -d, --decrypt,", "decrypt file mode.")
     print("  -f <path>, --from <path>,", "specify the file path to encrypt/decrypt.")
     print("  -t <path>, --to <path>,", "specify the file path after encrypt/decrypt.")
+    print("  -k <KEY_VALUE>, --key <KEY_VALUE>,", "specify the key value to encrypt/decrypt.")
+    print("  -i <IV_VALUE>, --iv <IV_VALUE>,", "specify the iv value to encrypt/decrypt.")
     pass
 
 
@@ -123,13 +130,13 @@ def args_analysis():
     encrypt_mode = False
     decrypt_mode = False
     try:
-        options, args = getopt.getopt(sys.argv[1:], "edhf:t:",
-                                      ["help", "mode=", "from=", "to=", "encrypt=", "decrypt="])
+        options, args = getopt.getopt(sys.argv[1:], "edhf:t:k:i:",
+                                      ["help", "mode=", "from=", "to=", "encrypt=", "decrypt=", "key=", "iv="])
     except getopt.GetoptError:
-        print("Error: Input arguments is not support, please see the help document by \"./encrypt_helper.py -h\"")
+        print("Error: Input arguments is not support, please see the help document by \"atenc -h\"")
         sys.exit()
     if options.__len__() == 0:
-        print("Error: No arguments found, please see the help document by \"./encrypt_helper.py -h\"")
+        print("Error: No arguments found, please see the help document by \"atenc -h\"")
         sys.exit()
     for name, value in options:
         if name in ("-h", "--help"):
@@ -149,8 +156,18 @@ def args_analysis():
             encrypt_mode = True
         elif name in ("-d", "--decrypt"):
             decrypt_mode = True
+        elif name in ("-k", "--key"):
+            if len(value) != 16:
+                print("Error: len of secret key is", len(value), ", should be 16.")
+                sys.exit()
+            aes_encrypt.key = value
+        elif name in ("-i", "--iv"):
+            if len(value) != 16:
+                print("Error: len of iv is", len(value), ", should be 16.")
+                sys.exit()
+            aes_encrypt.iv = value
         else:
-            print("Error: Input arguments is not support, please see the help document by \"./encrypt_helper.py -h\"")
+            print("Error: Input arguments is not support, please see the help document by \"./atenc.py -h\"")
             sys.exit()
     if encrypt_mode and decrypt_mode:
         print("Error: encrypt and decrypt can not be set the same time.")
@@ -168,11 +185,17 @@ def args_analysis():
     print("Success:", "encrypt" if encrypt_mode else "decrypt", "file", from_file, "to file", to_file)
 
 
-if __name__ == '__main__':
-    aes_encrypt = AesEncrypt()
+aes_encrypt = AesEncrypt()
+
+
+def main():
     # aes_encrypt.encrypt_file("logo.png",
     #                          "logo.png.aoe")
     #
     # aes_encrypt.decrypt_file("logo.png.aoe",
     #                          "logo.png.aoe.decrypt.png")
     args_analysis()
+
+
+if __name__ == '__main__':
+    main()
