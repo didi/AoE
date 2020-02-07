@@ -61,7 +61,8 @@ class HttpTrustManager implements X509TrustManager {
 
             @Override
             public boolean verify(String hostname, SSLSession session) {
-                if ("star.xiaojukeji.com".equalsIgnoreCase(hostname)) {
+                if ("star.xiaojukeji.com".equalsIgnoreCase(hostname) ||
+                        "aoe.xiaojukeji.com".equalsIgnoreCase(hostname)) {
                     return true;
                 } else {
                     HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();

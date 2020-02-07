@@ -18,6 +18,7 @@ package com.didi.aoe.runtime.pytorch
 
 import android.content.Context
 import com.didi.aoe.library.api.AoeModelOption
+import com.didi.aoe.library.api.AoeProcessor
 import com.didi.aoe.library.api.StatusCode
 import com.didi.aoe.library.api.convertor.Convertor
 import com.didi.aoe.library.api.domain.ModelSource
@@ -28,7 +29,6 @@ import com.didi.aoe.library.common.util.FileUtils
 import com.didi.aoe.library.logging.LoggerFactory
 import org.pytorch.IValue
 import org.pytorch.Module
-import org.pytorch.Tensor
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -37,19 +37,25 @@ import java.io.IOException
  * @author noctis
  * @since 1.1.0
  */
-abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<TInput, TOutput>(), Convertor<TInput, TOutput, Tensor, Tensor> {
+abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<TInput, TOutput>(),
+        Convertor<TInput, TOutput, IValue, IValue> {
     private val mLogger = LoggerFactory.getLogger("PyTorch.Interpreter")
 
     private var mInterpreter: Module? = null
 
-    override fun init(context: Context, modelOptions: AoeModelOption, listener: OnInterpreterInitListener?) {
+    override fun init(context: Context, options: AoeProcessor.InterpreterComponent.Options?,
+            modelOptions: AoeModelOption, listener: OnInterpreterInitListener?) {
         val modelFilePath = modelOptions.modelDir + "_" + modelOptions.version + File.separator + modelOptions.modelName
         val modelAbsolutePath = FileUtils.getFilesDir(context) + File.separator + modelFilePath;
 
         @ModelSource val modelSource = modelOptions.modelSource
         if (ModelSource.LOCAL == modelSource) {
             // Pytorch 1.3 只支持传了文件路径给Module加载模型，所以本地assets里的模型文件解压拷贝到对应文件夹
-            val assetModelFilePath = modelOptions.modelDir + File.separator + modelOptions.modelName
+            val assetModelFilePath =
+                    if (modelOptions.modelDir.isEmpty())
+                        modelOptions.modelName
+                    else
+                        modelOptions.modelDir + File.separator + modelOptions.modelName
             extractAssetsFile(context, assetModelFilePath, modelAbsolutePath)
         }
 
@@ -83,17 +89,16 @@ abstract class PyTorchInterpreter<TInput, TOutput> : SingleInterpreterComponent<
                 }
             }
         } catch (e: IOException) {
-            mLogger.error("extractAssetsFile error", e)
+            mLogger.error("extractAssetsFile $sourceAssetFilePath error", e)
         }
 
     }
 
     override fun run(o: TInput): TOutput? {
         if (isReady) {
-            val inputTensor = preProcess(o)
-            if (inputTensor != null) {
-                val outputTensor = mInterpreter?.forward(IValue.from(inputTensor))?.toTensor()
-                return postProcess(outputTensor)
+            val input = preProcess(o)
+            if (input != null) {
+                return postProcess(mInterpreter?.forward(input))
             }
         }
 

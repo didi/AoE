@@ -3,7 +3,7 @@ name: iOS CI
 on: 
   push:
     paths:
-    - 'iOS/*'
+    - 'iOS/**'
     - '!**/*.md'
 
 jobs:

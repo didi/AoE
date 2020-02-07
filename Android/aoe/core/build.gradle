@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply from: '../../upload.gradle'
 
 android {
     compileSdkVersion aoe_compile_sdk_version
@@ -27,11 +26,12 @@ dependencies {
     implementation deps.support.annotation
 
     api deps.aoe.library.api
-    api deps.aoe.library.model_option_loader
     api deps.aoe.library.common
 
     implementation deps.kotlin
+    implementation deps.gson
 
+    implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0-alpha01"
 }
 
 ext {
@@ -39,4 +39,4 @@ ext {
     releaseDescription = 'The AoE core library'
     releaseVersion = aoe_version_name
 }
-apply from: '../../publish.gradle'
+apply from: rootProject.file('gradle/release.gradle')

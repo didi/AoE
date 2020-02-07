@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "fonts_responsive.css";
+
+:root {
+  --font-roboto: 'Roboto';
+}
+
+* {
+  font-family: var(--font-roboto), sans-serif;
+  font-weight: 400;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-family: var(--font-roboto), cursive;
+  font-weight: 700 !important;
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: 400;
+}
+
+button, .btn {
+  font-family: var(--font-roboto), cursive !important;
+  font-style: !important;
+  font-weight: 700 !important;
+}
+
+code, code * {
+  font-family: var(--font-roboto) !important;
+}

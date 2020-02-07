@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
     ss.source_files = "mnist/Classes/**/*"
     ss.public_header_files = "mnist/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    ss.dependency "TensorFlowLiteObjC"
+    ss.dependency "AoERuntime/TensorFlowLite"
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {
@@ -48,7 +48,7 @@ Pod::Spec.new do |s|
     ss.source_files = "squeeze/Classes/**/*"
     ss.public_header_files = "squeeze/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    # ss.vendored_frameworks = "squeeze/Frameworks/ncnn.framework","squeeze/Frameworks/openmp.framework"
+    ss.dependency "AoERuntime/NCNN"
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {
@@ -61,7 +61,7 @@ Pod::Spec.new do |s|
     ss.source_files = "squeeze_mnn/Classes/**/*"
     ss.public_header_files = "squeeze_mnn/Classes/**/*.h"
     ss.dependency "#{s.name}/Core"
-    # ss.vendored_frameworks = "squeeze/Frameworks/ncnn.framework","squeeze/Frameworks/openmp.framework"
+    ss.dependency "AoERuntime/MNN"
     ss.frameworks = 'CoreVideo','UIKit','CoreGraphics','Foundation'
     ss.libraries = ['c++']
     ss.resource_bundles = {

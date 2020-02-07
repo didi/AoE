@@ -1,15 +1,8 @@
 module('examples', 'demo')
 
-module('features', 'mnist')
-module('features', 'squeeze')
-module('features', 'recognize')
-module('features', 'pytorch')
-module('features', 'pfld')
-
 module('library', 'core')
 module('library', 'api')
 module('library', 'logging')
-module('library', 'model-option-loader')
 module('library', 'common')
 module('library', 'service')
 
@@ -18,13 +11,13 @@ module('runtime', 'mnn')
 module('runtime', 'ncnn')
 module('runtime', 'pytorch')
 
+module('extensions', 'pytorch')
+module('extensions', 'tensorflow-lite')
+
 // -------------------------------------------------------------------------------------------------
 
 // NOTE：全局设置开发模式，AoE内部开发使用工程依赖管理
-gradle.ext.aoeDevEnabled = false
-if (gradle.ext.has("aoeDevEnabled") && gradle.ext.aoeDevEnabled) {
-    apply from: 'dev_settings.gradle'
-}
+gradle.ext.aoeDevEnabled = true
 
 /**
  * 模组定义函数
@@ -43,15 +36,15 @@ def module(String group, String name) {
  * @param group
  * @return
  */
-String getTemplateModuleDir(String group) {
+static String getTemplateModuleDir(String group) {
     switch (group) {
         case 'examples':
-            return 'demo'
-        case 'features':
-            return 'demo/features'
+            return 'examples'
         case 'library':
             return 'aoe'
         case 'runtime':
             return 'third_party'
+        case 'extensions':
+            return 'extensions'
     }
 }

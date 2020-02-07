@@ -340,7 +340,7 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
-				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
@@ -361,11 +361,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo/Pods-AoEOpenSDKDemo-frameworks.sh",
+				"${PODS_ROOT}/../../AoERuntime/mnn/Frameworks/MNN.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MNN.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -410,7 +413,7 @@
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-mnn.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-NCNN.bundle",
 				"$PODS_CONFIGURATION_BUILD_DIR/AoERuntime/AoERuntime-tensorFlowLite.bundle",
-				$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/DoraemonKit/DoraemonKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -447,11 +450,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests/Pods-AoEOpenSDKDemo-AoEOpenSDKDemoTests-frameworks.sh",
+				"${PODS_ROOT}/../../AoERuntime/mnn/Frameworks/MNN.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MNN.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

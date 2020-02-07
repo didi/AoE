@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/featuresFragment">
+
+    <fragment
+        android:id="@+id/featuresFragment"
+        android:name="com.didi.aoe.examples.demo.FeaturesFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_feature_list">
+        <action
+            android:id="@+id/action_featuresFragment_to_mnistFeatureFragment"
+            app:destination="@+id/mnistFeatureFragment" />
+
+        <action
+            android:id="@+id/action_featuresFragment_to_cameraFeatureFragment"
+            app:destination="@+id/cameraFeatureFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/mnistFeatureFragment"
+        android:name="com.didi.aoe.examples.demo.features.mnist.MnistFeatureFragment"
+        android:label="@string/title_mnist"
+        tools:layout="@layout/fragment_mnist" />
+
+    <fragment
+        android:id="@+id/cameraFeatureFragment"
+        android:name="com.didi.aoe.examples.demo.features.vision.InferenceByVideoFragment"
+        tools:layout="@layout/fragment_camera" />
+
+</navigation>

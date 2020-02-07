@@ -1,19 +1,18 @@
 package com.didi.aoe.library.core;
 
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.AoeProcessor.InterpreterComponent;
+import com.didi.aoe.library.api.ParcelComponent;
 
 /**
  * @author noctis
  */
 abstract class AbsProcessorWrapper implements AoeProcessor,
         InterpreterComponent<Object, Object>,
-        AoeProcessor.ParcelComponent {
+        ParcelComponent {
     final Context mContext;
 
     AbsProcessorWrapper(@NonNull Context context, @NonNull AoeClient.Options options) {

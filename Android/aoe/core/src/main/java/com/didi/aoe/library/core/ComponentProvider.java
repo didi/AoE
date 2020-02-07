@@ -2,8 +2,8 @@ package com.didi.aoe.library.core;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.ParcelComponent;
 import com.didi.aoe.library.core.io.AoeParcelImpl;
 import com.didi.aoe.library.lang.AoeRuntimeException;
 import com.didi.aoe.library.logging.Logger;
@@ -23,7 +23,7 @@ final class ComponentProvider {
 
     private static final Map<String, AoeProcessor.ModelOptionLoaderComponent> modelLoaderComponentMap = new HashMap<>();
     private static final Map<String, AoeProcessor.InterpreterComponent> interpreterComponentMap = new HashMap<>();
-    private static final Map<String, AoeProcessor.ParcelComponent> parcelComponentMap = new HashMap<>();
+    private static final Map<String, ParcelComponent> parcelComponentMap = new HashMap<>();
 
     private ComponentProvider() {
     }
@@ -70,10 +70,10 @@ final class ComponentProvider {
     }
 
     @NonNull
-    public static AoeProcessor.ParcelComponent getParceler(String clzName) {
-        cacheServiceIfNeeded(clzName, AoeProcessor.ParcelComponent.class, parcelComponentMap);
+    public static ParcelComponent getParceler(String clzName) {
+        cacheServiceIfNeeded(clzName, ParcelComponent.class, parcelComponentMap);
 
-        AoeProcessor.ParcelComponent parcelComponent = parcelComponentMap.get(clzName);
+        ParcelComponent parcelComponent = parcelComponentMap.get(clzName);
         if (parcelComponent == null) {
             // 未指定实现则使用AoE默认实现
             parcelComponent = new AoeParcelImpl();

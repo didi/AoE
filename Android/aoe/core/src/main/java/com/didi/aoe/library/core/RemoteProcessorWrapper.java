@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
-import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.ParcelComponent;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
@@ -70,7 +68,7 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
 
     public RemoteProcessorWrapper(@NonNull Context context, AoeClient.Options options) {
         super(context, options);
-        mParceler = ComponentProvider.getParceler(options.parcelerClassName);
+        mParceler = ComponentProvider.getParceler(options.getParcelerClassName());
         mClientOptions = options;
 
         if (!isServiceRunning()) {
@@ -79,7 +77,10 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     }
 
     @Override
-    public void init(@NonNull Context context, @NonNull List<AoeModelOption> modelOptions, @Nullable OnInterpreterInitListener listener) {
+    public void init(@NonNull Context context,
+            @Nullable InterpreterComponent.Options interpreterOptions,
+            @NonNull List<AoeModelOption> modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
         mModelOptions = modelOptions;
         mOnInitListener = listener;
         if (isServiceRunning()) {
@@ -116,7 +117,9 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
                         return getParcelComponent().byte2Obj(outs);
                     }
                 } catch (RemoteException e) {
-                    mLogger.error("process error: ", e);
+                    mLogger.error("process RemoteException: ", e);
+                } catch (Exception e) {
+                    mLogger.error("process remote throw exception: ", e);
                 }
             }
 
@@ -192,7 +195,7 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
                 options.setClientOptions(mClientOptions);
                 options.setModelOptions(modelOptions);
 
-                AoeProcessor.ParcelComponent parceler = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
+                ParcelComponent parceler = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
                 byte[] ins = parceler.obj2Byte(options);
                 Message msg = new Message(ins);
                 int initResultCode = mProcessProxy.init(id, msg);
@@ -227,4 +230,5 @@ final class RemoteProcessorWrapper extends AbsProcessorWrapper {
     public void setId(String id) {
         mId = id;
     }
+
 }

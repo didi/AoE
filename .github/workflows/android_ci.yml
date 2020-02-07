@@ -1,13 +1,13 @@
 name: Android CI
-author: Noctis
-description: Android CI action for AoE project.
 
 on:
   push:
     branches:
       - master
     paths:
-      - 'Android/*'
+      - 'Android/**'
+  schedule:
+      - cron: "0 2 * * 1-4"
 
 jobs:
   check:

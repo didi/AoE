@@ -1,11 +1,10 @@
 package com.didi.aoe.runtime.mnn;
 
 import android.content.Context;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.didi.aoe.library.api.AoeModelOption;
+import com.didi.aoe.library.api.AoeProcessor;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.convertor.Convertor;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
@@ -14,13 +13,7 @@ import com.didi.aoe.library.api.interpreter.SingleInterpreterComponent;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import java.io.*;
 
 /**
  * 基于MNN的运行时Interpreter封装。
@@ -29,7 +22,8 @@ import java.nio.ByteOrder;
  * @param <TOutput> 范型，业务输出数据
  * @author coleman
  */
-public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterComponent<TInput, TOutput> implements Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
+public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterComponent<TInput, TOutput> implements
+        Convertor<TInput, TOutput, MNNNetInstance.Session.Tensor, MNNNetInstance.Session.Tensor> {
 
     private final Logger mLogger = LoggerFactory.getLogger("MNNInterpreter");
     private MNNNetInstance mNetInstance;
@@ -38,9 +32,12 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
     protected Context mAppContext;
 
     @Override
-    public void init(@NonNull Context context, @NonNull AoeModelOption option, @Nullable OnInterpreterInitListener listener) {
+    public void init(@NonNull Context context,
+            @Nullable AoeProcessor.InterpreterComponent.Options interpreterOptions,
+            @NonNull AoeModelOption modelOptions,
+            @Nullable OnInterpreterInitListener listener) {
         this.mAppContext = context.getApplicationContext();
-        String modelFilePath = option.getModelDir() + File.separator + option.getModelName() + ".mnn";
+        String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getModelName() + ".mnn";
         try {
             // create net instance
             byte[] datas = read(context.getAssets().open(modelFilePath));
@@ -74,7 +71,6 @@ public abstract class MNNInterpreter<TInput, TOutput> extends SingleInterpreterC
 
                 mSession.run();
 
-                //noinspection unchecked
                 return postProcess(mSession.getOutput(null));
             }
 

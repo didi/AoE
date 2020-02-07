@@ -1,0 +1,45 @@
+# Glide: https://github.com/bumptech/glide/blob/gh-pages/_config.yml
+# Source repo: https://github.com/bruth/jekyll-docs-template
+# Source site: http://bruth.github.io/jekyll-docs-template/
+# Ref guide: https://visualstudiomagazine.com/Articles/2015/03/01/GitHub-Pages.aspx?Page=2
+
+title: AoE
+color: '#f8f8f8'
+description: '一个开源的 终端侧 AI 集成运行时环境 ( IRE )。帮助开发者将不同框架的深度学习算法轻松部署到终端高效执行'
+
+github_repo: AoE
+github_version: 1.1.2
+github_branch: master
+baseurl: '/AoE' # Keep as an empty string if served up at the root
+collections:
+  android:
+    name: Android
+    output: true
+  ios:
+    name: iOS
+    output: true
+  linux:
+    name: linux
+    output: true
+  # fqa:
+  #   name: 常见问题
+  #   output: true
+  other:
+    name: 其他内容
+    output: true
+
+# Jekyll specific stuff
+
+author:
+  name: AoE authors # Should appear in <head>.
+  email: kuloudx@icloud.com
+  github: didi
+  website: https://didi.github.io/AoE/
+plugins:
+  - jekyll-seo-tag # Add SEO tags
+permalink: /:categories/:title # Ensure permalinks have no date nor extension
+exclude: ['script', 'README.md'] # Exclude non-site files
+highlighter: rouge # Syntax highlighting
+markdown: kramdown # Use the kramdown Markdown renderer
+kramdown:
+  input: GFM # Use Github Flavored Markdown

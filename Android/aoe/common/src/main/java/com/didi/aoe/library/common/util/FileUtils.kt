@@ -39,7 +39,7 @@ object FileUtils {
     fun getFilesDir(context: Context): String {
         if (isExternalMediaAvailable) {
             val filesDir = context.getExternalFilesDir(null)
-            return filesDir.absolutePath
+            return filesDir!!.absolutePath
         }
         return context.filesDir.absolutePath
     }
@@ -98,7 +98,7 @@ object FileUtils {
     /**
      * 读取字节流数组
      *
-     * @param is 输入流
+     * @param inputStream 输入流
      * @return
      */
     @JvmStatic

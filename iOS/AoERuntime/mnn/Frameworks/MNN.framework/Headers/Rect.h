@@ -29,7 +29,7 @@
 #include <math.h>
 #include <algorithm>
 #include <utility>
-#include "MNNDefine.h"
+#include <MNN/MNNDefine.h>
 
 namespace MNN {
 namespace CV {

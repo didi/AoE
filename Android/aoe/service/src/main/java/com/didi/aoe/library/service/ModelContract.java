@@ -243,7 +243,7 @@ public final class ModelContract {
         bodyMap.put(HttpParams.PARAM_MODEL_ID, request.getModelId());
         bodyMap.put(HttpParams.PARAM_MODEL_VERSION_CODE, request.getCurrentModelVersion());
 
-        final AoeDataProvider dataProvider = Aoe.getInstance().getDataProvider();
+        final AoeDataProvider dataProvider = AoeService.getInstance().getDataProvider();
         if (dataProvider != null) {
             bodyMap.put(HttpParams.PARAM_COMMON_LAT, dataProvider.latitude());
             bodyMap.put(HttpParams.PARAM_COMMON_LNG, dataProvider.longitude());

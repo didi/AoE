@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-
 import android.support.annotation.NonNull;
-
-import com.didi.aoe.library.api.AoeProcessor;
+import com.didi.aoe.library.api.ParcelComponent;
 import com.didi.aoe.library.api.StatusCode;
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult;
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener;
@@ -43,17 +41,18 @@ public class AoeProcessService extends Service {
 
             Context context = AoeProcessService.this.getApplicationContext();
 
-            AoeProcessor.ParcelComponent packer = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
+            ParcelComponent packer = ComponentProvider.getParceler(AoeParcelImpl.class.getName());
             Object obj = packer.byte2Obj(ins);
             // RemoteOptions 包含一些简单的配置描述，单个AIDL切片为100k，此处直接判断数据，不做数据切片合并
             if (obj instanceof RemoteOptions) {
                 RemoteOptions aoeOptions = (RemoteOptions) obj;
-                NativeProcessorWrapper processorWrapper = new NativeProcessorWrapper(context, aoeOptions.getClientOptions());
+                NativeProcessorWrapper processorWrapper =
+                        new NativeProcessorWrapper(context, aoeOptions.getClientOptions());
 
                 final CountDownLatch latch = new CountDownLatch(1);
 
                 final AtomicInteger statusCode = new AtomicInteger(StatusCode.STATUS_INNER_ERROR);
-                processorWrapper.init(context, aoeOptions.getModelOptions(), new OnInterpreterInitListener() {
+                processorWrapper.init(context, null, aoeOptions.getModelOptions(), new OnInterpreterInitListener() {
                     @Override
                     public void onInitResult(@NonNull InterpreterInitResult result) {
                         statusCode.set(result.getCode());

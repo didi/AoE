@@ -11,12 +11,30 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include "MNNDefine.h"
+#include <MNN/MNNDefine.h>
 
 namespace MNN {
 
+class MNN_PUBLIC Timer {
+public:
+    Timer();
+    ~Timer();
+    Timer(const Timer&)  = delete;
+    Timer(const Timer&&) = delete;
+    Timer& operator=(const Timer&)  = delete;
+    Timer& operator=(const Timer&&) = delete;
+    
+    // reset timer
+    void reset();
+    // get duration (us) from init or latest reset.
+    uint64_t durationInUs();
+    
+protected:
+    uint64_t mLastResetTime;
+};
+
 /** time tracing util. prints duration between init and deinit. */
-class MNN_PUBLIC AutoTime {
+class MNN_PUBLIC AutoTime : Timer {
 public:
     AutoTime(int line, const char* func);
     ~AutoTime();
@@ -28,7 +46,6 @@ public:
 private:
     int mLine;
     char* mName;
-    uint64_t mCurrentTime;
 };
 } // namespace MNN
 
