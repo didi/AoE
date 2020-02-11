@@ -81,7 +81,6 @@
  */
 - (id<AoEOutputModelProtocol>)run:(id<AoEInputModelProtocol>)input;
 
-
 /**
  实例停止运行
  */
@@ -94,6 +93,13 @@
  */
 - (BOOL)isReady;
 
+/// 预处理输入数据
+/// @param input 外部输入数据
+- (id)preProccessInput:(id<AoEInputModelProtocol>)input;
+
+/// 预处理输出数据
+/// @param outputData 模型输出数据
+- (id<AoEOutputModelProtocol>)preProccessOutput:(id)outputData;
 @end
 
 /**
