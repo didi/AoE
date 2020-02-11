@@ -113,6 +113,13 @@ InterpreterComponent为 **必须** 实现的组件(接口如下)，用于完成�
  */
 - (BOOL)isReady;
 
+/// 预处理输入数据
+/// @param input 外部输入数据
+- (id)preProccessInput:(id<AoEInputModelProtocol>)input;
+
+/// 预处理输出数据
+/// @param outputData 模型输出数据
+- (id<AoEOutputModelProtocol>)preProccessOutput:(id)outputData;
 @end
 ```
 ModelOptionLoaderComponent 可根据业务实际情况进行接口实现然后进行注册。
