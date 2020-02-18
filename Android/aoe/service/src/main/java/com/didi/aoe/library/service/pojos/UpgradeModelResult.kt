@@ -17,6 +17,7 @@
 package com.didi.aoe.library.service.pojos
 
 import android.text.TextUtils
+import com.google.gson.annotations.SerializedName
 
 /**
  * 模型升级查询接口返回data
@@ -25,8 +26,11 @@ import android.text.TextUtils
  * @since 1.1.0
  */
 data class UpgradeModelResult(
+        @SerializedName("modelVersionCode")
         var versionName: String? = null,
+        @SerializedName("modelUrl")
         var url: String? = null,
+        @SerializedName("modelMd5")
         var md5: String? = null
 ) {
     val isValid: Boolean

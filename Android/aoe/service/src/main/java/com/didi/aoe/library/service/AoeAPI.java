@@ -21,7 +21,7 @@ package com.didi.aoe.library.service;
  * @since 1.1.0
  */
 interface AoeAPI {
-    String API_BASE_URL = "https://aoe-test.xiaojukeji.com";
+    String API_BASE_URL = "https://aoe.xiaojukeji.com";
 
     /**
      * 模型升级

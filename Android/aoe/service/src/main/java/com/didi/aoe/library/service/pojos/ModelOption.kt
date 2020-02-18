@@ -20,18 +20,23 @@ import android.text.TextUtils
 
 import com.didi.aoe.library.api.domain.ModelSource
 import com.didi.aoe.library.modeloption.loader.pojos.LocalModelOption
+import com.google.gson.annotations.SerializedName
 
 /**
  * @author noctis
  * @since 1.1.0
  */
 open class ModelOption : LocalModelOption() {
+    @SerializedName("source")
     private val source: String? = null
 
+    @SerializedName("runtime")
     open val runtime: String? = null
 
+    @SerializedName("modelSign")
     open val sign: String? = null
 
+    @SerializedName("modelId")
     open val modelId: Long = 0
 
     override fun getModelSource(): String {
@@ -46,4 +51,10 @@ open class ModelOption : LocalModelOption() {
                 && !TextUtils.isEmpty(modelSource)
                 && !TextUtils.isEmpty(sign))
     }
+
+    override fun toString(): String {
+        return "ModelOption(version=$version, modelDir=$modelDir, modelName=$modelName, source=$source, runtime=$runtime, sign=$sign, modelId=$modelId)"
+    }
+
+
 }

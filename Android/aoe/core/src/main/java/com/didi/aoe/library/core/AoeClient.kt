@@ -34,7 +34,6 @@ import com.didi.aoe.library.lang.AoeIOException
 import com.didi.aoe.library.logging.LoggerFactory
 import com.didi.aoe.library.modeloption.loader.pojos.LocalModelOption
 import java.io.Serializable
-import java.util.*
 
 /**
  * AoE业务交互终端。
@@ -50,10 +49,14 @@ class AoeClient {
     private val mProcessor: AoeProcessor
     // Client 配置信息
     private val mOptions: Options
-    // 模型配置信息
-    private val mModelOptions: MutableList<AoeModelOption> = ArrayList()
+
     // 翻译器初始化状态
     private var mStatusResult = create(StatusCode.STATUS_UNDEFINE)
+
+    // 模型assets目录地址
+    private val mModelDirs: Array<out String>
+    // 模型配置信息
+    private val mModelOptions: MutableList<AoeModelOption> = ArrayList()
 
     /**
      * 默认单模型构造方法
@@ -67,7 +70,7 @@ class AoeClient {
             mainModelDir: String) : this(context, mainModelDir, options, mainModelDir)
 
     /**
-     * 对于单一模型，提供简化调用方式
+     * 对于单一模型，提供简化使用本地模型的方式
      *
      * @param context
      * @param interpreter
@@ -78,13 +81,21 @@ class AoeClient {
             assetsModelPath: String) {
         mContext = context
         mClientId = assetsModelPath
-        val options: MutableList<AoeModelOption> = ArrayList()
+
         val index = assetsModelPath.lastIndexOf('/')
-        val dir = assetsModelPath.substring(0, if (index < 0) 0 else index)
-        val fileName = assetsModelPath.substring(if (index < 0) 0 else index + 1)
-        options.add(LocalModelOption(dir, fileName))
-        mModelOptions.clear()
-        mModelOptions.addAll(options)
+        var dir = ""
+        var fileName = assetsModelPath
+
+        if (index >= 0) {
+            // 模型放在相对目录下，路径包含"/"，提取最后一个"/"后的文件名
+            dir = assetsModelPath.substring(0, index)
+            fileName = assetsModelPath.substring(index + 1)
+        }
+
+        mModelDirs = arrayOf(fileName)
+
+        resetModelOptions(LocalModelOption(dir, fileName))
+
         mOptions = Options()
                 .setInterpreter(interpreter)
                 .useRemoteService(false)
@@ -107,9 +118,12 @@ class AoeClient {
         mContext = context
         mClientId = clientId
         mOptions = options
+
+        mModelDirs = arrayOf(mainModelDir, *subsequentModelDirs)
+
         val modelLoader = ComponentProvider.getModelLoader(options.modelOptionLoaderClassName)
         try {
-            tryLoadModelOptions(context, modelLoader, mainModelDir, *subsequentModelDirs)
+            tryLoadModelOptions(context, modelLoader, *mModelDirs)
         } catch (e: AoeIOException) {
             mStatusResult = create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: ${e.message}")
         }
@@ -130,35 +144,39 @@ class AoeClient {
     @Throws(AoeIOException::class)
     private fun tryLoadModelOptions(context: Context,
             modelLoader: ModelOptionLoaderComponent,
-            mainModelDir: String,
-            vararg subsequentModelDirs: String) {
-        val modelOption = modelLoader.load(context, mainModelDir)
-        mLogger.debug("[tryLoadModelOptions] ModelOption: $modelOption")
-        if (modelOption == null) {
-            throw AoeIOException("ModelOption load error, no main model.")
-        }
-        val options: MutableList<AoeModelOption> = ArrayList()
-        options.add(modelOption)
-        // 处理子模型
-        for (modelDir in subsequentModelDirs) {
-            val subModelOption = modelLoader.load(context, modelDir)
-            mLogger.debug("Subsequent model: $subModelOption")
-            if (subModelOption == null) {
-                throw AoeIOException("ModelOption load error, no sub model.")
+            vararg modelDirs: String) {
+
+        val modelOptions = modelDirs.map {
+            val modelOption = modelLoader.load(context, it)
+            mLogger.debug("[tryLoadModelOptions] ModelOption: $modelOption")
+            if (!modelOption.isValid) {
+                throw AoeIOException("ModelOption load error, no main model.")
             }
-            options.add(subModelOption)
+            return@map modelOption
         }
+        resetModelOptions(*modelOptions.toTypedArray())
+
+    }
+
+    private fun resetModelOptions(vararg modelOptions: AoeModelOption) {
         mModelOptions.clear()
-        mModelOptions.addAll(options)
+        mModelOptions.addAll(modelOptions)
     }
 
     private fun initInternal(listener: OnInitListener?) {
         if (StatusCode.STATUS_UNDEFINE != mStatusResult.code
                 && StatusCode.STATUS_MODEL_DOWNLOAD_WAITING != mStatusResult.code) {
-            // 已执行初始化，直接返回当前状态
-
+            // 正在执行初始化，直接返回当前状态
             dispatchInitResult(mStatusResult, listener)
             return
+        }
+        if (StatusCode.STATUS_MODEL_DOWNLOAD_WAITING == mStatusResult.code) {
+            val modelLoader = ComponentProvider.getModelLoader(mOptions.modelOptionLoaderClassName)
+            try {
+                tryLoadModelOptions(mContext, modelLoader, *mModelDirs)
+            } catch (e: AoeIOException) {
+                mStatusResult = create(StatusCode.STATUS_CONFIG_PARSE_ERROR, "ModelOption parse error: ${e.message}")
+            }
         }
         if (isModelOptionReady) {
             val interpreterOptions = InterpreterComponent.Options()

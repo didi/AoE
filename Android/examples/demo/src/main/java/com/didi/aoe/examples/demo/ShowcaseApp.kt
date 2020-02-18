@@ -17,7 +17,7 @@ class ShowcaseApp : Application() {
 
         AoeService.init(applicationContext, object : AoeDataProvider {
             override fun appId(): Long {
-                return 164
+                return 10
             }
 
             override fun latitude(): Double {

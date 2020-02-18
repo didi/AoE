@@ -45,10 +45,11 @@ public interface AoeProcessor {
 
     /**
      * 模型配置加载组件
+     * <p>
      */
     @FunctionalInterface
     interface ModelOptionLoaderComponent extends Component {
-        AoeModelOption load(@NonNull Context ctx, @NonNull String modelDir) throws AoeIOException;
+        AoeModelOption load(@NonNull Context context, @NonNull String modelDir) throws AoeIOException;
     }
 
     /**

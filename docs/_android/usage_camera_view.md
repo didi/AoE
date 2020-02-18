@@ -4,14 +4,24 @@ title: "使用 CameraView 处理相机视频"
 order: 3
 ---
 
-基于开源项目 `natario1/CameraView` 定制了一个用于 Android 图像识别领域的相机交互组件，项目文档地址：https://kuloud.github.io/CameraView/ ，结合 AoE 做了简化封装。
+# 一、背景简介
 
-# 组件依赖
+基于开源项目 `natario1/CameraView` 定制了一个用于 Android 图像识别领域的相机交互组件，项目文档地址：[https://kuloud.github.io/CameraView/](https://kuloud.github.io/CameraView/) ，结合 AoE 做了简化封装。
+
+主要功能点：
+1. 适配 `API 15+`
+1. 数据格式可自选，Android 默认为 NV21 ，可选 ARGB8888
+1. 可指定值域（最大最小分辨率）
+1. 可切换前置后置摄像头
+1. 闪光灯控制
+1. 绑定生命周期，自管理状态
+
+# 二、组件依赖
 ```groovy
 api 'com.noctis:camera-view:1.0.0'
 ```
 
-# 添加相机视图
+# 三、添加相机视图
 ```xml
 <com.noctis.cameraview.CameraView
     android:id="@+id/camera"
@@ -20,7 +30,7 @@ api 'com.noctis:camera-view:1.0.0'
     android:layout_height="match_parent" />
 ```
 
-# 绑定生命周期
+# 四、绑定生命周期
 相机使用可绑定宿主的生命周期，根据视图可见状态自动管理相机使用。
 
 ```java
@@ -41,8 +51,11 @@ public void onViewCreated(View view, Bundle savedInstanceState) {
 }
 ```
 
-# 处理相机数据
-相机的输出数据被封装为 Frame 对象，他会在 process 方法执行完成后自动释放复用内容供下一帧消费。因为组件适配到 API 15，当 API < 21时，视频数据以字节数组提供，API >= 21 时，直接提供 Image 对象，需根据目标机型做区分。
+# 五、处理相机数据
+相机的输出数据被封装为 Frame 对象，他会在 process 方法执行完成后自动释放复用内容供下一帧消费。
+因为组件适配到 API 15，
+当 API < 21 时，视频数据以字节数组提供；
+当 API >= 21 时，直接提供 Image 对象，需根据目标机型做区分。
 
 ```java
 cameraView.addFrameProcessor(new FrameProcessor() {

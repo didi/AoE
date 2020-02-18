@@ -13,7 +13,7 @@ title: "AoE"
 - [Android Demo](./Android/examples/demo)
 - [iOS Demo](./iOS/Demo)
 - 官方模型：
-    * [SeesawNet_pytorch](https://github.com/cvtower/seesawfacenet_pytorch) 人脸比对模型, https://arxiv.org/abs/1908.09124
+    * [SeesawNet_pytorch](https://github.com/cvtower/seesawfacenet_pytorch) 人脸比对模型, [https://arxiv.org/abs/1908.09124](https://arxiv.org/abs/1908.09124)
 
 ## 三、适配信息
 

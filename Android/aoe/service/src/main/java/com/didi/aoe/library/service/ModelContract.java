@@ -18,27 +18,28 @@ package com.didi.aoe.library.service;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.WorkerThread;
-import android.util.LruCache;
-
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Process;
+import android.provider.FontsContract;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-
+import android.support.annotation.WorkerThread;
+import android.util.LruCache;
 import com.didi.aoe.extensions.downloadmanager.DownloadRequest;
-import com.didi.aoe.library.service.pojos.ModelOption;
-import com.didi.aoe.library.service.pojos.UpgradeModelResult;
 import com.didi.aoe.library.common.util.FileUtils;
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
+import com.didi.aoe.library.service.pojos.ModelOption;
+import com.didi.aoe.library.service.pojos.UpgradeModelResult;
 import com.google.gson.Gson;
+import okhttp3.Response;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.Response;
 
 import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FAIL_REASON_MODEL_LOADER_ERROR;
 import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FAIL_REASON_MODEL_QUERY_ERROR;
@@ -51,6 +52,9 @@ import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FA
  */
 public final class ModelContract {
     private static final Logger mLogger = LoggerFactory.getLogger("ModelContract");
+    private static final Object sLock = new Object();
+    private static Handler sHandler;
+    private static HandlerThread sThread;
 
     private static final LruCache<String, UpgradeModelResult> sModelCache = new LruCache<>(10);
 
@@ -66,10 +70,11 @@ public final class ModelContract {
      * @param callback
      */
     public static void requestModel(@NonNull final Context context, @NonNull final ModelRequest request,
-                                    @NonNull Handler handler, @NonNull final ModelRequestCallback callback) {
+            @NonNull Handler handler, @NonNull final ModelRequestCallback callback) {
         final Handler callerThreadHandler = new Handler();
         final UpgradeModelResult cachedModel = sModelCache.get(request.getIdentifier());
         if (cachedModel != null) {
+            mLogger.debug("requestModel cached: " + cachedModel);
             callerThreadHandler.post(() -> callback.onModelRetrieved(cachedModel));
             return;
         }
@@ -80,12 +85,14 @@ public final class ModelContract {
             // 当拉取新模型过程中可能已经应用了新模型
             final UpgradeModelResult anotherCachedModel = sModelCache.get(request.getIdentifier());
             if (anotherCachedModel != null) {
+                mLogger.debug("requestModel cached after fetch: " + anotherCachedModel);
                 callerThreadHandler.post(() -> callback.onModelRetrieved(anotherCachedModel));
                 return;
             }
 
             if (ModelResult.STATUS_OK != result.getStatusCode()) {
-                callerThreadHandler.post(() -> callback.onModelRequestFailed(FAIL_REASON_MODEL_QUERY_ERROR, "result: " + result));
+                callerThreadHandler
+                        .post(() -> callback.onModelRequestFailed(FAIL_REASON_MODEL_QUERY_ERROR, "result: " + result));
                 return;
             } else {
                 final UpgradeModelResult model = result.getModel();
@@ -97,7 +104,8 @@ public final class ModelContract {
                 }
             }
 
-            callerThreadHandler.post(() -> callback.onModelRequestFailed(FAIL_REASON_MODEL_LOADER_ERROR, "result: " + result));
+            callerThreadHandler
+                    .post(() -> callback.onModelRequestFailed(FAIL_REASON_MODEL_LOADER_ERROR, "result: " + result));
 
         });
 
@@ -116,12 +124,14 @@ public final class ModelContract {
     public static ModelResult fetchModel(@NonNull Context context, @NonNull ModelRequest request) {
         Map<String, Object> bodyMap = buildBodyMap(request);
 
-        try (Response response = HttpManager.Companion.getInstance().performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
+        try (Response response = HttpManager.Companion.getInstance()
+                .performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
             mLogger.debug("fetchModel: " + request);
 
             if (!response.isSuccessful() || response.body() == null) {
                 mLogger.warn("performRequest failed: " + response.message());
-                return new ModelResult(ModelResult.STATUS_NETWORK_FAILED, "performRequest failed: " + response.message(), null);
+                return new ModelResult(ModelResult.STATUS_NETWORK_FAILED,
+                        "performRequest failed: " + response.message(), null);
             }
 
             String body = response.body().string();
@@ -132,7 +142,8 @@ public final class ModelContract {
 
             if (modelResponse.getCode() != 0) {
                 // 业务请求失败，直接返回
-                return new ModelResult(ModelResult.STATUS_UNEXPECTED_DATA, "Business response error: " + modelResponse, null);
+                return new ModelResult(ModelResult.STATUS_UNEXPECTED_DATA, "Business response error: " + modelResponse,
+                        null);
             }
 
             UpgradeModelResult model = modelResponse.getData();
@@ -156,8 +167,8 @@ public final class ModelContract {
      * @param model
      */
     private static void startDownloadAsync(@NonNull Context context,
-                                           @NonNull ModelRequest request,
-                                           @NonNull UpgradeModelResult model) {
+            @NonNull ModelRequest request,
+            @NonNull UpgradeModelResult model) {
         String modelDir = request.getCurrentModelOption().getModelDir();
 
         // 准备下载，设置zip下载路径。
@@ -184,22 +195,24 @@ public final class ModelContract {
         });
     }
 
-    private static void syncModelFiles(String modelDir, @NonNull UpgradeModelResult model, @NonNull Context context, String zipPath) {
+    private static void syncModelFiles(String modelDir, @NonNull UpgradeModelResult model, @NonNull Context context,
+            String zipPath) {
         // 模型归档目录名
-        String targetDir = versionNamedDir(modelDir, model.getVersionName());
+        String targetDirName = model.getVersionName();
+        String targetDirPath = modelDir + File.separator + targetDirName;
 
         // 解压zip包
-        boolean unpackOk = unpackDownloadZip(context, targetDir, model.getMd5(), zipPath);
+        boolean unpackOk = unpackDownloadZip(context, targetDirPath, model.getMd5(), zipPath);
 
         if (unpackOk) {
             // 解压成功，清理目录下文件缓存旧版本文件 TODO
-            doModelDirCleanExclude(FileUtils.getFilesDir(context), modelDir, targetDir);
+            doModelDirCleanExclude(FileUtils.getFilesDir(context), modelDir, targetDirName);
 
             // 检验文件完整性
-            boolean validOk = validDownload(context, targetDir);
+            boolean validOk = validDownload(context, targetDirPath);
             mLogger.debug("valid result: " + validOk);
             if (!validOk) {
-                doModelDirClean(FileUtils.getFilesDir(context), modelDir, targetDir);
+                doModelDirClean(FileUtils.getFilesDir(context), modelDir, targetDirName);
             }
         }
     }
@@ -213,7 +226,8 @@ public final class ModelContract {
      * @param zipPath
      * @return
      */
-    private static boolean unpackDownloadZip(@NonNull Context context, @NonNull String targetDir, String md5, String zipPath) {
+    private static boolean unpackDownloadZip(@NonNull Context context, @NonNull String targetDir, String md5,
+            String zipPath) {
         String zipSign = MD5Util.md5sum(zipPath);
         mLogger.debug("fetchModel zipSign : " + zipSign + " sign: " + md5);
 
@@ -225,7 +239,8 @@ public final class ModelContract {
         return false;
     }
 
-    private static void downloadModel(@NonNull Context context, UpgradeModelResult model, String zipPath, DownloadRequest.OnProgressListener onProgressListener) {
+    private static void downloadModel(@NonNull Context context, UpgradeModelResult model, String zipPath,
+            DownloadRequest.OnProgressListener onProgressListener) {
         final DownloadRequest req = new DownloadRequest(context, model.getUrl());
 
         mLogger.debug("prepareDestination: " + zipPath);
@@ -259,7 +274,7 @@ public final class ModelContract {
      */
     private static void doModelDirCleanExclude(String rootPath, String modelDir, String exceptDir) {
         try {
-            File rootDir = new File(rootPath);
+            File rootDir = new File(rootPath + File.separator + modelDir);
             if (rootDir.exists() && rootDir.isDirectory()) {
                 File[] subDirs = rootDir.listFiles();
                 if (subDirs == null) {
@@ -272,7 +287,7 @@ public final class ModelContract {
                     }
 
                     String fileName = file.getName();
-                    if (fileName.startsWith(modelDir) && compareVersion(fileName, exceptDir) < 0) {
+                    if (compareVersion(fileName, exceptDir) < 0) {
                         // 对老版本的目录进行清理
                         File[] subFiles = file.listFiles();
                         if (subFiles == null) {
@@ -280,7 +295,9 @@ public final class ModelContract {
                         }
                         for (File f : subFiles) {
                             boolean result = f.delete();
-                            mLogger.debug("deleteDirsExcept delete model file and config file: " + f.getName() + " result: " + result);
+                            mLogger.debug(
+                                    "deleteDirsExcept delete model file and config file: " + f.getName() + " result: "
+                                            + result);
                         }
                         boolean result = file.delete();
                         mLogger.debug("deleteDirsExcept delete model dir: " + fileName + " result: " + result);
@@ -295,7 +312,7 @@ public final class ModelContract {
 
     private static void doModelDirClean(String rootPath, String modelDir, String targetDir) {
         try {
-            File rootDir = new File(rootPath);
+            File rootDir = new File(rootPath + File.separator + modelDir);
             if (rootDir.exists() && rootDir.isDirectory()) {
                 File[] subDirs = rootDir.listFiles();
                 if (subDirs == null) {
@@ -308,7 +325,7 @@ public final class ModelContract {
                     }
 
                     String fileName = file.getName();
-                    if (fileName.startsWith(modelDir) && compareVersion(fileName, targetDir) == 0) {
+                    if (compareVersion(fileName, targetDir) == 0) {
                         // 对老版本的目录进行清理
                         File[] subFiles = file.listFiles();
                         if (subFiles == null) {
@@ -316,7 +333,9 @@ public final class ModelContract {
                         }
                         for (File f : subFiles) {
                             boolean result = f.delete();
-                            mLogger.debug("doModelDirClean delete model file and config file: " + f.getName() + " result: " + result);
+                            mLogger.debug(
+                                    "doModelDirClean delete model file and config file: " + f.getName() + " result: "
+                                            + result);
                         }
                         boolean result = file.delete();
                         mLogger.debug("doModelDirClean delete model dir: " + fileName + " result: " + result);
@@ -351,16 +370,19 @@ public final class ModelContract {
     }
 
     private static String prepareDestination(Context context, String modelDir, String version) {
-        return FileUtils.getFilesDir(context) + File.separator + modelDir + "_" + version + ".zip";
+        File modelRootDir = new File(FileUtils.getFilesDir(context) + File.separator + modelDir);
+        if (!modelRootDir.exists()) {
+            modelRootDir.mkdirs();
+        }
+        return modelRootDir.getAbsolutePath() + File.separator + modelDir + "_" + version
+                + ".zip";
     }
 
     /**
      * @param modelDir
      * @param version
      * @return
-     * @TODO 下载模型应该按照模型名归档，按版本子目录区分，而不是都放在根目录平级处理，待优化
      */
-    @Deprecated
     private static String versionNamedDir(String modelDir, String version) {
         return modelDir + "_" + version;
     }
@@ -383,7 +405,8 @@ public final class ModelContract {
         return false;
     }
 
-    private static boolean hasValidDownloadModel(@NonNull Context context, @NonNull ModelOption downloadModelOption, @NonNull String loadModelDir) {
+    private static boolean hasValidDownloadModel(@NonNull Context context, @NonNull ModelOption downloadModelOption,
+            @NonNull String loadModelDir) {
         String modelPath = FileUtils.getFilesDir(context) + File.separator + loadModelDir;
         File modelDir = new File(modelPath);
         if (modelDir.exists() && modelDir.isDirectory()) {
@@ -403,7 +426,8 @@ public final class ModelContract {
     }
 
     private static ModelOption readDownloadConfig(@NonNull Context context, @NonNull String modelDir) {
-        String configPath = FileUtils.getFilesDir(context) + File.separator + modelDir + File.separator + "model.config";
+        String configPath =
+                FileUtils.getFilesDir(context) + File.separator + modelDir + File.separator + "model.config";
         if (FileUtils.isExist(configPath)) {
             String config = FileUtils.readString(configPath);
             if (config != null) {
@@ -414,7 +438,8 @@ public final class ModelContract {
     }
 
     private static boolean hasDownloadConfig(@NonNull Context context, @NonNull String loadModelDir) {
-        String configPath = FileUtils.getFilesDir(context) + File.separator + loadModelDir + File.separator + "model.config";
+        String configPath =
+                FileUtils.getFilesDir(context) + File.separator + loadModelDir + File.separator + "model.config";
         if (FileUtils.isExist(configPath)) {
             return true;
         }
@@ -443,7 +468,7 @@ public final class ModelContract {
          * @hide
          */
         @IntDef({STATUS_OK, STATUS_NETWORK_FAILED,
-                STATUS_UNEXPECTED_DATA, STATUS_DOWNLOADING})
+                 STATUS_UNEXPECTED_DATA, STATUS_DOWNLOADING})
         @Retention(RetentionPolicy.SOURCE)
         @interface ModelResultStatus {
         }
@@ -495,7 +520,7 @@ public final class ModelContract {
          * @hide
          */
         @IntDef({FAIL_REASON_PROVIDER_NOT_FOUND, FAIL_REASON_WRONG_CERTIFICATES,
-                FAIL_REASON_MODEL_QUERY_ERROR, FAIL_REASON_MODEL_LOADER_ERROR})
+                 FAIL_REASON_MODEL_QUERY_ERROR, FAIL_REASON_MODEL_LOADER_ERROR})
         @Retention(RetentionPolicy.SOURCE)
         @interface ModelRequestFailReason {
         }

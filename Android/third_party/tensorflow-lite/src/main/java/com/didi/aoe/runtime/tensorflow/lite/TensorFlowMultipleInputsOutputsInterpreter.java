@@ -53,9 +53,7 @@ public abstract class TensorFlowMultipleInputsOutputsInterpreter<TInput, TOutput
         String modelSource = modelOptions.getModelSource();
         ByteBuffer bb = null;
         if (ModelSource.CLOUD.equals(modelSource)) {
-            String modelFilePath =
-                    modelOptions.getModelDir() + "_" + modelOptions.getVersion() + File.separator + modelOptions
-                            .getModelName();
+            String modelFilePath = modelOptions.getModelDir() + File.separator + modelOptions.getVersion() + File.separator + modelOptions.getModelName();
             File modelFile = new File(FileUtils.getFilesDir(context), modelFilePath);
             if (modelFile.exists()) {
                 try {
