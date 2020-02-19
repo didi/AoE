@@ -1,8 +1,23 @@
+/*
+ * Copyright 2019-2020 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.didi.aoe.features.squeeze
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.didi.aoe.features.squeeze.extension.SqueezeModelOption
 import com.didi.aoe.library.api.AoeModelOption
 import com.didi.aoe.library.api.AoeProcessor
 import com.didi.aoe.library.api.StatusCode
@@ -26,6 +41,7 @@ class SqueezeInterpreter :
             LoggerFactory.getLogger("SqueezeInterpreter")
     private var squeeze: Interpreter? = null
     private val lableList = mutableListOf<String?>()
+
     override fun init(context: Context,
             interpreterOptions: AoeProcessor.InterpreterComponent.Options?,
             modelOptions: List<AoeModelOption>,
@@ -34,32 +50,27 @@ class SqueezeInterpreter :
             listener?.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED))
             return
         }
-        // 这是后处理用的Label
+        // 从assets读取后处理用的Label, TODO 根据下发的文件动态读取
         readLableFileOnce(context, "squeeze/synset_words.txt")
         // 加载模型
         val option = modelOptions[0]
-        if (option is SqueezeModelOption) {
-            val modelOption = option
-            val ncnnOptions =
-                    Interpreter.Options()
-            if (interpreterOptions != null) {
-                ncnnOptions.setNumberThreads(interpreterOptions.numThreads)
-            }
-            squeeze = Interpreter(ncnnOptions)
-            squeeze!!.loadModelAndParam(context.assets, option.getModelDir(),
-                    modelOption.modelFileName, modelOption.modelParamFileName,
-                    1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX)
-            if (listener != null) {
-                if (squeeze!!.isLoadModelSuccess) {
-                    mLogger.debug("model loaded success")
-                    listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK))
-                } else {
-                    listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED))
-                }
-            }
-            return
+        val ncnnOptions = Interpreter.Options()
+        if (interpreterOptions != null) {
+            ncnnOptions.setNumberThreads(interpreterOptions.numThreads)
         }
-        listener?.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_INNER_ERROR))
+        squeeze = Interpreter(ncnnOptions)
+        // TODO param文件通过下发动态读取
+        squeeze!!.loadModelAndParam(context.assets, option.getModelDir(),
+                option.modelName, "squeezenet_v1.1.param.bin",
+                1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX)
+        if (listener != null) {
+            if (squeeze!!.isLoadModelSuccess) {
+                mLogger.debug("model loaded success")
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK))
+            } else {
+                listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_MODEL_LOAD_FAILED))
+            }
+        }
     }
 
     override fun run(input: Bitmap): String? {

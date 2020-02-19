@@ -274,9 +274,9 @@ class AoeClient {
         var parcelerClassName: String? = null
             private set
         /**
-         * 使用独立进程进行模型加载和推理, 默认true
+         * 使用独立进程进行模型加载和推理, 默认false
          */
-        var isUseRemoteService = true
+        var isUseRemoteService = false
             private set
         /**
          * 当[.useRemoteService] = false 时，优先应用 interpreter 实例，当未指定时，使用interpreterClassName构造

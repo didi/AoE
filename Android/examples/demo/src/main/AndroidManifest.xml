@@ -6,13 +6,17 @@
     <!--PyTorch 最低支持版本21-->
     <uses-sdk tools:overrideLibrary="org.pytorch.torchvision, org.pytorch, com.facebook.fbjni" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".ShowcaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup">
         <activity
             android:name=".ShowcaseActivity"
             android:configChanges="orientation"
@@ -30,8 +34,5 @@
             android:value="rKI7jdKU3CpyBQ" />
 
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

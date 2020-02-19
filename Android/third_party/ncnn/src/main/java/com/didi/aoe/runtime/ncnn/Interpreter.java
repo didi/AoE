@@ -30,8 +30,8 @@ public final class Interpreter {
     }
 
     public void loadModelAndParam(AssetManager assetManager, String folderName, String modelName,
-                                  String paramName, int inputCount, int outputCount,
-                                  int inputBlobIndex, int outputBlobIndex) {
+            String paramName, int inputCount, int outputCount,
+            int inputBlobIndex, int outputBlobIndex) {
         nativeInterpreterWrapper.loadModelAndParam(assetManager, folderName, modelName, paramName,
                 inputCount, outputCount, inputBlobIndex, outputBlobIndex);
     }

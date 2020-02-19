@@ -26,9 +26,9 @@ import android.widget.TextView
 import com.didi.aoe.examples.demo.R
 import com.didi.aoe.extensions.support.image.AoeSupport
 import com.didi.aoe.features.squeeze.SqueezeInterpreter
-import com.didi.aoe.features.squeeze.extension.SqueezeModelLoaderImpl
 import com.didi.aoe.library.api.domain.Device
 import com.didi.aoe.library.core.AoeClient
+import com.didi.aoe.library.service.AoeModelOptionLoader
 import com.noctis.cameraview.frame.Frame
 import com.noctis.cameraview.size.Size
 import java.nio.ByteBuffer
@@ -44,7 +44,7 @@ class SqueezeInference(context: Context, device: Device, numThreads: Int) : Infe
     private var viewHolder: SqueezeViewHolder? = null
     private val aoeClient = AoeClient(context, "squeeze",
             AoeClient.Options()
-                    .setModelOptionLoader(SqueezeModelLoaderImpl::class.java)
+                    .setModelOptionLoader(AoeModelOptionLoader::class.java)
                     .setInterpreter(SqueezeInterpreter::class.java)
                     .setThreadNum(numThreads)
                     .useRemoteService(false),

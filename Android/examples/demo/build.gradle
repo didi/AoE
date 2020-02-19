@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-apply from: rootProject.file('gradle/download.gradle')
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -48,7 +47,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.navigation:navigation-fragment:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment:2.2.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -58,14 +57,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
 
-    implementation ("com.noctis:camera-view:1.0.0") {
-        exclude group:'com.didi.aoe', module: 'library-logging'
-    }
-    implementation ("com.noctis:camera-view-common:1.0.0") {
-        exclude group:'com.didi.aoe', module: 'library-logging'
-    }
+    implementation 'com.noctis:camera-view:1.0.0'
+    implementation 'com.noctis:camera-view-common:1.0.0'
 
-    implementation deps.aoe.library.core
     implementation deps.aoe.library.service
 
     implementation deps.aoe.runtime.tensorflow
@@ -73,16 +67,13 @@ dependencies {
     implementation deps.aoe.runtime.mnn
     implementation deps.aoe.runtime.ncnn
 
-
-    implementation deps.gson
-
-    implementation deps.kotlin
-
-    implementation ("com.didi.aoe:extensions-support:1.1.1.1") {
-        exclude group:'com.didi.aoe', module: 'library-logging'
-    }
-
     implementation deps.aoe.extensions.tensorflow
     implementation deps.aoe.extensions.pytorch
+
+    implementation 'com.didi.aoe:extensions-support:1.1.1.1'
+
+
+    implementation deps.gson
+    implementation deps.kotlin
 
 }

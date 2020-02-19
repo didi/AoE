@@ -50,7 +50,10 @@ class AoeModelOptionLoader() : ModelOptionLoaderComponent {
         val downloadOption = readDownloadConfig(context, getTopVersionModelDir(context, modelDir))
         val suggestedModelOption = calculateSuggestedModelOption(internalOption, downloadOption)
         upgradeIfNeeded(context, suggestedModelOption)
-        return (suggestedModelOption)!!
+        if (suggestedModelOption == null) {
+            throw AoeIOException("ModelOption not found.")
+        }
+        return suggestedModelOption
     }
 
     /**
@@ -120,8 +123,7 @@ class AoeModelOptionLoader() : ModelOptionLoaderComponent {
         mLogger.debug("readInternalConfig: $modelDir")
         var config: String? = null
         try {
-            config = readString(context.assets.open(
-                    modelDir + File.separator + CONFIG_FILE_NAME))
+            config = readString(context.assets.open(modelDir + File.separator + CONFIG_FILE_NAME))
         } catch (e: Exception) {
             mLogger.error("readInternalConfig failed:", e)
         }

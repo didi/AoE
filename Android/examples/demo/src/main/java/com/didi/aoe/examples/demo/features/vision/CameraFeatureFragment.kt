@@ -43,6 +43,25 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
     protected var currentModel = Model.NCNN_SQUEEZE
     protected var currentNumThreads = 1
 
+    private val mBottomSheetBehavior = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            when (newState) {
+                in arrayOf(BottomSheetBehavior.STATE_SETTLING,
+                        BottomSheetBehavior.STATE_COLLAPSED) -> bottom_sheet_arrow.setImageResource(
+                        R.drawable.ic_arrow_drop_up_black_24dp)
+                BottomSheetBehavior.STATE_EXPANDED -> bottom_sheet_arrow.setImageResource(
+                        R.drawable.ic_arrow_drop_down_black_24dp)
+                else -> {
+                }
+
+            }
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,24 +78,7 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
         })
         gesture_layout.setOnClickListener(this)
         sheetBehavior.isHideable = false
-        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    in arrayOf(BottomSheetBehavior.STATE_SETTLING,
-                            BottomSheetBehavior.STATE_COLLAPSED) -> bottom_sheet_arrow.setImageResource(
-                            R.drawable.ic_arrow_drop_up_black_24dp)
-                    BottomSheetBehavior.STATE_EXPANDED -> bottom_sheet_arrow.setImageResource(
-                            R.drawable.ic_arrow_drop_down_black_24dp)
-                    else -> {
-                    }
-
-                }
-            }
-        })
+        sheetBehavior.addBottomSheetCallback(mBottomSheetBehavior)
 
         currentNumThreads = threads.text.trim().toString().toInt()
         minus.setOnClickListener(this)
@@ -84,6 +86,11 @@ abstract class CameraFeatureFragment : CameraFragment(), View.OnClickListener, A
 
         model_spinner.onItemSelectedListener = this
         device_spinner.onItemSelectedListener = this
+    }
+
+    override fun onDestroyView() {
+        sheetBehavior.removeBottomSheetCallback(mBottomSheetBehavior)
+        super.onDestroyView()
     }
 
     protected abstract fun onInferenceConfigurationChanged()

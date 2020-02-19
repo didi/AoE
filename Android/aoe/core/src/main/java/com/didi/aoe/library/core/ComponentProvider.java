@@ -30,8 +30,8 @@ final class ComponentProvider {
 
     @SuppressWarnings("unchecked")
     synchronized private static <T> void cacheServiceIfNeeded(String clzName,
-                                                              @NonNull Class<T> clz,
-                                                              @NonNull Map<String, T> cacheServices) {
+            @NonNull Class<T> clz,
+            @NonNull Map<String, T> cacheServices) {
         if (clzName == null || cacheServices.containsKey(clzName)) {
             // 当前实例已缓存或未指定，直接返回。
             return;
@@ -40,7 +40,8 @@ final class ComponentProvider {
             Class serviceCls = Class.forName(clzName);
             Object service = serviceCls.newInstance();
             if (!clz.isAssignableFrom(service.getClass())) {
-                throw new AoeRuntimeException(service.getClass().getName() + " you registered is not an instance of " + clz.getName());
+                throw new AoeRuntimeException(
+                        service.getClass().getName() + " you registered is not an instance of " + clz.getName());
             }
             cacheServices.put(clzName, (T) service);
         } catch (Exception e) {
