@@ -24,6 +24,12 @@ JNIEXPORT void JNICALL
 NCNNJNI_METHOD(delete)(JNIEnv *env, jclass clazz, jlong interpreterHandle);
 
 JNIEXPORT jboolean JNICALL
+NCNNJNI_METHOD(loadModel)(JNIEnv *env, jclass clazz, jstring filePath, jlong interpreterHandle);
+
+JNIEXPORT jboolean JNICALL
+NCNNJNI_METHOD(loadParam)(JNIEnv *env, jclass clazz, jstring filePath, jlong interpreterHandle);
+
+JNIEXPORT jboolean JNICALL
 NCNNJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetManager,
                                     jstring folderName, jstring fileName, jlong interpreterHandle);
 

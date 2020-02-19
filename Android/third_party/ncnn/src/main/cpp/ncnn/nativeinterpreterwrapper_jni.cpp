@@ -42,6 +42,22 @@ NCNNJNI_METHOD(createInterpreter)(JNIEnv *env, jclass clazz, jboolean lightMode,
 }
 
 JNIEXPORT jboolean JNICALL
+NCNNJNI_METHOD(loadModel)(JNIEnv *env, jclass clazz, jstring aFilePath, jlong interpreterHandle) {
+    const char *filePath = env->GetStringUTFChars(aFilePath, 0);
+    InterpreterHandler *interpreter = getInterpreter(env, interpreterHandle);
+    const int model_ret = interpreter->mNet.load_model(filePath);
+    return (model_ret > 0);
+}
+
+JNIEXPORT jboolean JNICALL
+NCNNJNI_METHOD(loadParam)(JNIEnv *env, jclass clazz, jstring aFilePath, jlong interpreterHandle) {
+    const char *filePath = env->GetStringUTFChars(aFilePath, 0);
+    InterpreterHandler *interpreter = getInterpreter(env, interpreterHandle);
+    const int model_ret = interpreter->mNet.load_param(filePath);
+    return (model_ret > 0);
+}
+
+JNIEXPORT jboolean JNICALL
 NCNNJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetManager,
                                     jstring aFolderName, jstring aFileName,
                                     jlong interpreterHandle) {

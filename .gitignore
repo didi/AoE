@@ -78,7 +78,6 @@ captures/
 
 *.bin
 *.tflite
-*.config
 *.param
 
 #assets

@@ -21,11 +21,15 @@ import android.graphics.Bitmap
 import com.didi.aoe.library.api.AoeModelOption
 import com.didi.aoe.library.api.AoeProcessor
 import com.didi.aoe.library.api.StatusCode
+import com.didi.aoe.library.api.domain.ModelSource
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener
+import com.didi.aoe.library.common.util.FileUtils.getFilesDir
 import com.didi.aoe.library.logging.LoggerFactory
+import com.didi.aoe.library.service.pojos.ModelOption
 import com.didi.aoe.runtime.ncnn.Interpreter
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -59,12 +63,23 @@ class SqueezeInterpreter :
             ncnnOptions.setNumberThreads(interpreterOptions.numThreads)
         }
         squeeze = Interpreter(ncnnOptions)
-        // TODO param文件通过下发动态读取
-        squeeze!!.loadModelAndParam(context.assets, option.getModelDir(),
-                option.modelName, "squeezenet_v1.1.param.bin",
-                1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX)
+
+        if (option is ModelOption && option.modelSource == ModelSource.CLOUD) {
+            val modelDir = option.modelDir + File.separator + option.version
+            val modelFile = File(getFilesDir(context), modelDir + File.separator + option.modelName)
+            val paramFile = File(getFilesDir(context), modelDir + File.separator + "squeezenet_v1.1.param.bin")
+            if (modelFile.exists() && paramFile.exists()) {
+                squeeze?.loadModelAndParam(modelFile.absolutePath, paramFile.absolutePath,
+                        1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX)
+            }
+        } else {
+            squeeze?.loadModelAndParam(context.assets, option.getModelDir(),
+                    option.modelName, "squeezenet_v1.1.param.bin",
+                    1, 1, INPUT_BLOB_INDEX, OUTPUT_BLOB_INDEX)
+        }
+
         if (listener != null) {
-            if (squeeze!!.isLoadModelSuccess) {
+            if (squeeze != null && squeeze!!.isLoadModelSuccess) {
                 mLogger.debug("model loaded success")
                 listener.onInitResult(InterpreterInitResult.create(StatusCode.STATUS_OK))
             } else {

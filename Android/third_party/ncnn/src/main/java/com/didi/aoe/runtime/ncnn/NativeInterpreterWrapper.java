@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019-2020 The AoE Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.didi.aoe.runtime.ncnn;
 
 import android.content.res.AssetManager;
@@ -26,22 +42,32 @@ class NativeInterpreterWrapper {
         interpreterHandle = createInterpreter(options.lightMode, options.numThreads);
     }
 
-
-    void loadModelAndParam(AssetManager assetManager, String path, String modelName, String paramName,
-                           int inputCount, int outputCount, int inputBlobIndex, int outputBlobIndex) {
-        loadModelSuccess = loadParamFromAssets(assetManager, path, paramName, interpreterHandle);
-        loadModelSuccess = loadModelFromAssets(assetManager, path, modelName, interpreterHandle);
+    void loadModelAndParam(String modelPath, String paramPath,
+            int inputCount, int outputCount, int inputBlobIndex, int outputBlobIndex) {
+        loadModelSuccess = loadParam(paramPath, interpreterHandle);
+        loadModelSuccess &= loadModel(modelPath, interpreterHandle);
 
         checkInitTensors(inputCount, outputCount);
         setBlobIndex(inputBlobIndex, outputBlobIndex, interpreterHandle);
     }
 
-    void inputRgba(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] meanVals, float[] normVals, int inputIndex) {
+    void loadModelAndParam(AssetManager assetManager, String path, String modelName, String paramName,
+            int inputCount, int outputCount, int inputBlobIndex, int outputBlobIndex) {
+        loadModelSuccess = loadParamFromAssets(assetManager, path, paramName, interpreterHandle);
+        loadModelSuccess &= loadModelFromAssets(assetManager, path, modelName, interpreterHandle);
+
+        checkInitTensors(inputCount, outputCount);
+        setBlobIndex(inputBlobIndex, outputBlobIndex, interpreterHandle);
+    }
+
+    void inputRgba(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] meanVals,
+            float[] normVals, int inputIndex) {
         if (inputIndex >= inputTensors.length) {
             throw new IllegalArgumentException("Input error: Inputs index should small than max.");
         }
 
-        inputRgba(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, meanVals, normVals, interpreterHandle, getInputTensor(inputIndex).getNativeHandle());
+        inputRgba(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, meanVals, normVals, interpreterHandle,
+                getInputTensor(inputIndex).getNativeHandle());
         dataInputed = true;
     }
 
@@ -168,9 +194,15 @@ class NativeInterpreterWrapper {
 
     private static native long createInterpreter(boolean lightMode, int numThreads);
 
-    private static native boolean loadModelFromAssets(AssetManager assetManager, String folderName, String fileName, long interpreterHandle);
+    private static native boolean loadModel(String filePath, long interpreterHandle);
 
-    private static native boolean loadParamFromAssets(AssetManager assetManager, String folderName, String fileName, long interpreterHandle);
+    private static native boolean loadParam(String filePath, long interpreterHandle);
+
+    private static native boolean loadModelFromAssets(AssetManager assetManager, String folderName, String fileName,
+            long interpreterHandle);
+
+    private static native boolean loadParamFromAssets(AssetManager assetManager, String folderName, String fileName,
+            long interpreterHandle);
 
     private static native void setBlobIndex(int inputBlobIndex, int outputBlobIndex, long interpreterHandle);
 
@@ -178,7 +210,8 @@ class NativeInterpreterWrapper {
 
     private static native int getOutputCount(long interpreterHandle);
 
-    private static native void inputRgba(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] meanVals, float[] normVals, long interpreterHandle, long tensorHandle);
+    private static native void inputRgba(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight,
+            float[] meanVals, float[] normVals, long interpreterHandle, long tensorHandle);
 
     private static native long allocateTensors(long interpreterHandle, int inputCount, int outputCount);
 
