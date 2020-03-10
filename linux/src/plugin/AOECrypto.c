@@ -43,6 +43,7 @@ int AOECrypto_decryptAoeFile_cbc(const char *srcFile, const char *dstFile, const
         FILE *filewrite = fopen(dstFile, "w+");
         if (NULL == filewrite)
         {
+            fclose(inputFile);
             return -1;
         }
 
@@ -135,6 +136,7 @@ int AOECrypto_decryptAoeFile_cbc_mem(const char *srcFile, char **dstMem, const c
         char *response = (char *)malloc(fileOrgLengh);
         if (NULL == response)
         {
+            fclose(inputFile);
             return -1;
         }
 
@@ -212,6 +214,7 @@ int AOECrypto_encryptAoeFile_Version1(const char *srcFile, const char *dstFile)
     FILE *filewrite = fopen(dstFile, "w+");
     if (NULL == filewrite)
     {
+        fclose(file);
         return -1;
     }
 
