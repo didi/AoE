@@ -26,6 +26,8 @@ import com.didi.aoe.library.api.StatusCode
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult
 import com.didi.aoe.library.api.interpreter.InterpreterInitResult.Companion.create
 import com.didi.aoe.library.api.interpreter.OnInterpreterInitListener
+import com.didi.aoe.library.common.stat.PerformanceDataManager
+import com.didi.aoe.library.common.stat.PerformanceMetrics
 import com.didi.aoe.library.common.stat.StatInfo
 import com.didi.aoe.library.common.stat.TimeStat.Companion.getCostTime
 import com.didi.aoe.library.common.stat.TimeStat.Companion.setEnd
@@ -45,8 +47,10 @@ class AoeClient {
 
     private val mContext: Context
     private var mClientId: String
+
     // AoE 执行器
     private val mProcessor: AoeProcessor
+
     // Client 配置信息
     private val mOptions: Options
 
@@ -55,6 +59,7 @@ class AoeClient {
 
     // 模型assets目录地址
     private val mModelDirs: Array<out String>
+
     // 模型配置信息
     private val mModelOptions: MutableList<AoeModelOption> = ArrayList()
 
@@ -139,6 +144,16 @@ class AoeClient {
     fun init(listener: OnInitListener?) {
         mLogger.debug("[init]")
         initInternal(listener)
+
+        if (!mOptions.performanceMetrics.isNullOrEmpty()) {
+            PerformanceDataManager.getInstance().init(mContext)
+            if (mOptions.performanceMetrics!!.contains(PerformanceMetrics.CPU)) {
+                PerformanceDataManager.getInstance().startMonitorCPUInfo()
+            }
+            if (mOptions.performanceMetrics!!.contains(PerformanceMetrics.MEMERY)) {
+                PerformanceDataManager.getInstance().startMonitorMemoryInfo()
+            }
+        }
     }
 
     @Throws(AoeIOException::class)
@@ -246,6 +261,7 @@ class AoeClient {
     fun release() {
         mLogger.debug("[release]")
         mProcessor.interpreterComponent.release()
+        PerformanceDataManager.getInstance().destroy()
     }
 
     /**
@@ -255,7 +271,10 @@ class AoeClient {
      */
     fun acquireLatestStatInfo(): StatInfo {
         return StatInfo(
-                getCostTime(generalClientKey("process"))
+                getCostTime(generalClientKey("process")),
+                cpuRate = PerformanceDataManager.getInstance().lastCpuRate,
+                memoryInfo = PerformanceDataManager.getInstance().lastMemoryInfo,
+                maxMemory = PerformanceDataManager.getInstance().maxMemory
         )
     }
 
@@ -273,18 +292,27 @@ class AoeClient {
             private set
         var parcelerClassName: String? = null
             private set
+
         /**
          * 使用独立进程进行模型加载和推理, 默认false
          */
         var isUseRemoteService = false
             private set
+
         /**
          * 当[.useRemoteService] = false 时，优先应用 interpreter 实例，当未指定时，使用interpreterClassName构造
          */
         var interpreter: InterpreterComponent<*, *>? = null
             private set
+
         @IntRange(from = 1, to = MAX_THREAD_NUM)
         var threadNum = 1
+            private set
+
+        /**
+         * 使用性能分析模式，统计CPU&内存
+         */
+        var performanceMetrics: Array<out PerformanceMetrics>? = null
             private set
 
         /**
@@ -329,6 +357,12 @@ class AoeClient {
          */
         fun useRemoteService(useRemoteService: Boolean): Options {
             isUseRemoteService = useRemoteService
+            return this
+        }
+
+
+        fun setPerformanceMetrics(vararg metrics: PerformanceMetrics): Options {
+            performanceMetrics = metrics
             return this
         }
 

@@ -119,4 +119,55 @@ object FileUtils {
         }
         return null
     }
+
+    // 将字符串写入到文本文件中 porting form https://github.com/didi/DoraemonKit/blob/master/Android/doraemonkit/src/main/java/com/didichuxing/doraemonkit/util/FileUtil.java
+    @JvmStatic
+    fun writeTxtToFile(strcontent: String, filePath: String, fileName: String) {
+        //生成文件夹之后，再生成文件，不然会出错
+        makeFilePath(filePath, fileName)
+        val strFilePath = filePath + fileName
+        // 每次写入时，都换行写
+        val strContent = "$strcontent\r\n"
+        try {
+            val file = File(strFilePath)
+            if (!file.exists()) {
+                mLogger.debug("Create the file:$strFilePath")
+                file.parentFile.mkdirs()
+                file.createNewFile()
+            }
+            val raf = RandomAccessFile(file, "rwd")
+            raf.seek(file.length())
+            raf.write(strContent.toByteArray())
+            raf.close()
+        } catch (e: java.lang.Exception) {
+            mLogger.debug("Error on write File:$e")
+        }
+    }
+
+    // 生成文件
+    private fun makeFilePath(filePath: String, fileName: String): File? {
+        var file: File? = null
+        makeRootDirectory(filePath)
+        try {
+            file = File(filePath + fileName)
+            if (!file.exists()) {
+                file.createNewFile()
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return file
+    }
+
+    // 生成文件夹
+    private fun makeRootDirectory(filePath: String) {
+        try {
+            val file = File(filePath)
+            if (!file.exists()) {
+                file.mkdir()
+            }
+        } catch (e: java.lang.Exception) {
+            mLogger.info("error:", e.toString() + "")
+        }
+    }
 }

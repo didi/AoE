@@ -14,6 +14,7 @@ import com.didi.aoe.features.mnist.MnistInterpreter;
 import com.didi.aoe.features.mnist.model.SketchModel;
 import com.didi.aoe.features.mnist.render.SketchRenderer;
 import com.didi.aoe.features.mnist.widget.SketchView;
+import com.didi.aoe.library.common.stat.PerformanceMetrics;
 import com.didi.aoe.library.core.AoeClient;
 import com.didi.aoe.library.service.AoeModelOptionLoader;
 
@@ -38,6 +39,7 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
                 new AoeClient.Options()
                         .setModelOptionLoader(AoeModelOptionLoader.class)
                         .setInterpreter(MnistInterpreter.class)
+                        .setPerformanceMetrics(PerformanceMetrics.CPU, PerformanceMetrics.MEMERY)
                         .useRemoteService(false),
                 "mnist");
         mClient.init(new AoeClient.OnInitListener() {
@@ -77,7 +79,7 @@ public class MnistFeatureFragment extends BaseFeartureFragment {
                 Object result = mClient.process(mSketchModel.getPixelData());
                 if (result instanceof Integer) {
                     int num = (int) result;
-                    Log.d(TAG, "num: " + num);
+                    Log.d(TAG, "num: " + num + ", " + mClient.acquireLatestStatInfo());
                     mResultTextView.post(
                             () -> mResultTextView.setText((num == -1) ? "Not recognized." : String.valueOf(num)));
                 }

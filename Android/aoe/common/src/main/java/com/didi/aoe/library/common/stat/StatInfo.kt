@@ -23,5 +23,12 @@ package com.didi.aoe.library.common.stat
  * @since 1.1.0
  */
 data class StatInfo @JvmOverloads constructor(
-        var timeCostInMills: Long = 0
-)
+        var timeCostInMills: Long = 0,
+        var cpuRate: Float = 0f,
+        var memoryInfo: Float = 0f,
+        var maxMemory: Float = 0f
+) {
+    override fun toString(): String {
+        return "StatInfo(timeCostInMills=$timeCostInMills, cpuRate=$cpuRate, memoryInfo=$memoryInfo, maxMemory=$maxMemory)"
+    }
+}
