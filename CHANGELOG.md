@@ -2,7 +2,19 @@
 
 ## [Unreleased](https://github.com/didi/AoE/tree/HEAD)
 
-[Full Changelog](https://github.com/didi/AoE/compare/1.1.0...HEAD)
+[Full Changelog](https://github.com/didi/AoE/compare/1.1.3...HEAD)
+
+**Closed issues:**
+
+- Resource Leak [\#27](https://github.com/didi/AoE/issues/27)
+
+**Merged pull requests:**
+
+- Bump nokogiri from 1.10.4 to 1.10.8 in /docs [\#26](https://github.com/didi/AoE/pull/26) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [1.1.3](https://github.com/didi/AoE/tree/1.1.3) (2020-01-16)
+
+[Full Changelog](https://github.com/didi/AoE/compare/1.1.0...1.1.3)
 
 **Implemented enhancements:**
 
