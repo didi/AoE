@@ -32,9 +32,9 @@ ext {
             aoe    : [
                     // aoe 核心库统一版本管理
                     library   : [
+                            common : isDebug() ? project(":library-common") : "com.didi.aoe:library-common:$aoe_version_name",
                             api    : isDebug() ? project(':library-api') : "com.didi.aoe:library-api:$aoe_version_name",
                             core   : isDebug() ? project(':library-core') : "com.didi.aoe:library-core:$aoe_version_name",
-                            common : isDebug() ? project(":library-common") : "com.didi.aoe:library-common:$aoe_version_name",
                             service: isDebug() ? project(':library-service') : "com.didi.aoe:library-service:$aoe_version_name",
                             logging: "com.didi.aoe:library-logging:1.1.3",
                     ],
