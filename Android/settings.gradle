@@ -10,6 +10,7 @@ module('runtime', 'tensorflow-lite')
 module('runtime', 'mnn')
 module('runtime', 'ncnn')
 module('runtime', 'pytorch')
+module('runtime', 'tengine')
 
 module('extensions', 'pytorch')
 module('extensions', 'tensorflow-lite')

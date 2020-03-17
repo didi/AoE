@@ -1,0 +1,66 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+ext {
+    releaseArtifact = 'runtime-tengine'
+    releaseDescription = 'The AoE Tengine runtime library'
+    releaseVersion = aoe_version_name
+}
+apply from: rootProject.file('gradle/release.gradle')
+
+android {
+    compileSdkVersion aoe_compile_sdk_version
+    defaultConfig {
+        minSdkVersion aoe_min_sdk_version
+        targetSdkVersion aoe_target_sdk_version
+        versionName releaseVersion
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang", '-DANDROID_STL=c++_shared'
+                cFlags "-fopenmp -O2 -fvisibility=hidden -fomit-frame-pointer -fstrict-aliasing -ffunction-sections -fdata-sections -ffast-math "
+                cppFlags "-fopenmp -O2 -fvisibility=hidden -fvisibility-inlines-hidden -fomit-frame-pointer -fstrict-aliasing -ffunction-sections -fdata-sections -ffast-math "
+                cppFlags ""
+                cppFlags "-std=c++11"
+                cppFlags "-frtti"
+                cppFlags "-fexceptions"
+            }
+        }
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation deps.support.annotation
+
+    implementation deps.aoe.library.api
+    implementation deps.aoe.library.logging
+
+    implementation deps.kotlin
+}
