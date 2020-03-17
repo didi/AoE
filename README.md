@@ -75,7 +75,7 @@
         <td>
         [ Android ] com.didi.aoe.runtime-tengine:1.1.4
         </td>
-        <td>20200317</td>
+        <td>1.12.0</td>
     </tr>
 </table>
 
