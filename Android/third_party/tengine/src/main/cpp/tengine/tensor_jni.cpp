@@ -39,8 +39,8 @@ NCNNJNI_METHOD2(delete)(JNIEnv *env, jclass clazz, jlong handle) {
 
 JNIEXPORT jint JNICALL
 NCNNJNI_METHOD2(inputRgbaResizeToBgr)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
-                                jint srcWidth, jint srcHeight, jint dstWidth, jint dstHeight,
-                                jfloatArray channelMeanVals, jlong handler) {
+                                      jint srcWidth, jint srcHeight, jint dstWidth, jint dstHeight,
+                                      jfloatArray channelMeanVals, jfloat scale, jlong handler) {
     TensorHandle *tensor = castToTensor(env, handler);
     int ret = tensor->checkBufferAndMalloc(sizeof(float) * dstHeight * dstWidth * 3);
     if (ret != 0) {
@@ -86,7 +86,8 @@ NCNNJNI_METHOD2(inputRgbaResizeToBgr)(JNIEnv *env, jclass clazz, jbyteArray rgba
             for (int h = 0; h < dstHeight; h++)
                 for (int w = 0; w < dstWidth; w++) {
                     // input_data为整个channel b  整个channel g 整个channel r
-                    input_data[c * hw + h * dstWidth + w] = (*img_data - meanValsElements[c]);
+                    input_data[c * hw + h * dstWidth + w] =
+                            (*img_data - meanValsElements[c]) * scale;
                     img_data++;
                 }
     }

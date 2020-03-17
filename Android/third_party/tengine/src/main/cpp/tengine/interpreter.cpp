@@ -22,7 +22,7 @@ TensorHandle *InterpreterHandler::getTensor(JNIEnv *env, long handle) {
 }
 
 InterpreterHandler::~InterpreterHandler() {
-    uint64_t size = inputs.size();
+    int size = inputs.size();
     for (int i = 0; i < size; i++) {
         delete (getTensor(NULL, inputs[i]));
         inputs[i] = 0;
@@ -46,9 +46,30 @@ int InterpreterHandler::loadTengineModel(const char *tengineModelPath) {
         return -1;
     }
 
-    LOGI("yangke run-time library version: %s ", get_tengine_version());
-    mInputCount = get_graph_input_node_number(graph);
-    mOutputCount = get_graph_output_node_number(graph);
+    updateInputOutputCount();
 
     return 0;
+}
+
+int InterpreterHandler::loadTengineModelMemory(const char *memory, const int size) {
+    graph = create_graph(nullptr, "tengine:m", memory, size);
+    if (NULL == graph) {
+        return -1;
+    }
+
+    updateInputOutputCount();
+
+    return 0;
+}
+
+void InterpreterHandler::updateInputOutputCount() {
+    int inputNodes = get_graph_input_node_number(graph);
+    for (int i = 0; i < inputNodes; i++) {
+        mInputCount += get_node_output_number(get_graph_input_node(graph, i));
+    }
+
+    int outputNodes = get_graph_output_node_number(graph);
+    for (int i = 0; i < outputNodes; i++) {
+        mOutputCount += get_node_output_number(get_graph_output_node(graph, i));
+    }
 }

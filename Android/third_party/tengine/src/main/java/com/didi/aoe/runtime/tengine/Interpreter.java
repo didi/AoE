@@ -1,7 +1,9 @@
 package com.didi.aoe.runtime.tengine;
 
-//import com.didi.aoe.library.logging.Logger;
-//import com.didi.aoe.library.logging.LoggerFactory;
+import android.content.res.AssetManager;
+
+import com.didi.aoe.library.logging.Logger;
+import com.didi.aoe.library.logging.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,14 +12,14 @@ import java.util.Map;
  * @author fire9953@gmail.com
  */
 public final class Interpreter {
-//    private static final Logger mLogger = LoggerFactory.getLogger("TengineInterpreter");
+    private static final Logger mLogger = LoggerFactory.getLogger("TengineInterpreter");
 
     static {
         try {
             System.loadLibrary("aoe_tengine");
-//            mLogger.debug("Init success");
+            mLogger.debug("Load aoe_tengine lib success");
         } catch (UnsatisfiedLinkError e) {
-//            mLogger.info("library not found!");
+            mLogger.info("Error, aoe_tengine library not found!");
         }
     }
 
@@ -27,14 +29,21 @@ public final class Interpreter {
         nativeInterpreterWrapper = new NativeInterpreterWrapper();
     }
 
+    public String getTengineVersion() {
+        return nativeInterpreterWrapper.getTengineVersion();
+    }
+
     public void loadTengineModelFromPath(String modelPath) {
         nativeInterpreterWrapper.loadTengineModelFromPath(modelPath);
+    }
 
+    public void loadModelFromAssets(AssetManager assetManager, String folderName, String fileName) {
+        nativeInterpreterWrapper.loadModelFromAssets(assetManager, folderName, fileName);
     }
 
     public void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-                                     float[] channelMeanVals, int inputIndex) {
-        nativeInterpreterWrapper.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, inputIndex);
+            float[] channelMeanVals, float scale, int inputIndex) {
+        nativeInterpreterWrapper.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale, inputIndex);
     }
 
     /**

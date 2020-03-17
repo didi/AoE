@@ -21,6 +21,7 @@ public:
     TensorHandle *getTensor(JNIEnv *env, long handle);
 
     int loadTengineModel(const char *tengineModelPath);
+    int loadTengineModelMemory(const char *memory, const int size);
 
     inline int getInputCount() {
         return mInputCount;
@@ -33,6 +34,9 @@ public:
     inline graph_t getGraph() const {
         return graph;
     }
+
+private:
+    void updateInputOutputCount();
 
 public:
     std::vector<long> inputs;

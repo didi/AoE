@@ -1,5 +1,7 @@
 package com.didi.aoe.runtime.tengine;
 
+import android.content.res.AssetManager;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -20,8 +22,19 @@ class NativeInterpreterWrapper {
         interpreterHandle = createInterpreter();
     }
 
+    String getTengineVersion(){
+        return getTengineVersion(interpreterHandle);
+    }
+
     void loadTengineModelFromPath(String tengineModelPath) {
         loadModelSuccess = loadTengineModelFromPath(tengineModelPath, interpreterHandle);
+        if (loadModelSuccess) {
+            initTensors();
+        }
+    }
+
+    void loadModelFromAssets(AssetManager assetManager, String folderName, String fileName) {
+        loadModelSuccess = loadModelFromAssets(assetManager, folderName, fileName, interpreterHandle);
         if (loadModelSuccess) {
             initTensors();
         }
@@ -39,13 +52,13 @@ class NativeInterpreterWrapper {
         tensorAllocated = true;
     }
 
-    void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, int inputIndex) {
+    void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, float scale, int inputIndex) {
         if (inputIndex >= inputTensors.length) {
             throw new IllegalArgumentException("Input error: Inputs index should small than max.");
         }
 
         Tensor tensor = getInputTensor(inputIndex);
-        tensor.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals);
+        tensor.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale);
         dataInputed = true;
     }
 
@@ -156,6 +169,10 @@ class NativeInterpreterWrapper {
     private static native long createInterpreter();
 
     private static native boolean loadTengineModelFromPath(String tengineModelPath, long interpreterHandle);
+
+    private static native boolean loadModelFromAssets(AssetManager assetManager, String folderName, String fileName, long interpreterHandle);
+
+    private static native String getTengineVersion(long interpreterHandle);
 
     private static native int getInputCount(long interpreterHandle);
 
