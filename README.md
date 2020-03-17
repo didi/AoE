@@ -34,10 +34,10 @@
         <th>推理框架版本</th>
     </tr>
     <tr>
-        <td rowspan="4">
+        <td rowspan="5">
         <center>
         1.1.4 <br>
-        （2020/03/15）
+        （2020/03/17）
         </center>
         </td>
         <td>TensorFlow Lite</td>
@@ -75,7 +75,7 @@
         <td>
         [ Android ] com.didi.aoe.runtime-tengine:1.1.4
         </td>
-        <td>20200106</td>
+        <td>20200317</td>
     </tr>
 </table>
 
