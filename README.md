@@ -70,6 +70,13 @@
         </td>
         <td>20200106</td>
     </tr>
+    <tr>
+        <td>Tengine</td>
+        <td>
+        [ Android ] com.didi.aoe.runtime-tengine:1.1.4
+        </td>
+        <td>20200106</td>
+    </tr>
 </table>
 
 [_更多版本适配信息_](https://didi.github.io/AoE/other/compat)
