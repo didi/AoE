@@ -23,9 +23,9 @@ JNIEXPORT void JNICALL
 NCNNJNI_METHOD2(delete)(JNIEnv *env, jclass clazz, jlong handle);
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD2(inputRgbaResizeToBgr)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
+NCNNJNI_METHOD2(inputRgbaResize)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
                                 jint srcWidth, jint srcHeight, jint dstWidth, jint dstHeight,
-                                jfloatArray channelMeanVals, jlong handler);
+                                jfloatArray channelMeanVals, jboolean toBrg, jfloat scale, jlong handler);
 
 JNIEXPORT void JNICALL
 NCNNJNI_METHOD2(writeDirectBuffer)(JNIEnv *env, jclass clazz, jlong handle, jobject src);

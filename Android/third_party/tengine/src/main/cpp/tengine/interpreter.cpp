@@ -57,8 +57,12 @@ int InterpreterHandler::loadTengineModelMemory(const char *memory, const int siz
         return -1;
     }
 
-    updateInputOutputCount();
+    int ret_prerun = prerun_graph(graph);
+    if (ret_prerun < 0) {
+        return -1;
+    }
 
+    updateInputOutputCount();
     return 0;
 }
 

@@ -39,8 +39,8 @@ public class Tensor {
         this.shapeCopy = shape(this.nativeHandle);
     }
 
-    void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, float scale){
-        inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale, nativeHandle);
+    void inputRgbaResize(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, boolean toBgr, float scale){
+        inputRgbaResize(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, toBgr, scale, nativeHandle);
     }
 
     void setTo(Object src) {
@@ -146,7 +146,7 @@ public class Tensor {
 
     private static native void delete(long handle);
 
-    private static native int inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, float scale, long handler);
+    private static native int inputRgbaResize(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, boolean toBgr, float scale, long handler);
 
     private static native void writeDirectBuffer(long handle, ByteBuffer src);
 

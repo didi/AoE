@@ -20,12 +20,19 @@ extern "C" {
 JNIEXPORT jlong JNICALL
 NCNNJNI_METHOD(createInterpreter)(JNIEnv *env, jclass clazz);
 
+JNIEXPORT jstring JNICALL
+NCNNJNI_METHOD(getTengineVersion)(JNIEnv *env, jclass clazz, jlong interpreterHandle);
+
 JNIEXPORT void JNICALL
 NCNNJNI_METHOD(delete)(JNIEnv *env, jclass clazz, jlong interpreterHandle);
 
 JNIEXPORT jboolean JNICALL
 NCNNJNI_METHOD(loadTengineModelFromPath)(JNIEnv *env, jclass clazz, jstring aModelPath,
                                   jlong interpreterHandle);
+
+JNIEXPORT jboolean JNICALL
+NCNNJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetManager,
+                                    jstring folderName, jstring fileName, jlong interpreterHandle);
 
 JNIEXPORT jint JNICALL
 NCNNJNI_METHOD(getInputCount)(JNIEnv *env, jclass clazz, jlong interpreterHandle);

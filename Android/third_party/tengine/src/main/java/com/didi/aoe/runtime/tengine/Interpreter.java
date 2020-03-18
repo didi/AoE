@@ -41,9 +41,9 @@ public final class Interpreter {
         nativeInterpreterWrapper.loadModelFromAssets(assetManager, folderName, fileName);
     }
 
-    public void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-            float[] channelMeanVals, float scale, int inputIndex) {
-        nativeInterpreterWrapper.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale, inputIndex);
+    public void inputRgbaResize(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight,
+                                     float[] channelMeanVals, float scale, boolean toBgr, int inputIndex) {
+        nativeInterpreterWrapper.inputRgbaResize(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale, toBgr, inputIndex);
     }
 
     /**

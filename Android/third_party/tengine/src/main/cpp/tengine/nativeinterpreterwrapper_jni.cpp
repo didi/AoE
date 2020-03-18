@@ -121,11 +121,6 @@ NCNNJNI_METHOD(run)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     graph_t graph = interpreter->getGraph();
 
-    int ret_prerun = prerun_graph(graph);
-    if (ret_prerun < 0) {
-        return -1;
-    }
-
     int ret = run_graph(graph, 1);
 
     int nodes = get_graph_output_node_number(interpreter->getGraph());

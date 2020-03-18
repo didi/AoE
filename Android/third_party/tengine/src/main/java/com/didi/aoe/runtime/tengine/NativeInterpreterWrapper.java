@@ -52,13 +52,13 @@ class NativeInterpreterWrapper {
         tensorAllocated = true;
     }
 
-    void inputRgbaResizeToBgr(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, float scale, int inputIndex) {
+    void inputRgbaResize(byte[] rgbaDate, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float[] channelMeanVals, float scale, boolean toBgr, int inputIndex) {
         if (inputIndex >= inputTensors.length) {
             throw new IllegalArgumentException("Input error: Inputs index should small than max.");
         }
 
         Tensor tensor = getInputTensor(inputIndex);
-        tensor.inputRgbaResizeToBgr(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, scale);
+        tensor.inputRgbaResize(rgbaDate, srcWidth, srcHeight, dstWidth, dstHeight, channelMeanVals, toBgr, scale);
         dataInputed = true;
     }
 
