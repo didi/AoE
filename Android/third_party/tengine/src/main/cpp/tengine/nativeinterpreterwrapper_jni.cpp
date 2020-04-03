@@ -28,7 +28,7 @@ InterpreterHandler *castToInterpreter(JNIEnv *env, jlong handle) {
 }
 
 JNIEXPORT jlong JNICALL
-NCNNJNI_METHOD(createInterpreter)(JNIEnv *env, jclass clazz) {
+TENGINEJNI_METHOD(createInterpreter)(JNIEnv *env, jclass clazz) {
     if (tengingedInited == 0) {
         init_tengine();
         tengingedInited = 1;
@@ -39,7 +39,7 @@ NCNNJNI_METHOD(createInterpreter)(JNIEnv *env, jclass clazz) {
 }
 
 JNIEXPORT jstring JNICALL
-NCNNJNI_METHOD(getTengineVersion)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(getTengineVersion)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     if (tengingedInited == 0) {
         ThrowException(env, kIllegalStateException,
                        "Internal error: Tengine not init, please init it first.");
@@ -50,7 +50,7 @@ NCNNJNI_METHOD(getTengineVersion)(JNIEnv *env, jclass clazz, jlong interpreterHa
 }
 
 JNIEXPORT jboolean JNICALL
-NCNNJNI_METHOD(loadTengineModelFromPath)(JNIEnv *env, jclass clazz, jstring aModelPath,
+TENGINEJNI_METHOD(loadTengineModelFromPath)(JNIEnv *env, jclass clazz, jstring aModelPath,
                                          jlong interpreterHandle) {
     const char *modelPath = env->GetStringUTFChars(aModelPath, 0);
 
@@ -60,7 +60,7 @@ NCNNJNI_METHOD(loadTengineModelFromPath)(JNIEnv *env, jclass clazz, jstring aMod
 }
 
 JNIEXPORT jboolean JNICALL
-NCNNJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetManager,
+TENGINEJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetManager,
                                     jstring aFolderName, jstring aFileName,
                                     jlong interpreterHandle) {
     const char *folderName = env->GetStringUTFChars(aFolderName, 0);
@@ -83,7 +83,7 @@ NCNNJNI_METHOD(loadModelFromAssets)(JNIEnv *env, jclass clazz, jobject assetMana
 }
 
 JNIEXPORT jlong JNICALL
-NCNNJNI_METHOD(allocateTensors)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(allocateTensors)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     int nodes = get_graph_input_node_number(interpreter->getGraph());
     for (int i = 0; i < nodes; i++) {
@@ -105,19 +105,19 @@ NCNNJNI_METHOD(allocateTensors)(JNIEnv *env, jclass clazz, jlong interpreterHand
 }
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD(getInputCount)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(getInputCount)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     return interpreter->getInputCount();
 }
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD(getOutputCount)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(getOutputCount)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     return interpreter->getOutputCount();
 }
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD(run)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(run)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     graph_t graph = interpreter->getGraph();
 
@@ -137,7 +137,7 @@ NCNNJNI_METHOD(run)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD(delete)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
+TENGINEJNI_METHOD(delete)(JNIEnv *env, jclass clazz, jlong interpreterHandle) {
     InterpreterHandler *interpreter = castToInterpreter(env, interpreterHandle);
     delete (interpreter);
     interpreter = NULL;

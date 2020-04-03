@@ -22,7 +22,7 @@ TensorHandle *castToTensor(JNIEnv *env, long handle) {
 }
 
 JNIEXPORT jlong JNICALL
-NCNNJNI_METHOD2(create)(JNIEnv *env, jclass clazz, jlong interpreterHandle, jint tensorIndex,
+TENGINEJNI_METHOD2(create)(JNIEnv *env, jclass clazz, jlong interpreterHandle, jint tensorIndex,
                         jboolean isInput) {
     InterpreterHandler *interpreter = reinterpret_cast<InterpreterHandler *>(interpreterHandle);
     if (isInput) {
@@ -33,12 +33,12 @@ NCNNJNI_METHOD2(create)(JNIEnv *env, jclass clazz, jlong interpreterHandle, jint
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD2(delete)(JNIEnv *env, jclass clazz, jlong handle) {
+TENGINEJNI_METHOD2(delete)(JNIEnv *env, jclass clazz, jlong handle) {
     delete reinterpret_cast<TensorHandle *>(handle);
 }
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD2(inputRgbaResize)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
+TENGINEJNI_METHOD2(inputRgbaResize)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
                                  jint srcWidth, jint srcHeight, jint dstWidth, jint dstHeight,
                                  jfloatArray channelMeanVals, jboolean toBgr, jfloat scale,
                                  jlong handler) {
@@ -105,7 +105,7 @@ NCNNJNI_METHOD2(inputRgbaResize)(JNIEnv *env, jclass clazz, jbyteArray rgbaDate,
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD2(writeDirectBuffer)(JNIEnv *env, jclass clazz, jlong handle, jobject src) {
+TENGINEJNI_METHOD2(writeDirectBuffer)(JNIEnv *env, jclass clazz, jlong handle, jobject src) {
     TensorHandle *tensor = castToTensor(env, handle);
     if (tensor == nullptr) return;
 
@@ -120,7 +120,7 @@ NCNNJNI_METHOD2(writeDirectBuffer)(JNIEnv *env, jclass clazz, jlong handle, jobj
 }
 
 JNIEXPORT jobject JNICALL
-NCNNJNI_METHOD2(buffer)(JNIEnv *env, jclass clazz, jlong handler) {
+TENGINEJNI_METHOD2(buffer)(JNIEnv *env, jclass clazz, jlong handler) {
     TensorHandle *tensor = castToTensor(env, handler);
     tensor->checkBufferAndMalloc();
     if (tensor->getTensorBuffer() == nullptr) {
@@ -134,7 +134,7 @@ NCNNJNI_METHOD2(buffer)(JNIEnv *env, jclass clazz, jlong handler) {
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD2(resizeInputShape)(JNIEnv *env, jclass clazz, jintArray dims, jlong handle) {
+TENGINEJNI_METHOD2(resizeInputShape)(JNIEnv *env, jclass clazz, jintArray dims, jlong handle) {
     TensorHandle *tensor = castToTensor(env, handle);
     if (tensor == nullptr) return;
 
@@ -147,7 +147,7 @@ NCNNJNI_METHOD2(resizeInputShape)(JNIEnv *env, jclass clazz, jintArray dims, jlo
 }
 
 JNIEXPORT jintArray JNICALL
-NCNNJNI_METHOD2(shape)(JNIEnv *env, jclass clazz, jlong handle) {
+TENGINEJNI_METHOD2(shape)(JNIEnv *env, jclass clazz, jlong handle) {
     TensorHandle *tensor = castToTensor(env, handle);
     if (tensor == nullptr) return nullptr;
 
@@ -164,7 +164,7 @@ NCNNJNI_METHOD2(shape)(JNIEnv *env, jclass clazz, jlong handle) {
 }
 
 JNIEXPORT jint JNICALL
-NCNNJNI_METHOD2(numBytes)(JNIEnv *env, jclass clazz, jlong handle) {
+TENGINEJNI_METHOD2(numBytes)(JNIEnv *env, jclass clazz, jlong handle) {
     TensorHandle *tensor = castToTensor(env, handle);
     if (tensor == nullptr) return 0;
     return static_cast<jint>(tensor->getTensorBufferSize());
@@ -267,7 +267,7 @@ size_t ReadMultiDimensionalArray(JNIEnv *env, TengineType data_type, char *src,
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD2(readMultiDimensionalArray)(JNIEnv *env, jclass clazz, jlong handler,
+TENGINEJNI_METHOD2(readMultiDimensionalArray)(JNIEnv *env, jclass clazz, jlong handler,
                                            jobject value) {
     TensorHandle *tensor = castToTensor(env, handler);
     if (tensor->getShapeDim() == 0) {
@@ -356,7 +356,7 @@ size_t WriteMultiDimensionalArray(JNIEnv *env, jobject src, TengineType type,
 }
 
 JNIEXPORT void JNICALL
-NCNNJNI_METHOD2(writeMultiDimensionalArray)(JNIEnv *env, jclass clazz, jlong handler, jobject src) {
+TENGINEJNI_METHOD2(writeMultiDimensionalArray)(JNIEnv *env, jclass clazz, jlong handler, jobject src) {
     TensorHandle *tensor = castToTensor(env, handler);
     if (tensor == nullptr) return;
     if (tensor->getTensorBuffer() == nullptr) {

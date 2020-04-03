@@ -49,8 +49,8 @@ public final class Interpreter {
     /**
      * Runs model inference if the model takes only one input, and provides only one output.
      *
-     * @param input
-     * @param output
+     * @param input The inputs
+     * @param output The outputs
      */
     public void run(Object input, Object output) {
         Map<Integer, Object> outputs = new HashMap();
@@ -62,7 +62,7 @@ public final class Interpreter {
      * Runs model inference if the model takes multiple inputs, or returns multiple outputs.
      *
      * @param inputs  The inputs should be in the same order as inputs of the model
-     * @param outputs
+     * @param outputs The outputs
      */
     public void runForMultipleInputsOutputs(Object[] inputs, Map<Integer, Object> outputs) {
         this.checkNotClosed();
