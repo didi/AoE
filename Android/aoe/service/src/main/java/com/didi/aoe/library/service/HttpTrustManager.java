@@ -16,80 +16,24 @@
 
 package com.didi.aoe.library.service;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
 
 /**
  * @author noctis
  * @since 1.1.0
  */
-class HttpTrustManager implements X509TrustManager {
-
-    private static final X509Certificate[] sAcceptedCertificates = new X509Certificate[]{};
-
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-            throws CertificateException {
-
-    }
-
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-            throws CertificateException {
-
-    }
-
-
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return sAcceptedCertificates;
-    }
+class HttpTrustManager {
 
     static HostnameVerifier getHostnameVerifier() {
-
-        return new HostnameVerifier() {
-
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                if ("star.xiaojukeji.com".equalsIgnoreCase(hostname) ||
-                        "aoe.xiaojukeji.com".equalsIgnoreCase(hostname)) {
-                    return true;
-                } else {
-                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                    return hv.verify(hostname, session);
-                }
+        return (hostname, session) -> {
+            if ("star.xiaojukeji.com".equalsIgnoreCase(hostname) ||
+                    "aoe.xiaojukeji.com".equalsIgnoreCase(hostname)) {
+                return true;
+            } else {
+                HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                return hv.verify(hostname, session);
             }
         };
-    }
-
-    static SSLSocketFactory getSSLSocketFactory() {
-
-        SSLSocketFactory factory = null;
-
-        javax.net.ssl.TrustManager[] trustManagers = new javax.net.ssl.TrustManager[]{
-                new HttpTrustManager()
-        };
-
-        try {
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, trustManagers, new SecureRandom());
-            factory = context.getSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-
-        return factory;
     }
 }

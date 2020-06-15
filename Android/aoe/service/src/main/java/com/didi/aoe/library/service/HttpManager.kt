@@ -33,7 +33,6 @@ class HttpManager private constructor(context: Context) {
 
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(5, TimeUnit.SECONDS)
-            .sslSocketFactory(HttpTrustManager.getSSLSocketFactory()!!, HttpTrustManager())
             .hostnameVerifier(HttpTrustManager.getHostnameVerifier())
             .build()
 
