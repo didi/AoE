@@ -31,7 +31,6 @@ dependencies {
     implementation deps.kotlin
     implementation deps.gson
 
-    implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0-alpha01"
 }
 
 ext {
