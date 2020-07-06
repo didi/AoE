@@ -74,7 +74,7 @@ class AoeModelOptionLoader() : ModelOptionLoaderComponent {
         }
 
         // 请求新的版本模型
-        val modelRequest = ModelRequest(AoeService.getInstance().dataProvider.appId(), option)
+        val modelRequest = ModelRequest(AoeService.getInstance().appInfoProvider.appId, option)
         ModelContract.requestModel(context, modelRequest, mModelRequestHandler, object : ModelRequestCallback() {
             override fun onModelRetrieved(model: UpgradeModelResult) {
                 mLogger.debug("requestModel success: $model")
@@ -96,6 +96,7 @@ class AoeModelOptionLoader() : ModelOptionLoaderComponent {
     private fun calculateSuggestedModelOption(internalOption: ModelOption?,
             downloadOption: ModelOption?): ModelOption? {
         if (downloadOption == null || !downloadOption.isValid) { // 没有外置策略时使用内部策略
+            mLogger.info("calculateSuggestedModelOption return internalOption")
             return internalOption
         }
         if (internalOption == null || !internalOption.isValid) { // 只有外部策略时，使用外部策略，正常不应该执行到这个逻辑，内置配置默认需要配置。
@@ -150,7 +151,7 @@ class AoeModelOptionLoader() : ModelOptionLoaderComponent {
                     .filter { it.extension in listOf("config") }
                     .sortedBy { it.lastModified() }
                     .firstOrNull()
-
+            mLogger.debug("lastestConfigFile: $lastestConfigFile")
             if (lastestConfigFile != null && lastestConfigFile.exists()) {
                 val config = readString(lastestConfigFile.absolutePath)
                 return parseModelOption(config)

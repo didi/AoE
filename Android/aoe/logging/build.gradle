@@ -30,6 +30,6 @@ dependencies {
 ext {
     releaseArtifact = 'library-logging'
     releaseDescription = 'The AoE logging library'
-    releaseVersion = aoe_version_name
+    releaseVersion = "1.1.5"
 }
 apply from: rootProject.file('gradle/release.gradle')

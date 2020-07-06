@@ -16,13 +16,13 @@
 
 
 // https://maven.pkg.github.com/didi/AoE
-apply from: rootProject.file('gradle/release_github_package_registry.gradle')
+//apply from: rootProject.file('gradle/release_github_package_registry.gradle')
 
 // https://bintray.com/aoe/maven
 apply from: rootProject.file('gradle/release_bintray.gradle')
 
 // didi
-apply from: rootProject.file('gradle/release_didi.gradle')
+//apply from: rootProject.file('gradle/release_didi.gradle')
 
 
 

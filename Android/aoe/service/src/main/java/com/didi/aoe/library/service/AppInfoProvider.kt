@@ -34,6 +34,12 @@ class AppInfoProvider(context: Context) {
     /**
      * 分配给应用的AppId
      */
+    val appId: Long by lazy {
+        getAppId(context)
+    }
+    /**
+     * 分配给应用的AppKey
+     */
     val appKey: String by lazy {
         getAppKey(context)
     }
@@ -49,7 +55,10 @@ class AppInfoProvider(context: Context) {
     val deviceType: String by lazy {
         Build.MODEL
     }
-
+    private fun getAppId(context: Context): Long {
+        val appInfo = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+        return appInfo.metaData.getInt("com.didi.aoe.service.API_ID", -1).toLong()
+    }
     private fun getAppKey(context: Context): String {
         val appInfo = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
         return appInfo.metaData.getString("com.didi.aoe.service.API_KEY", "API_KEY not found")

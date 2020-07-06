@@ -23,12 +23,6 @@ package com.didi.aoe.library.service
  * @since 1.1.0
  */
 interface AoeDataProvider {
-    /**
-     * 应用AppId
-     *
-     * @return
-     */
-    fun appId(): Long
 
     /**
      * 当前定位纬度

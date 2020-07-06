@@ -163,7 +163,7 @@ class AoeClient {
 
         val modelOptions = modelDirs.map {
             val modelOption = modelLoader.load(context, it)
-            mLogger.debug("[tryLoadModelOptions] ModelOption: $modelOption")
+//            mLogger.debug("[tryLoadModelOptions] ModelOption: $modelOption modelDirs: ${modelDirs.size} modelDirs[0]: ${modelDirs.get(0)}")
             if (!modelOption.isValid) {
                 throw AoeIOException("ModelOption load error, no main model.")
             }

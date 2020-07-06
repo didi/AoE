@@ -40,6 +40,7 @@ public final class AoeService {
 
     private AoeDataProvider dataProvider;
 
+    private AppInfoProvider appInfoProvider;
     private AoeService(@NonNull Context context) {
         if (context.getApplicationContext() == null) {
             applicationContext = context;
@@ -50,7 +51,7 @@ public final class AoeService {
         HttpManager.Companion.init(applicationContext);
     }
 
-    public static void init(@NonNull Context context, @NonNull AoeDataProvider provider) {
+    public static void init(@NonNull Context context) {
 
         if (sInstance == null) {
             Context applicationContext;
@@ -63,7 +64,19 @@ public final class AoeService {
 
         }
 
-        sInstance.setDataProvider(provider);
+        sInstance.dataProvider = new AoeDataProvider() {
+            @Override
+            public double latitude() {
+                return 30.28;
+            }
+
+            @Override
+            public double longitude() {
+                return 120.15;
+            }
+        };
+
+        sInstance.appInfoProvider = new AppInfoProvider(context);
     }
 
     public static AoeService getInstance() {
@@ -74,12 +87,12 @@ public final class AoeService {
         return applicationContext;
     }
 
-    private void setDataProvider(AoeDataProvider provider) {
-        this.dataProvider = provider;
-    }
-
     public AoeDataProvider getDataProvider() {
         Objects.requireNonNull(dataProvider);
         return dataProvider;
+    }
+
+    public AppInfoProvider getAppInfoProvider(){
+        return appInfoProvider;
     }
 }

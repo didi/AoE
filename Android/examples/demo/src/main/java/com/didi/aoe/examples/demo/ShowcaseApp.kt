@@ -15,19 +15,7 @@ class ShowcaseApp : Application() {
         super.onCreate()
         context = applicationContext
 
-        AoeService.init(applicationContext, object : AoeDataProvider {
-            override fun appId(): Long {
-                return 10
-            }
-
-            override fun latitude(): Double {
-                return 39.92
-            }
-
-            override fun longitude(): Double {
-                return 116.46
-            }
-        })
+        AoeService.init(applicationContext)
 
     }
 

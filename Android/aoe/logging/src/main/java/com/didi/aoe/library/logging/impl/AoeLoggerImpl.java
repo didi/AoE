@@ -16,12 +16,20 @@ public class AoeLoggerImpl implements Logger {
 
     @Override
     public void debug(String msg, Object... args) {
-        Log.d(mTag, String.format(msg, args));
+        if (args != null && args.length > 0) {
+            Log.d(mTag, String.format(msg, args));
+        } else {
+            Log.d(mTag, msg);
+        }
     }
 
     @Override
     public void info(String msg, Object... args) {
-        Log.d(mTag, String.format(msg, args));
+        if (args != null && args.length > 0) {
+            Log.i(mTag, String.format(msg, args));
+        } else {
+            Log.i(mTag, msg);
+        }
     }
 
     @Override
@@ -31,7 +39,11 @@ public class AoeLoggerImpl implements Logger {
 
     @Override
     public void warn(String msg, Object... args) {
-        Log.d(mTag, String.format(msg, args));
+        if (args != null && args.length > 0) {
+            Log.w(mTag, String.format(msg, args));
+        } else {
+            Log.w(mTag, msg);
+        }
     }
 
     @Override
@@ -41,6 +53,10 @@ public class AoeLoggerImpl implements Logger {
 
     @Override
     public void error(String msg, Object... args) {
-        Log.e(mTag, String.format(msg, args));
+        if (args != null && args.length > 0) {
+            Log.e(mTag, String.format(msg, args));
+        } else {
+            Log.e(mTag, msg);
+        }
     }
 }

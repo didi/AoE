@@ -19,13 +19,11 @@ package com.didi.aoe.library.service;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Process;
-import android.provider.FontsContract;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.util.LruCache;
+
 import com.didi.aoe.extensions.downloadmanager.DownloadRequest;
 import com.didi.aoe.library.common.util.FileUtils;
 import com.didi.aoe.library.logging.Logger;
@@ -33,13 +31,14 @@ import com.didi.aoe.library.logging.LoggerFactory;
 import com.didi.aoe.library.service.pojos.ModelOption;
 import com.didi.aoe.library.service.pojos.UpgradeModelResult;
 import com.google.gson.Gson;
-import okhttp3.Response;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Response;
 
 import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FAIL_REASON_MODEL_LOADER_ERROR;
 import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FAIL_REASON_MODEL_QUERY_ERROR;
@@ -53,10 +52,9 @@ import static com.didi.aoe.library.service.ModelContract.ModelRequestCallback.FA
 public final class ModelContract {
     private static final Logger mLogger = LoggerFactory.getLogger("ModelContract");
     private static final Object sLock = new Object();
+    private static final LruCache<String, UpgradeModelResult> sModelCache = new LruCache<>(10);
     private static Handler sHandler;
     private static HandlerThread sThread;
-
-    private static final LruCache<String, UpgradeModelResult> sModelCache = new LruCache<>(10);
 
     private ModelContract() {
     }
@@ -123,10 +121,10 @@ public final class ModelContract {
     @NonNull
     public static ModelResult fetchModel(@NonNull Context context, @NonNull ModelRequest request) {
         Map<String, Object> bodyMap = buildBodyMap(request);
-
+        mLogger.debug("===fetchModel url:"+AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE);
         try (Response response = HttpManager.Companion.getInstance()
                 .performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
-            mLogger.debug("fetchModel: " + request);
+            mLogger.debug("===fetchModel response code:"+response.code());
 
             if (!response.isSuccessful() || response.body() == null) {
                 mLogger.warn("performRequest failed: " + response.message());
@@ -134,11 +132,14 @@ public final class ModelContract {
                         "performRequest failed: " + response.message(), null);
             }
 
+
             String body = response.body().string();
+            mLogger.debug("===fetchModel response: " + body);
+
 
             AoeResponse modelResponse = new Gson().fromJson(body, AoeResponse.class);
 
-            mLogger.debug("fetchModel parse: " + modelResponse);
+//            mLogger.debug("===fetchModel AoeResponse: " + modelResponse);
 
             if (modelResponse.getCode() != 0) {
                 // 业务请求失败，直接返回
@@ -155,6 +156,7 @@ public final class ModelContract {
                 return new ModelResult(ModelResult.STATUS_UNEXPECTED_DATA, "ModelResponse: " + modelResponse, model);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             mLogger.error("performRequest Exception: " + e);
             return new ModelResult(ModelResult.STATUS_UNEXPECTED_DATA, "performRequest IOException: " + e, null);
         }
@@ -463,21 +465,10 @@ public final class ModelContract {
          * 文件下载中
          */
         public static final int STATUS_DOWNLOADING = 3;
-
-        /**
-         * @hide
-         */
-        @IntDef({STATUS_OK, STATUS_NETWORK_FAILED,
-                 STATUS_UNEXPECTED_DATA, STATUS_DOWNLOADING})
-        @Retention(RetentionPolicy.SOURCE)
-        @interface ModelResultStatus {
-        }
-
         @ModelResultStatus
         private final int mStatusCode;
         private final UpgradeModelResult mModel;
         private String mMessage;
-
         public ModelResult(@ModelResultStatus int statusCode, UpgradeModelResult model) {
             this(statusCode, null, model);
         }
@@ -508,6 +499,15 @@ public final class ModelContract {
                     ", mMessage='" + mMessage + '\'' +
                     '}';
         }
+
+        /**
+         * @hide
+         */
+        @IntDef({STATUS_OK, STATUS_NETWORK_FAILED,
+                 STATUS_UNEXPECTED_DATA, STATUS_DOWNLOADING})
+        @Retention(RetentionPolicy.SOURCE)
+        @interface ModelResultStatus {
+        }
     }
 
     public static class ModelRequestCallback {
@@ -516,15 +516,6 @@ public final class ModelContract {
         public static final int FAIL_REASON_MODEL_QUERY_ERROR = -3;
         public static final int FAIL_REASON_MODEL_LOADER_ERROR = -4;
 
-        /**
-         * @hide
-         */
-        @IntDef({FAIL_REASON_PROVIDER_NOT_FOUND, FAIL_REASON_WRONG_CERTIFICATES,
-                 FAIL_REASON_MODEL_QUERY_ERROR, FAIL_REASON_MODEL_LOADER_ERROR})
-        @Retention(RetentionPolicy.SOURCE)
-        @interface ModelRequestFailReason {
-        }
-
         public ModelRequestCallback() {
         }
 
@@ -532,6 +523,15 @@ public final class ModelContract {
         }
 
         public void onModelRequestFailed(@ModelRequestFailReason int reason, String msg) {
+        }
+
+        /**
+         * @hide
+         */
+        @IntDef({FAIL_REASON_PROVIDER_NOT_FOUND, FAIL_REASON_WRONG_CERTIFICATES,
+                 FAIL_REASON_MODEL_QUERY_ERROR, FAIL_REASON_MODEL_LOADER_ERROR})
+        @Retention(RetentionPolicy.SOURCE)
+        @interface ModelRequestFailReason {
         }
     }
 }

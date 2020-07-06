@@ -18,6 +18,7 @@ package com.didi.aoe.library.service
 
 import android.content.Context
 import android.util.Log
+import com.didi.aoe.library.logging.LoggerFactory
 import com.didi.aoe.sign.Signer
 import com.google.gson.Gson
 import okhttp3.*
@@ -30,13 +31,11 @@ import java.util.concurrent.TimeUnit
  * @since 1.1.0
  */
 class HttpManager private constructor(context: Context) {
-
+    private val mLogger = LoggerFactory.getLogger("ModelContract")
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(5, TimeUnit.SECONDS)
             .hostnameVerifier(HttpTrustManager.getHostnameVerifier())
             .build()
-
-    private val appInfoProvider: AppInfoProvider = AppInfoProvider(context)
 
     fun performRequest(url: String, bodyMap: Map<String, Any>, callback: Callback) {
         val request = createRequest(url, bodyMap)
@@ -53,7 +52,7 @@ class HttpManager private constructor(context: Context) {
         val mediaType = MediaType.parse("application/json; charset=utf-8")
 
         val signParamsMap = generalSignedParamsMap(bodyMap)
-
+        mLogger.debug("===fetchModel request:" + signParamsMap.mapValues { it.value } + " appKey:" + AoeService.getInstance().appInfoProvider.appKey)
         return Request.Builder()
                 .url(url)
                 .post(RequestBody.create(mediaType, Gson().toJson(signParamsMap)))
@@ -69,14 +68,14 @@ class HttpManager private constructor(context: Context) {
     private fun generalSignedParamsMap(originMap: Map<String, Any>): Map<String, Any> {
         val commomParamsMap = HashMap<String, Any>(originMap.size)
         commomParamsMap.putAll(originMap)
-        commomParamsMap[HttpParams.PARAM_DEVICE_SN] = appInfoProvider.deviceSN
-        commomParamsMap[HttpParams.PARAM_DEVICE_TYPE] = appInfoProvider.deviceType
+        commomParamsMap[HttpParams.PARAM_DEVICE_SN] = AoeService.getInstance().appInfoProvider.deviceSN
+        commomParamsMap[HttpParams.PARAM_DEVICE_TYPE] = AoeService.getInstance().appInfoProvider.deviceType
         commomParamsMap[HttpParams.PARAM_TIMESTAMP] = System.currentTimeMillis()
 
         val signMap: Map<String, String> = commomParamsMap.mapValues { "${it.value}" }
-//        Log.d("Noctis", "${signMap} appKey: ${appInfoProvider.appKey}")
-        val sign = Signer.generalSign(signMap, appInfoProvider.appKey)
-//        Log.d("Noctis", "${sign}")
+//       mLogger.debug("${signMap} appKey: ${appInfoProvider.appKey}")
+        val sign = Signer.generalSign(signMap, AoeService.getInstance().appInfoProvider.appKey)
+//       mLogger.debug("${sign}")
         commomParamsMap[HttpParams.PARAM_SIGN] = sign
 
         return commomParamsMap
