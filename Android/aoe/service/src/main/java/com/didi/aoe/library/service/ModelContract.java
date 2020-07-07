@@ -121,9 +121,9 @@ public final class ModelContract {
     @NonNull
     public static ModelResult fetchModel(@NonNull Context context, @NonNull ModelRequest request) {
         Map<String, Object> bodyMap = buildBodyMap(request);
-        mLogger.debug("===fetchModel url:"+AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE);
+        mLogger.debug("===fetchModel url:"+AoeService.getInstance().getAppInfoProvider().getUpgradeUrl());
         try (Response response = HttpManager.Companion.getInstance()
-                .performRequest(AoeAPI.ModelUpdate.API_REQUEST_MODEL_UPDATE, bodyMap)) {
+                .performRequest(AoeService.getInstance().getAppInfoProvider().getUpgradeUrl(), bodyMap)) {
             mLogger.debug("===fetchModel response code:"+response.code());
 
             if (!response.isSuccessful() || response.body() == null) {

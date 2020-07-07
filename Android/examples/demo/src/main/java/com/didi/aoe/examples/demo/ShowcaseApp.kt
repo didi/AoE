@@ -15,7 +15,7 @@ class ShowcaseApp : Application() {
         super.onCreate()
         context = applicationContext
 
-        AoeService.init(applicationContext)
+        AoeService.init(applicationContext, "aoe_server")
 
     }
 

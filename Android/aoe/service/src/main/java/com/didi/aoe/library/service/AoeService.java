@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 
 import com.didi.aoe.library.logging.Logger;
 import com.didi.aoe.library.logging.LoggerFactory;
+import com.didi.aoe.library.service.pojos.ServerConfig;
 
 import java.util.Objects;
 
@@ -51,7 +52,7 @@ public final class AoeService {
         HttpManager.Companion.init(applicationContext);
     }
 
-    public static void init(@NonNull Context context) {
+    public static void init(@NonNull Context context, String serverConfigDir) {
 
         if (sInstance == null) {
             Context applicationContext;
@@ -76,7 +77,7 @@ public final class AoeService {
             }
         };
 
-        sInstance.appInfoProvider = new AppInfoProvider(context);
+        sInstance.appInfoProvider = new AppInfoProvider(context, serverConfigDir);
     }
 
     public static AoeService getInstance() {

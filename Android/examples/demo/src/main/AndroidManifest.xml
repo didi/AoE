@@ -29,13 +29,6 @@
 
         </activity>
 
-        <meta-data
-            android:name="com.didi.aoe.service.API_KEY"
-            android:value="TjVdJZ8j8UTI7i" />
-        <meta-data
-            android:name="com.didi.aoe.service.API_ID"
-            android:value="72" />
-
     </application>
 
 </manifest>

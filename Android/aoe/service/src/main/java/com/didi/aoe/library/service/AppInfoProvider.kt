@@ -24,25 +24,36 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
+import com.didi.aoe.library.service.pojos.ServerConfig
 
 /**
  * 应用信息提供者
  * @author noctis
  * @since 1.1.0
  */
-class AppInfoProvider(context: Context) {
+class AppInfoProvider(context: Context, serverDir: String) {
+    private val serverConfig:ServerConfig = AoeServerConfigLoader().load(context, serverDir)!!
     /**
      * 分配给应用的AppId
      */
     val appId: Long by lazy {
-        getAppId(context)
+        serverConfig.appId!!
     }
+
     /**
      * 分配给应用的AppKey
      */
     val appKey: String by lazy {
-        getAppKey(context)
+        serverConfig.appKey!!
     }
+
+    /**
+     * 分配给应用升级模型的URL
+     */
+    val upgradeUrl: String by lazy {
+        serverConfig.upgradeUrl!!
+    }
+
     /**
      * 获取设备唯一标识码
      */
@@ -54,14 +65,6 @@ class AppInfoProvider(context: Context) {
      */
     val deviceType: String by lazy {
         Build.MODEL
-    }
-    private fun getAppId(context: Context): Long {
-        val appInfo = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-        return appInfo.metaData.getInt("com.didi.aoe.service.API_ID", -1).toLong()
-    }
-    private fun getAppKey(context: Context): String {
-        val appInfo = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-        return appInfo.metaData.getString("com.didi.aoe.service.API_KEY", "API_KEY not found")
     }
 
     @SuppressLint("MissingPermission", "HardwareIds")
