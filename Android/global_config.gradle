@@ -97,7 +97,9 @@ def addRepos(RepositoryHandler handler) {
     }
     handler.jcenter()
 
-    handler.google()
+    handler.maven{
+        url 'https://maven.google.com'
+    }
     handler.maven {
         url 'https://dl.bintray.com/aoe/maven'
     }
