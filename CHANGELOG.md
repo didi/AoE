@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/didi/AoE/compare/1.1.3...HEAD)
 
+**Implemented enhancements:**
+
+- tengine支持 [\#12](https://github.com/didi/AoE/issues/12)
+
 **Closed issues:**
 
+- 好久没看到更新了，这个是不是没人维护了？ [\#29](https://github.com/didi/AoE/issues/29)
 - Resource Leak [\#27](https://github.com/didi/AoE/issues/27)
 
 **Merged pull requests:**
